@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router';
 
-export default class NoMatch extends React.Component {
+export default class NoMatch extends Component {
   constructor(props) {
     super(props);
   }
