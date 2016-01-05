@@ -30,9 +30,22 @@ module.exports = {
   ],
   module: {
     loaders: [{
-      test: /\.js?$/,
+      test: /\.(js|jsx)$/,
       exclude: /node_modules/,
-      loader: 'babel'
+      loader: 'babel',
+      query: {
+        stage: 0,
+        plugins: ['react-transform'],
+        extra: {
+          'react-transform': {
+            transforms: [{
+              transform: 'react-transform-hmr',
+              imports: ['react'],
+              locals: ['module']
+            }]
+          }
+        }
+      }
     }, {
       test: /\.json?$/,
       loader: 'json'

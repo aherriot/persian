@@ -10,7 +10,7 @@ export default class App extends Component {
     return (
       <div>
         <h1>App</h1>
-        <p>this is the app.</p>
+        <p>This is the flashcards app.</p>
         {this.props.children}
       </div>
     );

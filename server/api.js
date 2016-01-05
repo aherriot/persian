@@ -5,7 +5,7 @@ var api = express();
 
 api.use(bodyParser.json());
 
-let words = [{
+var words = [{
     id: '1',
     english: 'banana'
   },{
@@ -19,7 +19,7 @@ let words = [{
     english: 'fig'
   }];
 
-let nextId = 5;
+var nextId = 5;
 
 api.get('/words', function(req, res) {
   res.json(words);
@@ -27,7 +27,7 @@ api.get('/words', function(req, res) {
 
 api.post('/words', function(req, res) {
 
-  let word = {
+  var word = {
     id: String(nextId++),
     english: req.body.english
   };
@@ -38,7 +38,7 @@ api.post('/words', function(req, res) {
 });
 
 api.get('/words/:word_id', function(req, res) {
-  let word = words.find(function(word) {
+  var word = words.find(function(word) {
     return word.id === req.params.word_id;
   });
 
@@ -50,7 +50,7 @@ api.get('/words/:word_id', function(req, res) {
 });
 
 api.put('/words/:word_id', function(req, res) {
-  let found = false;
+  var found = false;
   words.map(function(word){
     if(word.id === req.params.word_id) {
       found = true;
@@ -69,7 +69,7 @@ api.put('/words/:word_id', function(req, res) {
 });
 
 api.delete('/words/:word_id', function(req, res) {
-  let found = false;
+  var found = false;
   words = words.filter(function(word) {
     if(word.id === req.params.word_id) {
       found = true;
