@@ -4,10 +4,10 @@ var bodyParser = require('body-parser');
 var api = express();
 
 var words = [
-  {id: '1', english: 'banana'},
-  {id: '2', english: 'apple'},
-  {id: '3', english: 'pear'},
-  {id: '4', english: 'fig'}
+  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz'},
+  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib'},
+  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi'},
+  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir'}
 ];
 
 var nextId = 5;
@@ -21,7 +21,9 @@ api.get('/words', function(req, res) {
 api.post('/words', function(req, res) {
   var word = {
     id: String(nextId++),
-    english: req.body.english
+    english: req.body.english,
+    persian: req.body.persian,
+    phonetic: req.body.phonetic
   };
 
   words.push({...word, tempId: req.body.id});
@@ -47,7 +49,11 @@ api.put('/words/:word_id', function(req, res) {
   words = words.map(function(word) {
     if (word.id === req.params.word_id) {
       found = true;
-      editedWord = Object.assign(word, {english: req.body.english});
+      editedWord = Object.assign(word, {
+        english: req.body.word.english,
+        persian: req.body.word.persian,
+        phonetic: req.body.word.phonetic
+      });
       return editedWord;
     } else {
       return word;

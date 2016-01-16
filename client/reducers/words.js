@@ -3,9 +3,7 @@ import * as status from '../constants/actionStatus';
 
 const defaultState = {
   loading: false,
-  list: [
-    {id: 0, english: 'beforeLoad'}
-  ],
+  list: [],
   error: {}
 };
 

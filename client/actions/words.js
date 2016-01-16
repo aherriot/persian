@@ -53,9 +53,7 @@ export function addWordPending(word) {
     type: types.ADD_WORD,
     status: status.PENDING,
     payload: {
-      word: {
-        english: word
-      }
+      word: word
     }
   };
 }
@@ -196,7 +194,7 @@ export function editWord(word) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({english: word.english})
+      body: JSON.stringify({word: word})
     })
       .then(response => response.json())
       .then(data => {

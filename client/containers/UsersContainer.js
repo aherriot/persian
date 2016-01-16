@@ -11,7 +11,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addWord: (english) => dispatch(addWord(english))
+    addWord: (word) => dispatch(addWord(word))
   };
 }
 

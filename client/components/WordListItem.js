@@ -18,7 +18,12 @@ export default class WordListItem extends Component {
 
   onSave = (e) => {
     e.preventDefault();
-    this.props.editWord({...this.props.word, english: this.refs.english.value});
+    this.props.editWord({
+      ...this.props.word,
+      persian: this.refs.persian.value,
+      english: this.refs.english.value,
+      phonetic: this.refs.phonetic.value
+    });
     this.setState({editing: false});
   }
 
@@ -28,7 +33,9 @@ export default class WordListItem extends Component {
     if (this.state.editing) {
       return (
         <div>
+          <input type="text" ref="persian" defaultValue={word.persian} />{' '}
           <input type="text" ref="english" defaultValue={word.english} />{' '}
+          <input type="text" ref="phonetic" defaultValue={word.phonetic} />{' '}
           <a href="#" onClick={this.onSave}>save</a>{' '}
           <a href="#" onClick={this.onToggleEdit}>revert</a>
         </div>
@@ -36,7 +43,9 @@ export default class WordListItem extends Component {
     } else {
       return (
         <div>
+          {word.persian}{' '}
           {word.english}{' '}
+          {word.phonetic}{' '}
           <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
           <a href="#" onClick={() => deleteWord(word)}>delete</a>
         </div>
