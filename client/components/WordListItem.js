@@ -6,7 +6,7 @@ export default class WordListItem extends Component {
 
     this.state = {
       editing: false
-    }
+    };
   }
 
   onToggleEdit = (e) => {
@@ -23,16 +23,16 @@ export default class WordListItem extends Component {
   }
 
   render() {
-    let {word, editWord, deleteWord} = this.props;
+    const {word, deleteWord} = this.props;
 
-    if(this.state.editing) {
+    if (this.state.editing) {
       return (
         <div>
           <input type="text" ref="english" defaultValue={word.english} />{' '}
           <a href="#" onClick={this.onSave}>save</a>{' '}
           <a href="#" onClick={this.onToggleEdit}>revert</a>
         </div>
-      )
+      );
     } else {
       return (
         <div>
@@ -42,6 +42,10 @@ export default class WordListItem extends Component {
         </div>
       );
     }
-
   }
 }
+WordListItem.propTypes = {
+  editWord: React.PropTypes.func.isRequired,
+  deleteWord: React.PropTypes.func.isRequired,
+  word: React.PropTypes.object.isRequired
+};

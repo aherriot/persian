@@ -12,9 +12,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addWord: (english) => dispatch(addWord(english))
-  }
+  };
 }
-
 
 export default connect(
   mapStateToProps,

@@ -3,30 +3,22 @@ var bodyParser = require('body-parser');
 
 var api = express();
 
-api.use(bodyParser.json());
-
-var words = [{
-    id: '1',
-    english: 'banana'
-  },{
-    id: '2',
-    english: 'apple'
-  },{
-    id: '3',
-    english: 'pear'
-  },{
-    id: '4',
-    english: 'fig'
-  }];
+var words = [
+  {id: '1', english: 'banana'},
+  {id: '2', english: 'apple'},
+  {id: '3', english: 'pear'},
+  {id: '4', english: 'fig'}
+];
 
 var nextId = 5;
+
+api.use(bodyParser.json());
 
 api.get('/words', function(req, res) {
   res.json(words);
 });
 
 api.post('/words', function(req, res) {
-
   var word = {
     id: String(nextId++),
     english: req.body.english
@@ -38,12 +30,12 @@ api.post('/words', function(req, res) {
 });
 
 api.get('/words/:word_id', function(req, res) {
-  var word = words.find(function(word) {
+  var foundWord = words.find(function(word) {
     return word.id === req.params.word_id;
   });
 
-  if(word) {
-    res.json(word);
+  if (foundWord) {
+    res.json(foundWord);
   } else {
     res.status(404).json({message: 'resource not found'});
   }
@@ -51,8 +43,8 @@ api.get('/words/:word_id', function(req, res) {
 
 api.put('/words/:word_id', function(req, res) {
   var found = false;
-  words.map(function(word){
-    if(word.id === req.params.word_id) {
+  words.map(function(word) {
+    if (word.id === req.params.word_id) {
       found = true;
       word.english = req.body.english;
       return word;
@@ -61,7 +53,7 @@ api.put('/words/:word_id', function(req, res) {
     }
   });
 
-  if(found) {
+  if (found) {
     res.json({status: 'success'});
   } else {
     res.status(404).json({message: 'resource not found'});
@@ -71,14 +63,14 @@ api.put('/words/:word_id', function(req, res) {
 api.delete('/words/:word_id', function(req, res) {
   var found = false;
   words = words.filter(function(word) {
-    if(word.id === req.params.word_id) {
+    if (word.id === req.params.word_id) {
       found = true;
       return false;
     }
     return true;
   });
 
-  if(found) {
+  if (found) {
     res.json({status: 'success'});
   } else {
     res.status(404).json({message: 'resource not found'});

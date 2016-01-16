@@ -1,32 +1,11 @@
 import * as types from '../constants/actionTypes';
 import * as status from '../constants/actionStatus';
 
-export function fetchWords() {
-
-  return (dispatch) => {
-    dispatch(fetchWordsPending());
-
-    fetch('/api/words')
-      .then(response => response.json())
-      .then(data => {
-        if(data.error) {
-          dispatch(fetchWordsFailure(data.error));
-        } else {
-          dispatch(fetchWordsSuccess(data));
-        }
-      })
-      .catch(exception => {
-        console.log("exception" + exception);
-        dispatch(fetchWordsFailure(exception));
-      });
-  }
-}
-
 export function fetchWordsPending() {
   return {
     type: types.FETCH_WORDS,
     status: status.PENDING
-  }
+  };
 }
 
 export function fetchWordsSuccess(words) {
@@ -37,7 +16,7 @@ export function fetchWordsSuccess(words) {
       words: words,
       error: {}
     }
-  }
+  };
 }
 
 export function fetchWordsFailure(error) {
@@ -47,30 +26,26 @@ export function fetchWordsFailure(error) {
     payload: {
       error: error
     }
-  }
+  };
 }
 
-export function addWord(word) {
+export function fetchWords() {
   return (dispatch) => {
-    dispatch(addWordPending(word));
+    dispatch(fetchWordsPending());
 
-    fetch('/api/words', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({english: word})
-    })
+    fetch('/api/words')
       .then(response => response.json())
       .then(data => {
         if (data.error) {
-          dispatch(addWordFailure(data.error));
+          dispatch(fetchWordsFailure(data.error));
         } else {
-          dispatch(addWordSuccess(data));
+          dispatch(fetchWordsSuccess(data));
         }
+      })
+      .catch(exception => {
+        dispatch(fetchWordsFailure(exception));
       });
-  }
+  };
 }
 
 export function addWordPending(word) {
@@ -93,12 +68,66 @@ export function addWordSuccess(word) {
       word: word,
       error: {}
     }
-  }
+  };
 }
 
 export function addWordFailure(word, error) {
   return {
     type: types.ADD_WORDS,
+    status: status.FAILURE,
+    payload: {
+      word: word,
+      error: error
+    }
+  };
+}
+
+export function addWord(word) {
+  return (dispatch) => {
+    dispatch(addWordPending(word));
+
+    fetch('/api/words', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({english: word})
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          dispatch(addWordFailure(data.error));
+        } else {
+          dispatch(addWordSuccess(data));
+        }
+      });
+  };
+}
+
+export function deleteWordPending(word) {
+  return {
+    type: types.DELETE_WORD,
+    status: status.PENDING,
+    payload: {
+      word: {
+        id: word.id
+      }
+    }
+  };
+}
+
+export function deleteWordSuccess() {
+  return {
+    type: types.DELETE_WORD,
+    status: status.SUCCESS,
+    payload: {}
+  };
+}
+
+export function deleteWordFailure(word, error) {
+  return {
+    type: types.DELETE_WORDS,
     status: status.FAILURE,
     payload: {
       word: word,
@@ -120,38 +149,36 @@ export function deleteWord(word) {
     })
       .then(response => response.json())
       .then(data => {
-        if(data.error) {
+        if (data.error) {
           dispatch(deleteWordFailure(data.error));
         } else {
           dispatch(deleteWordSuccess(data));
         }
       });
-  }
+  };
 }
 
-export function deleteWordPending(word) {
+export function editWordPending(word) {
   return {
-    type: types.DELETE_WORD,
+    type: types.EDIT_WORD,
     status: status.PENDING,
     payload: {
-      word: {
-        id: word.id
-      }
+      word: word
     }
   };
 }
 
-export function deleteWordSuccess(word) {
+export function editWordSuccess() {
   return {
-    type: types.DELETE_WORD,
+    type: types.EDIT_WORD,
     status: status.SUCCESS,
     payload: {}
-  }
+  };
 }
 
-export function deleteWordFailure(word, error) {
+export function editWordFailure(word, error) {
   return {
-    type: types.DELETE_WORDS,
+    type: types.EDIT_WORDS,
     status: status.FAILURE,
     payload: {
       word: word,
@@ -173,40 +200,11 @@ export function editWord(word) {
     })
       .then(response => response.json())
       .then(data => {
-        if(data.error) {
+        if (data.error) {
           dispatch(editWordFailure(data.error));
-        } else if(data.status === 'success'){
+        } else if (data.status === 'success') {
           dispatch(editWordSuccess(data));
         }
       });
-  }
-}
-
-export function editWordPending(word) {
-  return {
-    type: types.EDIT_WORD,
-    status: status.PENDING,
-    payload: {
-      word: word
-    }
-  };
-}
-
-export function editWordSuccess(word) {
-  return {
-    type: types.EDIT_WORD,
-    status: status.SUCCESS,
-    payload: {}
-  }
-}
-
-export function editWordFailure(word, error) {
-  return {
-    type: types.EDIT_WORDS,
-    status: status.FAILURE,
-    payload: {
-      word: word,
-      error: error
-    }
   };
 }

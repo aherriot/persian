@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
 
 import WordListItem from './WordListItem';
 
@@ -16,7 +15,7 @@ export default class WordList extends Component {
         <div>{this.props.words.error.message}</div>
         <ul>
           {() => {
-            if(this.props.words.loading) {
+            if (this.props.words.loading) {
               return <p>Loading</p>;
             } else {
               return this.props.words.list.map((word) => {
@@ -28,7 +27,7 @@ export default class WordList extends Component {
 
         <input type="text" ref={(n) => this.input = n}/>
         <button onClick={() => {
-            this.props.actions.addWord(this.input.value);
+          this.props.actions.addWord(this.input.value);
         }}>Add</button>
 
         <button onClick={() => this.props.actions.fetchWords()}>Fetch</button>
@@ -37,3 +36,7 @@ export default class WordList extends Component {
     );
   }
 }
+WordList.propTypes = {
+  actions: React.PropTypes.object.isRequired,
+  words: React.PropTypes.object.isRequired
+};
