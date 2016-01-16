@@ -10,6 +10,7 @@ module.exports = {
     path.join(__dirname, 'client/main.js')
   ],
   output: {
+    publicPath: '/',
     path: path.join(__dirname, '/dist/'),
     filename: '[name]-[hash].min.js'
   },

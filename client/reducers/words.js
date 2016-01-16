@@ -73,6 +73,26 @@ function addReducer(state, action) {
   }
 }
 
+function editReducer(state, action) {
+  switch(action.status) {
+    case status.PENDING:
+      let words = state.list.map((word) => {
+        if(action.payload.word.id === word.id) {
+          return {...word, english: action.payload.word.english};
+        }
+        return word;
+      });
+      return {...state, list: words, loading: true};
+    case status.SUCCESS:
+      return {...state, loading: false};
+    case status.FAILURE:
+      return {...state, error: {message: action.error}, loading: false};
+    default:
+      return state;
+  }
+}
+
+
 function deleteReducer(state, action) {
   switch(action.status) {
     case status.PENDING:
@@ -94,13 +114,7 @@ export default function words(state = defaultState, action) {
     case types.ADD_WORD:
       return addReducer(state, action);
     case types.EDIT_WORD:
-      let words = state.list.map((word) => {
-        if(action.payload.id === word.id) {
-          return {...word, english: action.payload.english};
-        }
-        return word;
-      });
-      return {...state, list: words};
+      return editReducer(state, action);
     case types.DELETE_WORD:
       return deleteReducer(state, action);
     default:

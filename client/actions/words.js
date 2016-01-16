@@ -7,8 +7,7 @@ export function fetchWords() {
     dispatch(fetchWordsPending());
 
     fetch('/api/words')
-      .then(checkStatus)
-      .then(parseJSON)
+      .then(response => response.json())
       .then(data => {
         if(data.error) {
           dispatch(fetchWordsFailure(data.error));
@@ -35,7 +34,8 @@ export function fetchWordsSuccess(words) {
     type: types.FETCH_WORDS,
     status: status.SUCCESS,
     payload: {
-      words: words
+      words: words,
+      error: {}
     }
   }
 }
@@ -64,7 +64,7 @@ export function addWord(word) {
     })
       .then(response => response.json())
       .then(data => {
-        if(data.error) {
+        if (data.error) {
           dispatch(addWordFailure(data.error));
         } else {
           dispatch(addWordSuccess(data));
@@ -90,7 +90,8 @@ export function addWordSuccess(word) {
     type: types.ADD_WORD,
     status: status.SUCCESS,
     payload: {
-      word: word
+      word: word,
+      error: {}
     }
   }
 }
@@ -159,13 +160,53 @@ export function deleteWordFailure(word, error) {
   };
 }
 
-export function editWord(id, english) {
+export function editWord(word) {
+  return (dispatch) => {
+    dispatch(editWordPending(word));
+    fetch('/api/words/' + word.id, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({english: word.english})
+    })
+      .then(response => response.json())
+      .then(data => {
+        if(data.error) {
+          dispatch(editWordFailure(data.error));
+        } else if(data.status === 'success'){
+          dispatch(editWordSuccess(data));
+        }
+      });
+  }
+}
 
+export function editWordPending(word) {
   return {
     type: types.EDIT_WORD,
+    status: status.PENDING,
     payload: {
-      id : id,
-      english: english
+      word: word
     }
+  };
+}
+
+export function editWordSuccess(word) {
+  return {
+    type: types.EDIT_WORD,
+    status: status.SUCCESS,
+    payload: {}
   }
+}
+
+export function editWordFailure(word, error) {
+  return {
+    type: types.EDIT_WORDS,
+    status: status.FAILURE,
+    payload: {
+      word: word,
+      error: error
+    }
+  };
 }

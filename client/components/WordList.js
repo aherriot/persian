@@ -33,7 +33,6 @@ export default class WordList extends Component {
 
         <button onClick={() => this.props.actions.fetchWords()}>Fetch</button>
 
-        <Link to="/recipes">recipes</Link>
       </div>
     );
   }
