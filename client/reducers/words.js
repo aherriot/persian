@@ -1,8 +1,6 @@
 import * as types from '../constants/actionTypes';
 import * as status from '../constants/actionStatus';
 
-let nextId = 1000;
-
 const defaultState = {
   loading: false,
   list: [
@@ -39,31 +37,16 @@ function fetchReducer(state, action) {
 function addReducer(state, action) {
   switch (action.status) {
   case status.PENDING:
-    return {
-      ...state,
-      list: [...state.list, {id: nextId++, english: action.payload.word.english}],
-      loading: true
-    };
-
+    return {...state, loading: true};
   case status.SUCCESS:
-    const newWords = state.list.map((word) => {
-      if (action.payload.word.id === word.id) {
-        return {...word, id: action.payload.word.id};
-      }
-      return word;
-    });
-
     return {
       ...state,
-      list: newWords,
+      list: [...state.list, action.payload.word],
       loading: false
     };
-
   case status.FAILURE:
-    const revertedWords = state.list.filter((word) => word.id !== (nextId - 1));
     return {
       ...state,
-      list: revertedWords,
       loading: false,
       error: {message: 'Failed to delete word'}
     };
@@ -76,15 +59,16 @@ function addReducer(state, action) {
 function editReducer(state, action) {
   switch (action.status) {
   case status.PENDING:
+    return {...state, loading: true};
+  case status.SUCCESS:
     const newWords = state.list.map((word) => {
       if (action.payload.word.id === word.id) {
-        return {...word, english: action.payload.word.english};
+        return {...word, ...action.payload.word};
+      } else {
+        return word;
       }
-      return word;
     });
-    return {...state, list: newWords, loading: true};
-  case status.SUCCESS:
-    return {...state, loading: false};
+    return {...state, list: newWords, loading: false};
   case status.FAILURE:
     return {...state, error: {message: action.error}, loading: false};
   default:

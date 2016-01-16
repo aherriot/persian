@@ -25,9 +25,9 @@ export default class WordList extends Component {
           }()}
         </ul>
 
-        <input type="text" ref={(n) => this.input = n}/>
+        <input type="text" ref={(n) => this.englishInput = n}/>
         <button onClick={() => {
-          this.props.actions.addWord(this.input.value);
+          this.props.actions.addWord({english: this.englishInput.value});
         }}>Add</button>
 
         <button onClick={() => this.props.actions.fetchWords()}>Fetch</button>

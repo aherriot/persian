@@ -24,9 +24,9 @@ api.post('/words', function(req, res) {
     english: req.body.english
   };
 
-  words.push(word);
+  words.push({...word, tempId: req.body.id});
 
-  res.status(201).json({id: word.id});
+  res.status(201).json(word);
 });
 
 api.get('/words/:word_id', function(req, res) {
@@ -43,18 +43,19 @@ api.get('/words/:word_id', function(req, res) {
 
 api.put('/words/:word_id', function(req, res) {
   var found = false;
-  words.map(function(word) {
+  var editedWord = {};
+  words = words.map(function(word) {
     if (word.id === req.params.word_id) {
       found = true;
-      word.english = req.body.english;
-      return word;
+      editedWord = Object.assign(word, {english: req.body.english});
+      return editedWord;
     } else {
       return word;
     }
   });
 
   if (found) {
-    res.json({status: 'success'});
+    res.json({status: 'success', word: editedWord});
   } else {
     res.status(404).json({message: 'resource not found'});
   }

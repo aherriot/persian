@@ -92,7 +92,7 @@ export function addWord(word) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({english: word})
+      body: JSON.stringify(word)
     })
       .then(response => response.json())
       .then(data => {
@@ -168,11 +168,11 @@ export function editWordPending(word) {
   };
 }
 
-export function editWordSuccess() {
+export function editWordSuccess(word) {
   return {
     type: types.EDIT_WORD,
     status: status.SUCCESS,
-    payload: {}
+    payload: {word: word}
   };
 }
 
@@ -203,7 +203,7 @@ export function editWord(word) {
         if (data.error) {
           dispatch(editWordFailure(data.error));
         } else if (data.status === 'success') {
-          dispatch(editWordSuccess(data));
+          dispatch(editWordSuccess(data.word));
         }
       });
   };
