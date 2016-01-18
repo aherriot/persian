@@ -1,14 +1,14 @@
 import * as types from '../constants/actionTypes';
 import * as status from '../constants/actionStatus';
 
-export function fetchWordsPending() {
+function fetchWordsPending() {
   return {
     type: types.FETCH_WORDS,
     status: status.PENDING
   };
 }
 
-export function fetchWordsSuccess(words) {
+function fetchWordsSuccess(words) {
   return {
     type: types.FETCH_WORDS,
     status: status.SUCCESS,
@@ -19,7 +19,7 @@ export function fetchWordsSuccess(words) {
   };
 }
 
-export function fetchWordsFailure(error) {
+function fetchWordsFailure(error) {
   return {
     type: types.FETCH_WORDS,
     status: status.FAILURE,
@@ -48,7 +48,7 @@ export function fetchWords() {
   };
 }
 
-export function addWordPending(word) {
+function addWordPending(word) {
   return {
     type: types.ADD_WORD,
     status: status.PENDING,
@@ -58,7 +58,7 @@ export function addWordPending(word) {
   };
 }
 
-export function addWordSuccess(word) {
+function addWordSuccess(word) {
   return {
     type: types.ADD_WORD,
     status: status.SUCCESS,
@@ -69,7 +69,7 @@ export function addWordSuccess(word) {
   };
 }
 
-export function addWordFailure(word, error) {
+function addWordFailure(word, error) {
   return {
     type: types.ADD_WORDS,
     status: status.FAILURE,
@@ -103,7 +103,7 @@ export function addWord(word) {
   };
 }
 
-export function deleteWordPending(word) {
+function deleteWordPending(word) {
   return {
     type: types.DELETE_WORD,
     status: status.PENDING,
@@ -115,7 +115,7 @@ export function deleteWordPending(word) {
   };
 }
 
-export function deleteWordSuccess() {
+function deleteWordSuccess() {
   return {
     type: types.DELETE_WORD,
     status: status.SUCCESS,
@@ -123,7 +123,7 @@ export function deleteWordSuccess() {
   };
 }
 
-export function deleteWordFailure(word, error) {
+function deleteWordFailure(word, error) {
   return {
     type: types.DELETE_WORDS,
     status: status.FAILURE,
@@ -156,7 +156,7 @@ export function deleteWord(word) {
   };
 }
 
-export function editWordPending(word) {
+function editWordPending(word) {
   return {
     type: types.EDIT_WORD,
     status: status.PENDING,
@@ -166,7 +166,7 @@ export function editWordPending(word) {
   };
 }
 
-export function editWordSuccess(word) {
+function editWordSuccess(word) {
   return {
     type: types.EDIT_WORD,
     status: status.SUCCESS,
@@ -174,7 +174,7 @@ export function editWordSuccess(word) {
   };
 }
 
-export function editWordFailure(word, error) {
+function editWordFailure(word, error) {
   return {
     type: types.EDIT_WORDS,
     status: status.FAILURE,

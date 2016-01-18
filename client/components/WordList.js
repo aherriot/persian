@@ -6,7 +6,9 @@ export default class WordList extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.props.actions.fetchWords();
+    if (this.props.words.list.length === 0) {
+      this.props.actions.fetchWords();
+    }
   }
   render() {
     return (

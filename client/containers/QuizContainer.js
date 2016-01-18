@@ -1,23 +1,25 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import WordList from '../components/WordList';
-import {addWord, editWord, deleteWord, fetchWords} from '../actions/words';
+import Quiz from '../components/Quiz';
+import {editWord} from '../actions/words';
+import {selectWord} from '../actions/quiz';
 
 function mapStateToProps(state) {
   return {
     user: state.user,
+    quiz: state.quiz,
     words: state.words
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({addWord, editWord, deleteWord, fetchWords}, dispatch)
+    actions: bindActionCreators({editWord, selectWord}, dispatch)
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(WordList);
+)(Quiz);

@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import words from './words.js';
 import user from './user.js';
+import words from './words.js';
+import quiz from './quiz.js';
 
 export default combineReducers({
-  words,
-  user
+  user: user,
+  words: words,
+  quiz: quiz
 });

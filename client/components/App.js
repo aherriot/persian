@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 // import styles from './App.css';
 
 export default class App extends Component {
@@ -9,7 +10,10 @@ export default class App extends Component {
     return (
       <div>
         <h1>App</h1>
-        <p>This is the flashcards app.</p>
+        <p>
+          <Link to="/words">Words</Link>{' '}
+          <Link to="/quiz">Quiz</Link>
+        </p>
         {this.props.children}
       </div>
     );
