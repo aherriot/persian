@@ -1,10 +1,13 @@
 import * as types from '../constants/actionTypes';
 import * as status from '../constants/actionStatus';
 
+import quiz from './quiz';
+
 const defaultState = {
   loading: false,
   list: [],
-  error: {}
+  error: {},
+  quiz: {}
 };
 
 function fetchReducer(state, action) {
@@ -89,7 +92,7 @@ function deleteReducer(state, action) {
   }
 }
 
-export default function words(state = defaultState, action) {
+function wordsReducer(state, action) {
   switch (action.type) {
   case types.FETCH_WORDS:
     return fetchReducer(state, action);
@@ -102,4 +105,11 @@ export default function words(state = defaultState, action) {
   default:
     return state;
   }
+}
+
+export default function words(state = defaultState, action) {
+  return {
+    ...wordsReducer(state, action),
+    quiz: quiz(state.quiz, action, state.list)
+  };
 }

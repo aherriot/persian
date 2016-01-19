@@ -4,10 +4,16 @@ const defaultState = {
   currentWord: 'before select'
 };
 
-export default function words(state = defaultState, action) {
+export default function words(state = defaultState, action, words) {
   switch (action.type) {
   case types.SELECT_WORD:
-    return {...state, currentWord: 'selected word'};
+    let word;
+    if(words.length) {
+      word = words[Math.floor(Math.random()*words.length)].english;
+    } else {
+      word = 'No words';
+    }
+    return {...state, currentWord: word};
   default:
     return state;
   }

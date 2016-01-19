@@ -4,10 +4,10 @@ var bodyParser = require('body-parser');
 var api = express();
 
 var words = [
-  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz'},
-  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib'},
-  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi'},
-  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir'}
+  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz', scores: [1]},
+  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib', scores: [1]},
+  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi', scores: [1]},
+  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', scores: [1]}
 ];
 
 var nextId = 5;

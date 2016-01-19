@@ -6,6 +6,5 @@ import quiz from './quiz.js';
 
 export default combineReducers({
   user: user,
-  words: words,
-  quiz: quiz
+  words: words
 });
