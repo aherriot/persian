@@ -206,3 +206,11 @@ export function editWord(word) {
       });
   };
 }
+
+export function markCorrect(word, languagePair) {
+
+}
+
+export function markWrong(word, languagePair) {
+
+}

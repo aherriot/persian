@@ -6,24 +6,27 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import App from './components/App';
-import Users from './components/Users';
-
-import WordListContainer from './containers/WordListContainer';
-import QuizContainer from './containers/QuizContainer';
-
-import NoMatch from './components/NoMatch';
+let DevTools;
+if (process.env.NODE_ENV === 'production') {
+  DevTools = '';
+} else {
+  DevTools = require('./containers/DevTools');
+  DevTools = <DevTools />;
+}
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={createBrowserHistory()}>
-      <Route path="/" component={App}>
-        <Route path="/users" component={Users} />
-        <Route path="/words" component={WordListContainer} />
-        <Route path="/quiz" component={QuizContainer} />
-        <Route path="*" component={NoMatch}/>
-      </Route>
-    </Router>
+    <div>
+      <Router history={createBrowserHistory()}>
+        <Route path="/" component={require('./components/App')}>
+          <Route path="/users" component={require('./components/Users')} />
+          <Route path="/words" component={require('./containers/WordListContainer')} />
+          <Route path="/quiz" component={require('./containers/QuizContainer')} />
+          <Route path="*" component={require('./components/NoMatch')}/>
+        </Route>
+      </Router>
+      {DevTools}
+    </div>
   </Provider>,
   document.getElementById('root')
 );

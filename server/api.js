@@ -26,7 +26,7 @@ api.post('/words', function(req, res) {
     phonetic: req.body.phonetic
   };
 
-  words.push({...word, tempId: req.body.id});
+  words.push(word);
 
   res.status(201).json(word);
 });

@@ -14,6 +14,11 @@ export default function words(state = defaultState, action, words) {
       word = 'No words';
     }
     return {...state, currentWord: word};
+
+  case types.MARK_CORRECT:
+    return state;
+  case types.MARK_WRONG:
+    return state;
   default:
     return state;
   }

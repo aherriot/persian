@@ -11,12 +11,13 @@ export default class Quiz extends Component {
       this.props.actions.fetchWords();
     }
 
-    this.props.actions.selectWord();
   }
 
   render() {
     return (
       <div>
+
+        <button onClick={this.props.actions.selectWord}>selectWord</button>
         {this.props.words.quiz.currentWord}
         {this.props.words.list.map(word => <p key={word.id}>{word.english}</p>)}
       </div>
