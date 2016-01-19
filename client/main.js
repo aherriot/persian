@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route } from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import store from './store';
@@ -17,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <Router history={createBrowserHistory()}>
+      <Router history={browserHistory}>
         <Route path="/" component={require('./components/App')}>
           <Route path="/users" component={require('./components/Users')} />
           <Route path="/words" component={require('./containers/WordListContainer')} />

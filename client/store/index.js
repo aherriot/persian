@@ -1,23 +1,32 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
+import {browserHistory} from 'react-router';
+import {syncHistory} from 'redux-simple-router';
 
 import reducers from '../reducers';
 
-let createStoreWithMiddleware;
+const reduxRouterMiddleware = syncHistory(browserHistory);
+
+let store;
 
 if (process.env.NODE_ENV === 'production') {
 
-  createStoreWithMiddleware = compose(
-    applyMiddleware(thunk)
+  let createStoreWithMiddleware = compose(
+    applyMiddleware(thunk, reduxRouterMiddleware)
   )(createStore);
+
+  store = createStoreWithMiddleware(reducers);
 
 } else {
 
-  createStoreWithMiddleware = compose(
-    applyMiddleware(thunk),
+  let createStoreWithMiddleware = compose(
+    applyMiddleware(thunk, reduxRouterMiddleware),
     require('../containers/DevTools').instrument()
   )(createStore);
 
+  store = createStoreWithMiddleware(reducers);
+
+  reduxRouterMiddleware.listenForReplays(store);
 }
 
-export default createStoreWithMiddleware(reducers);
+export default store;
