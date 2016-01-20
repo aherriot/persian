@@ -8,11 +8,12 @@ import reducers from '../reducers';
 const reduxRouterMiddleware = syncHistory(browserHistory);
 
 let store;
+let middleware = [ thunk, reduxRouterMiddleware];
 
 if (process.env.NODE_ENV === 'production') {
 
   let createStoreWithMiddleware = compose(
-    applyMiddleware(thunk, reduxRouterMiddleware)
+    applyMiddleware(...middleware)
   )(createStore);
 
   store = createStoreWithMiddleware(reducers);
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
 
   let createStoreWithMiddleware = compose(
-    applyMiddleware(thunk, reduxRouterMiddleware),
+    applyMiddleware(...middleware),
     require('../containers/DevTools').instrument()
   )(createStore);
 
