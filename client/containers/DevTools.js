@@ -10,8 +10,9 @@ import LogMonitor from 'redux-devtools-log-monitor';
 const DevTools = createDevTools(
   <DockMonitor toggleVisibilityKey='ctrl-h'
                changePositionKey='ctrl-q'>
-    {/*<FilterableLogMonitor />*/}
-    <LogMonitor />
+    <LogMonitor select={(state) => {
+        return {list: state.words.list, quiz: state.quiz};
+      }}/>
   </DockMonitor>
 );
 

@@ -4,10 +4,10 @@ var bodyParser = require('body-parser');
 var api = express();
 
 var words = [
-  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz', scores: [1]},
-  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib', scores: [1]},
-  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi', scores: [1]},
-  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', scores: [1]}
+  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz', scores: 1},
+  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib', scores: 1},
+  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi', scores: 2},
+  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', scores: 2}
 ];
 
 var nextId = 5;
@@ -18,17 +18,33 @@ api.get('/words', function(req, res) {
   res.json(words);
 });
 
-api.post('/words', function(req, res) {
-  var word = {
+function addWord(word) {
+  var newWord = {
     id: String(nextId++),
-    english: req.body.english,
-    persian: req.body.persian,
-    phonetic: req.body.phonetic
+    english: word.english,
+    persian: word.persian,
+    phonetic: word.phonetic,
+    scores: 0
   };
+  words.push(newWord);
+  return newWord;
+}
 
-  words.push(word);
+api.post('/words', function(req, res) {
 
-  res.status(201).json(word);
+  if(Array.isArray(req.body)) {
+    var newWords = [];
+
+    for(var i = 0; i < req.body.length; i++) {
+      newWords.push(addWord(req.body[i]));
+    }
+    return res.status(201).json(newWords);
+  } else {
+
+    var newWord = addWord(req.body);
+    return res.status(201).json(newWord);
+  }
+
 });
 
 api.get('/words/:word_id', function(req, res) {
@@ -46,14 +62,11 @@ api.get('/words/:word_id', function(req, res) {
 api.put('/words/:word_id', function(req, res) {
   var found = false;
   var editedWord = {};
+
   words = words.map(function(word) {
     if (word.id === req.params.word_id) {
       found = true;
-      editedWord = Object.assign(word, {
-        english: req.body.word.english,
-        persian: req.body.word.persian,
-        phonetic: req.body.word.phonetic
-      });
+      editedWord = Object.assign({}, word, req.body.word);
       return editedWord;
     } else {
       return word;

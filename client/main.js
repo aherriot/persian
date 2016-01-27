@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>
+    <div className="test">
       <Router history={browserHistory}>
         <Route path="/" component={require('./components/App')}>
           <Route path="/users" component={require('./components/Users')} />

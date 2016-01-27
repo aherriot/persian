@@ -46,6 +46,7 @@ export default class WordListItem extends Component {
           {word.persian}{' '}
           {word.english}{' '}
           {word.phonetic}{' '}
+          {word.scores}{' '}
           <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
           <a href="#" onClick={() => deleteWord(word)}>delete</a>
         </div>

@@ -1,12 +1,18 @@
 import { combineReducers } from 'redux';
 import { routeReducer } from 'redux-simple-router';
 
-import user from './user.js';
-import words from './words.js';
-import quiz from './quiz.js';
+import user from './user';
+import words from './words';
+import quiz from './quiz';
 
-export default combineReducers({
-  routing: routeReducer,
-  user: user,
-  words: words
-});
+
+const rootReducer = (state = {}, action) => {
+  return {
+    routing: routeReducer(state.routing, action),
+    user: user(state.user, action),
+    words: words(state.words, action),
+    quiz: quiz(state.quiz, action, state.words)
+  };
+}
+
+export default rootReducer;

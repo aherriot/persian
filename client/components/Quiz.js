@@ -7,19 +7,36 @@ export default class Quiz extends Component {
     this.state = {
     };
 
-    if (this.props.words.list.length === 0) {
+  }
+
+  componentDidMount() {
+    if (this.props.words.hasLoaded) {
+      this.props.actions.selectWord();
+    } else {
       this.props.actions.fetchWords();
     }
+  }
 
+  onCorrect = () => {
+    this.props.actions.markCorrect(this.props.currentWord);
+  }
+
+  onWrong = () => {
+    this.props.actions.markWrong(this.props.currentWord);
   }
 
   render() {
     return (
       <div>
-
         <button onClick={this.props.actions.selectWord}>selectWord</button>
-        {this.props.words.quiz.currentWord}
-        {this.props.words.list.map(word => <p key={word.id}>{word.english}</p>)}
+        {() => {
+          if(this.props.currentWord) {
+            return <p>{this.props.currentWord.english} {this.props.currentWord.scores}</p>;
+          }
+        }()}
+        <button onClick={this.onCorrect}>Mark Correct</button>
+        <button onClick={this.onWrong}>Mark Wrong</button>
+
       </div>
     );
   }
