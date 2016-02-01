@@ -72,13 +72,39 @@ function addWordError(word, error) {
   };
 }
 
-export function addWord(word) {
-  return (dispatch) => {
-    dispatch(addWordPending(word));
+function bulkAddWordsPending() {
+  return {
+    type: types.BULK_ADD_WORDS_PENDING
+  };
+}
 
-    httpPost('/api/words', word)
-      .then(data => dispatch(addWordSuccess(data)))
-      .catch(err => dispatch(addWordError(err)));
+function bulkAddWordsSuccess(words) {
+  return {
+    type: types.BULK_ADD_WORDS_SUCCESS,
+    payload: {
+      word: words,
+      error: {}
+    }
+  };
+}
+
+function bulkAddWordsError(words, error) {
+  return {
+    type: types.BULK_ADD_WORDS_ERROR,
+    payload: {
+      words: words,
+      error: error
+    }
+  };
+}
+
+export function bulkAddWords(words) {
+  return (dispatch) => {
+    dispatch(bulkAddWordsPending());
+
+    httpPost('/api/words', words)
+      .then(data => dispatch(bulkAddWordsSuccess(data)))
+      .catch(err => dispatch(bulkAddWordsError(err)));
   };
 }
 

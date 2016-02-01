@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 import WordListItem from './WordListItem';
 
 export default class WordList extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     if (this.props.words.list.length === 0) {
       this.props.actions.fetchWords();
