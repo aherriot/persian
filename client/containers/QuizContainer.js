@@ -18,7 +18,6 @@ const currentWordSelector = createSelector(
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
     words: state.words,
     quiz: state.quiz,
     currentWord: currentWordSelector(state)

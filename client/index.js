@@ -18,11 +18,16 @@ ReactDOM.render(
     <div className="test">
       <Router history={browserHistory}>
         <Route path="/" component={require('./components/App')}>
-          <Route path="/users" component={require('./components/Users')} />
+          <Route path="/login" component={require('./containers/LoginContainer')} />
+
+          <Route path="/words" component={require('./containers/WordListContainer')} />
           <Route path="/words/import" component={require('./containers/ImportContainer')} />
           <Route path="/words/export" component={require('./containers/ExportContainer')} />
-          <Route path="/words" component={require('./containers/WordListContainer')} />
+
           <Route path="/quiz" component={require('./containers/QuizContainer')} />
+          <Route path="/quiz/options" component={require('./containers/QuizContainer')} />
+
+
           <Route path="*" component={require('./components/NoMatch')}/>
         </Route>
       </Router>

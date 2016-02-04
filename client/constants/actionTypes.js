@@ -1,3 +1,7 @@
+export const LOGIN = 'LOGIN';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+
 export const FETCH_WORDS = 'FETCH_WORDS';
 export const FETCH_WORDS_PENDING = 'FETCH_WORDS_PENDING';
 export const FETCH_WORDS_SUCCESS = 'FETCH_WORDS_SUCCESS';
