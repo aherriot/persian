@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import {Link} from 'react-router';
 import WordListItem from './WordListItem';
 
 export default class WordList extends Component {
@@ -10,6 +10,17 @@ export default class WordList extends Component {
       this.props.actions.fetchWords();
     }
   }
+
+  onAddWord = (e) => {
+    e.preventDefault();
+    this.props.actions.addWord({
+      persian: this.persianInput.value,
+      english: this.englishInput.value,
+      phonetic: this.phoneticInput.value,
+      tags: this.tagsInput.value.split(',').map(tag => tag.trim())
+    });
+  }
+
   render() {
     return (
       <div>
@@ -30,17 +41,14 @@ export default class WordList extends Component {
         <input type="text" placeholder="persian" ref={(n) => this.persianInput = n}/>
         <input type="text" placeholder="english" ref={(n) => this.englishInput = n}/>
         <input type="text" placeholder="phonetic" ref={(n) => this.phoneticInput = n}/>
+        <input type="text" placeholder="tags" ref={(n) => this.tagsInput = n}/>
 
-        <button onClick={() => {
-          this.props.actions.addWord({
-            persian: this.persianInput.value,
-            english: this.englishInput.value,
-            phonetic: this.phoneticInput.value
-          });
-        }}>Add</button>
+        <button onClick={this.onAddWord}>Add</button>
 
-        <button onClick={() => this.props.actions.fetchWords()}>Fetch</button>
-
+        <br />
+        <Link to="/words/import">Import</Link>
+        <br />
+        <Link to="/words/export">Export</Link>
       </div>
     );
   }

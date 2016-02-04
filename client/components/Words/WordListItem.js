@@ -22,7 +22,8 @@ export default class WordListItem extends Component {
       ...this.props.word,
       persian: this.refs.persian.value,
       english: this.refs.english.value,
-      phonetic: this.refs.phonetic.value
+      phonetic: this.refs.phonetic.value,
+      tags: this.refs.tags.value.split(',').map(tag => tag.trim())
     });
     this.setState({editing: false});
   }
@@ -36,6 +37,8 @@ export default class WordListItem extends Component {
           <input type="text" ref="persian" defaultValue={word.persian} />{' '}
           <input type="text" ref="english" defaultValue={word.english} />{' '}
           <input type="text" ref="phonetic" defaultValue={word.phonetic} />{' '}
+          <input type="text" ref="tags" defaultValue={word.tags.join(',')} />{' '}
+
           <a href="#" onClick={this.onSave}>save</a>{' '}
           <a href="#" onClick={this.onToggleEdit}>revert</a>
         </div>
@@ -47,6 +50,8 @@ export default class WordListItem extends Component {
           {word.english}{' '}
           {word.phonetic}{' '}
           {word.scores}{' '}
+          {word.tags.join(',')}{' '}
+
           <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
           <a href="#" onClick={() => deleteWord(word)}>delete</a>
         </div>

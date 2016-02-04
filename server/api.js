@@ -4,10 +4,10 @@ var bodyParser = require('body-parser');
 var api = express();
 
 var words = [
-  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz', scores: 1},
-  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib', scores: 1},
-  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi', scores: 2},
-  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', scores: 2}
+  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz', tags: ['noun', 'food', 'fruit'], scores: 1},
+  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib', tags: ['noun', 'food', 'fruit'], scores: 1},
+  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi', tags: ['noun', 'food', 'fruit'], scores: 2},
+  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', tags: ['noun', 'food', 'fruit'], scores: 2}
 ];
 
 var nextId = 5;
@@ -24,6 +24,7 @@ function addWord(word) {
     english: word.english,
     persian: word.persian,
     phonetic: word.phonetic,
+    tags: word.tags,
     scores: 0
   };
   words.push(newWord);

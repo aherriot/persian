@@ -28,12 +28,12 @@ export default class Quiz extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.props.actions.selectWord}>selectWord</button>
         {() => {
           if(this.props.currentWord) {
             return <p>{this.props.currentWord.english} {this.props.currentWord.scores}</p>;
           }
         }()}
+        <input type="text" ref="response"/>
         <button onClick={this.onCorrect}>Mark Correct</button>
         <button onClick={this.onWrong}>Mark Wrong</button>
 

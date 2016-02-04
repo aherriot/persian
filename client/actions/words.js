@@ -72,6 +72,16 @@ function addWordError(word, error) {
   };
 }
 
+export function addWord(word) {
+  return (dispatch) => {
+    dispatch(addWordPending());
+
+    httpPost('/api/words', word)
+      .then(data => dispatch(addWordSuccess(data)))
+      .catch(err => dispatch(addWordError(err)));
+  };
+}
+
 function bulkAddWordsPending() {
   return {
     type: types.BULK_ADD_WORDS_PENDING

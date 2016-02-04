@@ -2,7 +2,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
-import Quiz from '../components/Quiz';
+import Quiz from '../components/Quiz/Quiz';
 import {editWord, fetchWords} from '../actions/words';
 import {selectWord, markCorrect, markWrong} from '../actions/quiz';
 

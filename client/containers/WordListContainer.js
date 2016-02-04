@@ -1,7 +1,7 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import WordList from '../components/WordList';
+import WordList from '../components/Words/WordList';
 import {addWord, editWord, deleteWord, fetchWords} from '../actions/words';
 
 function mapStateToProps(state) {
@@ -13,7 +13,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({addWord, editWord, deleteWord, fetchWords}, dispatch)
+    actions: bindActionCreators({
+      addWord,
+      editWord,
+      deleteWord,
+      fetchWords
+    }, dispatch)
   };
 }
 
