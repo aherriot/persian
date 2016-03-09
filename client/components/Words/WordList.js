@@ -6,6 +6,13 @@ export default class WordList extends Component {
   constructor(props) {
     super(props);
 
+  }
+
+  componentWillMount() {
+    // if(!this.props.auth.username) {
+    //   this.props.router.push('/login');
+    // }
+
     if (this.props.words.list.length === 0) {
       this.props.actions.fetchWords();
     }

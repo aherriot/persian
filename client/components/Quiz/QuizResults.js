@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
+
 
 class QuizResults extends Component {
 
@@ -7,7 +9,7 @@ class QuizResults extends Component {
   }
 
   componentDidMount() {
-    let nextLink = React.findDOMNode(this.refs.nextLink);
+    let nextLink = findDOMNode(this.refs.nextLink);
     if(nextLink) {
       nextLink.focus();
     }
@@ -47,7 +49,9 @@ class QuizResults extends Component {
       <div className="answerArea">
         {content}
         <div>
-          <a href="#" className="btn green right" ref="nextLink" onClick={this.props.onNext}>Next</a>
+          <a href="#"
+            ref="nextLink"
+             onClick={this.props.selectWord}>Next</a>
         </div>
       </div>
     );
@@ -57,10 +61,10 @@ class QuizResults extends Component {
 
 QuizResults.propTypes = {
   isCorrect: React.PropTypes.bool.isRequired,
-  response: React.PropTypes.string.isRequired,
+  // response: React.PropTypes.string.isRequired,
   correctAnswer: React.PropTypes.string.isRequired,
-  thirdSide: React.PropTypes.string.isRequired,
-  onNext: React.PropTypes.func.isRequired
+  thirdSide: React.PropTypes.string.isRequired
+  // actions: React.PropTypes.func.isRequired
 };
 
 export default QuizResults;

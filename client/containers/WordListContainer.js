@@ -7,7 +7,6 @@ import {addWord, editWord, deleteWord, fetchWords} from '../actions/words';
 
 function mapStateToProps(state) {
   return {
-    routing: routeActions,
     auth: state.auth,
     words: state.words
   };

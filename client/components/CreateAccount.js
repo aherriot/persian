@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 
-class Login extends Component {
+class CreateAccount extends Component {
   constructor(props) {
     super(props);
   }
 
-  onLogin = (e) => {
+  onCreateAccount = (e) => {
     e.preventDefault();
     console.log('login!');
     this.props.actions.login(this.refs.username.value, this.refs.password.value);
@@ -15,9 +15,10 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.onLogin}>
+        <form onSubmit={this.onCreateAccount}>
           <input type="text" ref="username" placeholder="username" />
           <input type="password" ref="password" placeholder="password" />
+          <input type="password" ref="password2" placeholder="password" />
           <input type="submit" />
         </form>
       </div>
@@ -25,4 +26,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default CreateAccount;

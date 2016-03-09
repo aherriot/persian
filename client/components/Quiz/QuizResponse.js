@@ -1,29 +1,32 @@
 'use strict';
 
 import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
 
 class QuizResponse extends Component {
 
-  getInitialState() {
-    return {
+  constructor() {
+    super();
+
+    this.state = {
       submitEnabled: false
-    };
+    }
   }
 
   componentDidMount() {
-    let responseInput = React.findDOMNode(this.refs.responseInput);
+    let responseInput = findDOMNode(this.refs.responseInput);
     if(responseInput) {
       responseInput.focus();
     }
   }
 
-  onKeyDown(event) {
+  onKeyDown = (event) => {
     if(event.keyCode === 13) {
       this.onSubmit();
     }
   }
 
-  onChange(event) {
+  onChange = (event) => {
     if(event.target.value.length > 0) {
       this.setState({submitEnabled: true});
     } else {
@@ -31,9 +34,9 @@ class QuizResponse extends Component {
     }
   }
 
-  onSubmit() {
+  onSubmit = () => {
     if(this.state.submitEnabled) {
-      let response = React.findDOMNode(this.refs.responseInput);
+      let response = findDOMNode(this.refs.responseInput);
       this.props.onSubmitResponse(response.value);
     }
   }
@@ -51,7 +54,7 @@ class QuizResponse extends Component {
           <label htmlFor="responseInput"></label>
         </div>
         <button
-          ref="checkButton" 
+          ref="checkButton"
           className="btn green"
           onClick={this.onSubmit}
           disabled={!this.state.submitEnabled}>check</button>
@@ -59,7 +62,7 @@ class QuizResponse extends Component {
     );
   }
 
-});
+};
 
 QuizResponse.propTypes = {
   onSubmitResponse: React.PropTypes.func.isRequired

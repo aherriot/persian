@@ -19,6 +19,7 @@ ReactDOM.render(
       <Router history={browserHistory}>
         <Route path="/" component={require('./components/App')}>
           <Route path="/login" component={require('./containers/LoginContainer')} />
+          <Route path="/createAccount" component={require('./containers/createAccountContainer')} />
 
           <Route path="/words" component={require('./containers/WordListContainer')} />
           <Route path="/words/import" component={require('./containers/ImportContainer')} />
