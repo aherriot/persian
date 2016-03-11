@@ -7,10 +7,12 @@ var words = [
   {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz', tags: ['noun', 'food', 'fruit'], scores: 1},
   {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib', tags: ['noun', 'food', 'fruit'], scores: 1},
   {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi', tags: ['noun', 'food', 'fruit'], scores: 2},
-  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', tags: ['noun', 'food', 'fruit'], scores: 2}
+  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', tags: ['noun', 'food', 'fruit'], scores: 2},
+  {id: '5', english: 'soft drink', persian: 'نوشابه', phonetic: 'nooshaabe', tags: ['noun', 'food', 'drink'], scores: 2},
+
 ];
 
-var nextId = 5;
+var nextId = words.length + 1;
 
 api.use(bodyParser.json());
 

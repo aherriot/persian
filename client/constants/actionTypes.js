@@ -28,13 +28,10 @@ export const EDIT_WORD_SUCCESS = 'EDIT_WORD_SUCCESS';
 export const EDIT_WORD_ERROR = 'EDIT_WORD_ERROR';
 
 export const SELECT_WORD = 'SELECT_WORD';
-// export const CHECK_WORD = 'CHECK_WORD';
 export const SUBMIT_WORD = 'SUBMIT_WORD';
 
-// export const MARK_CORRECT = 'MARK_CORRECT';
-// export const MARK_CORRECT_SUCCESS = 'MARK_CORRECT_SUCCESS';
-// export const MARK_WRONG = 'MARK_WRONG';
-// export const MARK_WRONG_SUCCESS = 'MARK_WRONG_SUCCESS';
+export const SHOW_QUIZ_OPTIONS = 'SHOW_QUIZ_OPTIONS';
+export const UPDATE_QUIZ_OPTIONS = 'UPDATE_QUIZ_OPTIONS';
 
 export const QUIZ_PENDING = 'QUIZ_PENDING';
 export const QUIZ_ERROR = 'QUIZ_ERROR';

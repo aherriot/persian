@@ -27,8 +27,8 @@ class Export extends Component {
       return JSON.stringify(words);
     } else if (this.state.format === 'vertical-bar') {
       return words.map((word) => {
-        return word.persian + '|' +
-               word.english + '|' +
+        return word.english + '|' +
+               word.persian + '|' +
                word.phonetic + '|' +
                word.tags.join(',');
       }).join('\n');

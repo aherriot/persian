@@ -15,8 +15,8 @@ class Import extends Component {
       words = text.split('\n').map(word => {
         word = word.split('|');
         return {
-          persian: word[0],
-          english: word[1],
+          english: word[0],
+          persian: word[1],
           phonetic: word[2],
           tags: word[3].split(',')
         };

@@ -30,7 +30,7 @@ export function checkWord(response) {
 
     const currentWord = quiz.currentWord;
 
-    const isCorrect = (response === currentWord.phonetic);
+    const isCorrect = (response === currentWord[quiz.options.toLang]);
 
     dispatch(submitWord(response, isCorrect));
 
@@ -67,4 +67,19 @@ export function markWrong(word, languagePair) {
       })
       .catch(err => dispatch(editWordError(err)));
   };
+}
+
+export function showQuizOptions() {
+  return {
+    type: types.SHOW_QUIZ_OPTIONS
+  }
+}
+
+export function updateQuizOptions(options) {
+  return {
+    type: types.UPDATE_QUIZ_OPTIONS,
+    payload: {
+      options: options
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import * as types from '../constants/actionTypes';
 
 const defaultState = {
+  showingOptions: false,
   isQuizzing: false,
   isCorrect: true,
   currentWord: null,
@@ -10,11 +11,12 @@ const defaultState = {
   options: {
     fromLang: 'phonetic',
     toLang: 'english',
-    selectionAlgorithm: 'LEITNER'
+    selectionAlgorithm: 'LEITNER',
+    filter: ''
   }
 };
 
-function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds) {
+function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizOptions) {
 
   let bucketIndex = 0;
   let bucket = [];
@@ -22,7 +24,22 @@ function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds) {
   // search through word list from lowest score upwards until we find a word.
   while(bucket.length === 0) {
     bucket = list.filter((word) => {
-      return previousWordId != word.id && word.scores === bucketIndex;
+      if (previousWordId === word.id) {
+        return false;
+      }
+
+      if(word.scores !== bucketIndex) {
+        return false;
+      }
+
+
+      if(quizOptions.filter.length > 0) {
+        if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
+          return false;
+        }
+      }
+
+      return true;
     });
     bucketIndex++;
   }
@@ -41,7 +58,9 @@ export default function quiz(state = defaultState, action, words) {
           words.list,
           action.payload.seed,
           state.previousWordId,
-          state.recentWrongIds);
+          state.recentWrongIds,
+          state.options
+        );
       } else {
         throw new Exception("Unknown quiz algorithm: "  + state.options.selectionAlgorithm);
       }
@@ -91,6 +110,19 @@ export default function quiz(state = defaultState, action, words) {
         };
       }
 
+    }
+
+  case types.SHOW_QUIZ_OPTIONS:
+    return {
+      ...state,
+      showingOptions: true
+    };
+
+  case types.UPDATE_QUIZ_OPTIONS:
+    return {
+      ...state,
+      showingOptions: false,
+      options: {...state.options, ...action.payload.options}
     }
 
   default:
