@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import Quiz from '../components/Quiz/Quiz';
 import {editWord, fetchWords} from '../actions/words';
-import {selectWord, checkWord, markCorrect, markWrong,
+import {selectWord, checkWord, markCorrect, markWrong, undoMarkWrong,
   showQuizOptions, updateQuizOptions} from '../actions/quiz';
 
 
@@ -23,6 +23,7 @@ function mapDispatchToProps(dispatch) {
       checkWord,
       markCorrect,
       markWrong,
+      undoMarkWrong,
       showQuizOptions,
       updateQuizOptions
     }, dispatch)

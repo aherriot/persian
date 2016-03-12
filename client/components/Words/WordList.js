@@ -33,6 +33,10 @@ export default class WordList extends Component {
       <div>
         <h2>Word List</h2>
         <div>{this.props.words.error.message}</div>
+        <div>
+          <Link to="/words/import">Import</Link>{' '}
+          <Link to="/words/export">Export</Link>
+        </div>
         <ul>
           {() => {
             if (this.props.words.loading) {
@@ -51,11 +55,6 @@ export default class WordList extends Component {
         <input type="text" placeholder="tags" ref={(n) => this.tagsInput = n}/>
 
         <button onClick={this.onAddWord}>Add</button>
-
-        <br />
-        <Link to="/words/import">Import</Link>
-        <br />
-        <Link to="/words/export">Export</Link>
       </div>
     );
   }

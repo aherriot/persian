@@ -50,15 +50,17 @@ export default class Quiz extends Component {
                 <QuizResponse onSubmitResponse={this.onSubmitResponse} />
               </div>
             );
-          } else {
+          } else if(this.props.quiz.currentWord && this.props.quiz.response) {
             return (
               <div>
                 <a href="#" onClick={this.props.actions.showQuizOptions}>Options</a>
 
                 <QuizResults
                   selectWord={this.props.actions.selectWord}
+                  undoMarkWrong={this.props.actions.undoMarkWrong}
                   isCorrect={this.props.quiz.isCorrect}
                   response={this.props.quiz.response}
+                  correctAnswer={this.props.quiz.currentWord[this.props.quiz.options.toLang]}
                 />
               </div>
             );

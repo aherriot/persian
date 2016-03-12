@@ -61,6 +61,13 @@ export default function wordsReducer(state = defaultState, action) {
       loading: false,
       error: {message: 'Failed to delete word'}
     };
+
+  case types.BULK_ADD_WORDS_SUCCESS:
+
+    return {
+      ...state,
+      list: [...state.list, ...action.payload.words]
+    };
   case types.EDIT_WORD_PENDING:
     return {...state, loading: true};
   case types.EDIT_WORD_SUCCESS:

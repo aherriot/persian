@@ -15,10 +15,6 @@ class QuizResults extends Component {
     }
   }
 
-  onMistype() {
-
-  }
-
   render() {
     let content;
 
@@ -31,7 +27,7 @@ class QuizResults extends Component {
     } else {
       content = (
         <div>
-          <a href="#" className="right" onClick={this.onMistype}>I Mistyped</a>
+          <a href="#" className="right" onClick={this.props.undoMarkWrong}>I Mistyped</a>
           <div>
             <span>Response: </span>
             <span className="red">{this.props.response}</span>

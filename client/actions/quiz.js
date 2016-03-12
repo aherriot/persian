@@ -1,6 +1,7 @@
 import {httpPut} from '../utils';
 
 import * as types from '../constants/actionTypes';
+import * as constants from '../constants/constants';
 import {editWordPending, editWordSuccess, editWordError} from './words';
 
 export function selectWord() {
@@ -45,7 +46,7 @@ export function checkWord(response) {
 }
 
 export function markCorrect(word, languagePair) {
-  const editedWord = {id: word.id, scores: Math.min(word.scores + 1, 5)};
+  const editedWord = {id: word.id, scores: Math.min(word.scores + 1, constants.MAX_BUCKET)};
 
   return (dispatch, getState) => {
 
@@ -58,7 +59,7 @@ export function markCorrect(word, languagePair) {
 }
 
 export function markWrong(word, languagePair) {
-  const editedWord = {id: word.id, scores: 0};
+  const editedWord = {id: word.id, scores: constants.MIN_BUCKET};
 
   return (dispatch, getState) => {
     httpPut('/api/words/' + word.id, {word: editedWord})
@@ -67,6 +68,18 @@ export function markWrong(word, languagePair) {
       })
       .catch(err => dispatch(editWordError(err)));
   };
+}
+
+export function undoMarkWrong() {
+  return (dispatch, getState) => {
+
+    const word =  getState().quiz.currentWord;
+    httpPut('/api/words/' + word.id, {word: word})
+      .then(data => {
+        dispatch(editWordSuccess(editedWord));
+      })
+      .catch(err => dispatch(editWordError(err)));
+  }
 }
 
 export function showQuizOptions() {
