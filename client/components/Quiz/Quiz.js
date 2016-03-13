@@ -27,41 +27,70 @@ export default class Quiz extends Component {
   }
 
   render() {
+
+    const {
+      currentWord,
+      isQuizzing,
+      isCorrect,
+      response,
+      options,
+      showingOptions
+    } = this.props.quiz;
+
+    const {
+      updateQuizOptions,
+      showQuizOptions,
+      selectWord,
+      undoMarkWrong
+    } = this.props.actions;
+
     return (
       <div>
         {() => {
-          if(this.props.quiz.showingOptions) {
+          if(showingOptions) {
             return (
               <QuizOptions
-                options={this.props.quiz.options}
-                updateQuizOptions={this.props.actions.updateQuizOptions}
+                options={options}
+                updateQuizOptions={updateQuizOptions}
               />
             );
 
-          } else if(this.props.quiz.currentWord && this.props.quiz.isQuizzing) {
+          } else if(currentWord && isQuizzing) {
             return (
               <div>
                 <a href="#" onClick={this.showQuizOptions}>Options</a>
                 <div>
-                  Bucket: {this.props.quiz.currentWord.scores}
+                  Bucket: {currentWord.scores}
+                  <br/>
+                  Filter: {options.filter}
+
                 </div>
-                {this.props.quiz.currentWord[this.props.quiz.options.fromLang]}
+                {currentWord[options.fromLang]}
 
                 <QuizResponse onSubmitResponse={this.onSubmitResponse} />
               </div>
             );
-          } else if(this.props.quiz.currentWord && this.props.quiz.response) {
+          } else if(currentWord && response) {
             return (
               <div>
-                <a href="#" onClick={this.props.actions.showQuizOptions}>Options</a>
+                <a href="#" onClick={showQuizOptions}>Options</a>
+                <p>{currentWord[options.fromLang]}</p>
 
                 <QuizResults
-                  selectWord={this.props.actions.selectWord}
-                  undoMarkWrong={this.props.actions.undoMarkWrong}
-                  isCorrect={this.props.quiz.isCorrect}
-                  response={this.props.quiz.response}
-                  correctAnswer={this.props.quiz.currentWord[this.props.quiz.options.toLang]}
+                  selectWord={selectWord}
+                  undoMarkWrong={undoMarkWrong}
+                  isCorrect={isCorrect}
+                  response={response}
+                  correctAnswer={currentWord[options.toLang]}
                 />
+              </div>
+            );
+          } else if(isQuizzing && !currentWord){
+            return (
+              <div>
+                <a href="#" onClick={showQuizOptions}>Options</a>
+                <br/>
+                <p>No words match filter.</p>
               </div>
             );
           }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import * as constants from '../../constants/constants';
 
 class QuizOptions extends Component {
   constructor(props) {
@@ -27,7 +28,13 @@ class QuizOptions extends Component {
   onFilterChanged = (e) => {
     this.setState({
       filter: e.target.value
-    })
+    });
+  }
+
+  onAlgorithmChanged = (e) => {
+    this.setState({
+      selectionAlgorithm: e.target.value
+    });
   }
 
   onSave = (e) => {
@@ -86,8 +93,9 @@ class QuizOptions extends Component {
             placeholder="Filter by Tags" />
           <br/>
 
-          <select>
-            <option value="LEITNER">Leitner</option>
+          <select onChange={this.onAlgorithmChanged}>
+            <option value={constants.LEITNER}>Least Known</option>
+            <option value={constants.RANDOM}>Random</option>
           </select>
 
           <br/>

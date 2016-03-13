@@ -21,7 +21,9 @@ class QuizResults extends Component {
     if(this.props.isCorrect) {
       content = (
         <div>
-          Correct! {this.props.response}
+          <h2>Correct!</h2>
+
+          {this.props.response}
         </div>
       );
     } else {
@@ -57,9 +59,10 @@ class QuizResults extends Component {
 
 QuizResults.propTypes = {
   isCorrect: React.PropTypes.bool.isRequired,
-  // response: React.PropTypes.string.isRequired,
+  response: React.PropTypes.string.isRequired,
   correctAnswer: React.PropTypes.string.isRequired,
-  thirdSide: React.PropTypes.string.isRequired
+  thirdSide: React.PropTypes.string.isRequired,
+  undoMarkWrong: React.PropTypes.func.isRequired,
   // actions: React.PropTypes.func.isRequired
 };
 
