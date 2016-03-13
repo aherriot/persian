@@ -123,7 +123,7 @@ function deleteWordPending(word) {
     type: types.DELETE_WORD_PENDING,
     payload: {
       word: {
-        id: word.id
+        _id: word._id
       }
     }
   };
@@ -150,7 +150,7 @@ export function deleteWord(word) {
   return (dispatch) => {
     dispatch(deleteWordPending(word));
 
-    httpDelete('/api/words/' + word.id)
+    httpDelete('/api/words/' + word._id)
       .then(data => dispatch(deleteWordSuccess(data)))
       .catch(err => dispatch(deleteWordError(err)));
   };
@@ -182,8 +182,10 @@ export function editWordError(word, error) {
 export function editWord(word) {
   return (dispatch) => {
     dispatch(editWordPending(word));
-    httpPut('/api/words/' + word.id, {word: word})
-      .then(data => dispatch(editWordSuccess(data.word)))
+    httpPut('/api/words/' + word._id, {word: word})
+      .then(data => dispatch(
+        editWordSuccess(data)
+      ))
       .catch(err => dispatch(editWordError(err)));
 
   };

@@ -28,13 +28,13 @@ function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizO
     const newSeed = seed / recentWrongThreshold;
     const wordId = recentWrongIds[Math.floor(newSeed*recentWrongIds.length)];
     console.log('from recentWrong');
-    return list.find(word => word.id === wordId);
+    return list.find(word => word._id === wordId);
   } else {
     // search through word list from lowest score upwards until we find a word.
     while(bucket.length === 0 && bucketIndex <= constants.MAX_BUCKET) {
       bucket = list.filter((word) => {
         //Don't show the same word twice in a row
-        if (previousWordId === word.id) {
+        if (previousWordId === word._id) {
           return false;
         }
 
@@ -44,7 +44,7 @@ function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizO
         }
 
         // if already in recent wrong list, don't use.
-        if(recentWrongIds.includes(word.id)) {
+        if(recentWrongIds.includes(word._id)) {
           return false;
         }
 
@@ -77,17 +77,17 @@ function selectRandomFromSeed(list, seed, previousWordId, recentWrongIds, quizOp
   if(seed < recentWrongThreshold) {
     const newSeed = seed / recentWrongThreshold;
     const wordId = recentWrongIds[Math.floor(newSeed*recentWrongIds.length)];
-    return list.find(word => word.id === wordId);
+    return list.find(word => word._id === wordId);
   } else {
     // search through word list from lowest score upwards until we find a word.
     const filteredList = list.filter((word) => {
         //Don't show the same word twice in a row
-      if (previousWordId === word.id) {
+      if (previousWordId === word._id) {
         return false;
       }
 
       // if already in recent wrong list, don't use.
-      if(recentWrongIds.includes(word.id)) {
+      if(recentWrongIds.includes(word._id)) {
         return false;
       }
 
@@ -153,32 +153,32 @@ export default function quiz(state = defaultState, action, words) {
     if(action.payload.isCorrect) {
       //remove from recent wrong list
       let recentWrongIds = state.recentWrongIds.filter((wordId) => {
-        return wordId !== state.currentWord.id;
+        return wordId !== state.currentWord._id;
       });
 
       return {...state,
         isQuizzing: false,
         isCorrect: true,
-        previousWordId: state.currentWord.id,
+        previousWordId: state.currentWord._id,
         recentWrongIds: recentWrongIds,
         response: action.payload.response
       };
     } else {
-      let inRecentWrong = (state.recentWrongIds.indexOf(state.currentWord.id) !== -1);
+      let inRecentWrong = (state.recentWrongIds.indexOf(state.currentWord._id) !== -1);
 
       if(inRecentWrong) {
         return {...state,
           isQuizzing: false,
           isCorrect: false,
-          previousWordId: state.currentWord.id
+          previousWordId: state.currentWord._id
         };
       } else {
         let newRecentWrongs = state.recentWrongIds.slice();
-        newRecentWrongs.push(state.currentWord.id);
+        newRecentWrongs.push(state.currentWord._id);
         return {...state,
           isQuizzing: false,
           isCorrect: false,
-          previousWordId: state.currentWord.id,
+          previousWordId: state.currentWord._id,
           recentWrongIds: newRecentWrongs,
           response: action.payload.response
         };

@@ -1,108 +1,123 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
-var api = express();
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
-var words = [
-  {id: '1', english: 'banana', persian: 'موز', phonetic: 'moz', tags: ['noun', 'food', 'fruit'], scores: 1},
-  {id: '2', english: 'apple', persian: 'سیب', phonetic: 'sib', tags: ['noun', 'food', 'fruit'], scores: 1},
-  {id: '3', english: 'pear', persian: 'گلابی', phonetic: 'golaabi', tags: ['noun', 'food', 'fruit'], scores: 2},
-  {id: '4', english: 'fig', persian: 'انجیر', phonetic: 'anjir', tags: ['noun', 'food', 'fruit'], scores: 2},
-  {id: '5', english: 'soft drink', persian: 'نوشابه', phonetic: 'nooshaabe', tags: ['noun', 'food', 'drink'], scores: 2},
+mongoose.connect('mongodb://localhost/persian');
 
-];
+var wordSchema = new mongoose.Schema({
+  createdAt: {type: Date, default: Date.now},
+  modifiedAt: {type: Date},
+  english:  {type: String, required: true},
+  persian: {type: String, required: true},
+  phonetic: {type: String, required: true},
+  tags: {type: [String], required: true},
+  scores: {type: Number, default: 0}, //todo: change to array
+  // quizzedAt: {type: Date},
+  // correctCount: {type: Number, default: 0},
+  // wrongCount: {type: Number, default: 0},
 
-var nextId = words.length + 1;
+});
+
+var Word = mongoose.model('Word', wordSchema);
+
+// Word.remove({}, function(err) {
+//    console.log('Cleared words');
+// });
+//
+// Word.insertMany([
+//   {english: 'banana', persian: 'موز', phonetic: 'moz', tags: ['noun', 'food', 'fruit']},
+//   {english: 'apple', persian: 'سیب', phonetic: 'sib', tags: ['noun', 'food', 'fruit']},
+//   {english: 'pear', persian: 'گلابی', phonetic: 'golaabi', tags: ['noun', 'food', 'fruit']},
+//   {english: 'fig', persian: 'انجیر', phonetic: 'anjir', tags: ['noun', 'food', 'fruit']},
+//   {english: 'soft drink', persian: 'نوشابه', phonetic: 'nooshaabe', tags: ['noun', 'food', 'drink']}
+// ]).then(function(words) {
+//   console.log('bulk insert');
+// })
+// .catch(function(err) {
+//   console.error(err);
+// });
+
+var api = express.Router();
 
 api.use(bodyParser.json());
 
 api.get('/words', function(req, res) {
-  res.json(words);
+  Word.find({}, function(err, words) {
+
+    if(err) {
+      return res.status(500).json({ error: err });
+    }
+    return res.json(words);
+  });
 });
 
-function addWord(word) {
-  var newWord = {
-    id: String(nextId++),
-    english: word.english,
-    persian: word.persian,
-    phonetic: word.phonetic,
-    tags: word.tags,
-    scores: 0
-  };
-  words.push(newWord);
-  return newWord;
-}
+api.get('/words/:word_id', function(req, res) {
+
+  Word.findById(req.params.word_id, function (err, word) {
+    if(err) {
+      return res.status(500).json({ error: err });
+    }
+    return res.json(word);
+  });
+
+});
 
 api.post('/words', function(req, res) {
 
   if(Array.isArray(req.body)) {
-    var newWords = [];
 
-    for(var i = 0; i < req.body.length; i++) {
-      newWords.push(addWord(req.body[i]));
-    }
-    return res.status(201).json(newWords);
+    Word.insertMany(req.body)
+      .then(function(words) {
+        return res.status(201).json(words);
+      })
+      .catch(function(err) {
+        return res.status(500).json({ error: err });
+      });
+
   } else {
 
-    var newWord = addWord(req.body);
-    return res.status(201).json(newWord);
+    var word = new Word(req.body);
+
+    word.save()
+      .then(function(word) {
+        return res.status(201).json(word);
+      })
+      .catch(function(err) {
+        return res.status(500).json({ error: err });
+      });
   }
 
-});
-
-api.get('/words/:word_id', function(req, res) {
-  var foundWord = words.find(function(word) {
-    return word.id === req.params.word_id;
-  });
-
-  if (foundWord) {
-    res.json(foundWord);
-  } else {
-    res.status(404).json({message: 'resource not found'});
-  }
 });
 
 api.put('/words/:word_id', function(req, res) {
-  var found = false;
-  var editedWord = {};
 
-  words = words.map(function(word) {
-    if (word.id === req.params.word_id) {
-      found = true;
-      editedWord = Object.assign({}, word, req.body.word);
-      return editedWord;
-    } else {
-      return word;
+  Word.findByIdAndUpdate(req.params.word_id, req.body.word, {new: true}, function(err, word) {
+    if(err) {
+      return res.status(500).json({ error: err });
     }
-  });
 
-  if (found) {
-    res.json({status: 'success', word: editedWord});
-  } else {
-    res.status(404).json({message: 'resource not found'});
-  }
+    if(word) {
+      return res.json(word);
+    } else {
+      res.status(404).json({message: 'resource not found'});
+    }
+
+  });
 });
 
 api.delete('/words/:word_id', function(req, res) {
-  var found = false;
-  words = words.filter(function(word) {
-    if (word.id === req.params.word_id) {
-      found = true;
-      return false;
+
+  Word.findByIdAndRemove(req.params.word_id, function(err, word){
+    if(err) {
+      return res.status(500).json({ error: err });
     }
-    return true;
+    return res.json(word);
   });
-
-  if (found) {
-    res.json({status: 'success'});
-  } else {
-    res.status(404).json({message: 'resource not found'});
-  }
 });
 
-api.get('/test', function(req, res) {
-  res.json({test: 'test'});
-});
 
 api.all('*', function(req, res) {
   res.status(404).json({message: 'path not found'});

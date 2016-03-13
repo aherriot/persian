@@ -43,7 +43,7 @@ export default class WordList extends Component {
               return <p>Loading</p>;
             } else {
               return this.props.words.list.map((word) => {
-                return <WordListItem key={word.id} word={word} {...this.props.actions} />;
+                return <WordListItem key={word._id} word={word} {...this.props.actions} />;
               });
             }
           }()}

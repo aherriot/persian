@@ -72,7 +72,7 @@ export default function wordsReducer(state = defaultState, action) {
     return {...state, loading: true};
   case types.EDIT_WORD_SUCCESS:
     let newWords = state.list.map((word) => {
-      if (action.payload.word.id === word.id) {
+      if (action.payload.word._id === word._id) {
         return {...word, ...action.payload.word};
       } else {
         return word;
@@ -82,7 +82,7 @@ export default function wordsReducer(state = defaultState, action) {
   case types.EDIT_WORD_ERROR:
     return {...state, error: {message: action.error}, loading: false};
   case types.DELETE_WORD_PENDING:
-    newWords = state.list.filter((word) => word.id !== action.payload.word.id);
+    newWords = state.list.filter((word) => word._id !== action.payload.word._id);
     return {...state, list: newWords, loading: true};
   case types.DELETE_WORD_SUCCESS:
     return {...state, loading: false};

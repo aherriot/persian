@@ -46,11 +46,11 @@ export function checkWord(response) {
 }
 
 export function markCorrect(word, languagePair) {
-  const editedWord = {id: word.id, scores: Math.min(word.scores + 1, constants.MAX_BUCKET)};
+  const editedWord = {_id: word._id, scores: Math.min(word.scores + 1, constants.MAX_BUCKET)};
 
   return (dispatch, getState) => {
 
-    httpPut('/api/words/' + word.id, {word: editedWord})
+    httpPut('/api/words/' + word._id, {word: editedWord})
       .then(data => {
         dispatch(editWordSuccess(editedWord));
       })
@@ -59,10 +59,10 @@ export function markCorrect(word, languagePair) {
 }
 
 export function markWrong(word, languagePair) {
-  const editedWord = {id: word.id, scores: constants.MIN_BUCKET};
+  const editedWord = {_id: word._id, scores: constants.MIN_BUCKET};
 
   return (dispatch, getState) => {
-    httpPut('/api/words/' + word.id, {word: editedWord})
+    httpPut('/api/words/' + word._id, {word: editedWord})
       .then(data => {
         dispatch(editWordSuccess(editedWord));
       })
@@ -74,7 +74,7 @@ export function undoMarkWrong() {
   return (dispatch, getState) => {
 
     const word =  getState().quiz.currentWord;
-    httpPut('/api/words/' + word.id, {word: word})
+    httpPut('/api/words/' + word._id, {word: word})
       .then(data => {
         dispatch(editWordSuccess(editedWord));
       })
