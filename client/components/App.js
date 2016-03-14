@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-// import styles from './App.css';
+import styles from './App.css';
 
 export default class App extends Component {
   constructor(props) {
@@ -9,7 +9,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <h1>App</h1>
+        <h1>Persian Flashcards</h1>
         <p>
           <Link to="/words">Words</Link>{' '}
           <Link to="/quiz">Quiz</Link>

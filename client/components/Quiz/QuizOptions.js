@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import * as constants from '../../constants/constants';
+import constants from '../../constants/constants';
 
 class QuizOptions extends Component {
   constructor(props) {

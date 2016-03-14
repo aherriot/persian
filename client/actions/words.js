@@ -1,7 +1,10 @@
+import {routeActions} from 'redux-simple-router';
+
 import * as types from '../constants/actionTypes';
 import {httpGet, httpPut, httpPost, httpDelete} from '../utils';
 
 import {selectWord} from './quiz';
+
 
 function fetchWordsPending() {
   return {
@@ -31,7 +34,6 @@ function fetchWordsError(error) {
 export function fetchWords() {
   return (dispatch) => {
     dispatch(fetchWordsPending());
-
     httpGet('/api/words')
       .then(data => {
         dispatch(fetchWordsSuccess(data));
@@ -92,7 +94,7 @@ function bulkAddWordsSuccess(words) {
   return {
     type: types.BULK_ADD_WORDS_SUCCESS,
     payload: {
-      word: words,
+      words: words,
       error: {}
     }
   };
@@ -113,7 +115,10 @@ export function bulkAddWords(words) {
     dispatch(bulkAddWordsPending());
 
     httpPost('/api/words', words)
-      .then(data => dispatch(bulkAddWordsSuccess(data)))
+      .then(data => {
+        dispatch(bulkAddWordsSuccess(data));
+        dispatch(routeActions.push('/words'))
+      })
       .catch(err => dispatch(bulkAddWordsError(err)));
   };
 }

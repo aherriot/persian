@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import styles from './Words.css';
 
 export default class WordListItem extends Component {
   constructor(props) {
@@ -33,27 +34,41 @@ export default class WordListItem extends Component {
 
     if (this.state.editing) {
       return (
-        <div>
-          <input type="text" ref="persian" defaultValue={word.persian} />{' '}
-          <input type="text" ref="english" defaultValue={word.english} />{' '}
-          <input type="text" ref="phonetic" defaultValue={word.phonetic} />{' '}
-          <input type="text" ref="tags" defaultValue={word.tags.join(',')} />{' '}
-
-          <a href="#" onClick={this.onSave}>save</a>{' '}
-          <a href="#" onClick={this.onToggleEdit}>revert</a>
+        <div className={styles.row}>
+          <div className={styles['persian-col']}>
+            <input type="text" ref="persian" defaultValue={word.persian} />
+          </div>
+          <div className={styles.col}>
+            <input type="text" ref="english" defaultValue={word.english} />
+          </div>
+          <div className={styles.col}>
+            <input type="text" ref="phonetic" defaultValue={word.phonetic} />
+          </div>
+          <div className={styles.col}>
+            <input type="text" ref="tags" defaultValue={word.tags.join(',')} />
+          </div>
+          <div className={styles.col}>
+            {word.scores}
+          </div>
+          <div className={styles.col}>
+            <a href="#" onClick={this.onSave}>save</a>{' '}
+            <a href="#" onClick={this.onToggleEdit}>revert</a>
+          </div>
         </div>
       );
     } else {
       return (
-        <div>
-          {word.persian}{' '}
-          {word.english}{' '}
-          {word.phonetic}{' '}
-          {word.scores}{' '}
-          {word.tags.join(',')}{' '}
+        <div className={styles.row}>
+          <div className={styles['persian-col']}>{word.persian}</div>
+          <div className={styles.col}>{word.english}</div>
+          <div className={styles.col}>{word.phonetic}</div>
+          <div className={styles.col}>{word.tags.join(',')}</div>
+          <div className={styles.col}>{word.scores}</div>
 
-          <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
-          <a href="#" onClick={() => deleteWord(word)}>delete</a>
+          <div className={styles.col}>
+            <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
+            <a href="#" onClick={() => deleteWord(word)}>delete</a>
+          </div>
         </div>
       );
     }

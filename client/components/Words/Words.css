@@ -1,0 +1,25 @@
+.col {
+  display: inline-block;
+  width: 15%;
+  padding: 0 10px;
+}
+
+.persian-col {
+  display: inline-block;
+  width: 15%;
+  padding: 0 10px;
+  font-size: 1.1rem;
+  direction: rtl;
+}
+
+.row {
+  width: 100%;
+}
+
+.row:nth-child(odd) {
+  background-color: #eee;
+}
+
+.row:hover  {
+  background-color: #f9f9e8;
+}

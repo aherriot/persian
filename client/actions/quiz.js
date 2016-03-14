@@ -1,7 +1,7 @@
 import {httpPut} from '../utils';
 
 import * as types from '../constants/actionTypes';
-import * as constants from '../constants/constants';
+import constants from '../constants/constants';
 import {editWordPending, editWordSuccess, editWordError} from './words';
 
 export function selectWord() {
