@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import store from './store';
@@ -18,6 +18,7 @@ ReactDOM.render(
     <div className="test">
       <Router history={browserHistory}>
         <Route path="/" component={require('./components/App')}>
+          <IndexRoute component={require('./containers/WordListContainer')} />
           <Route path="/login" component={require('./containers/LoginContainer')} />
           <Route path="/createAccount" component={require('./containers/CreateAccountContainer')} />
 

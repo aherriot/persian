@@ -96,7 +96,6 @@ export default class Quiz extends Component {
           }
         }()}
 
-        <pre>{JSON.stringify(this.props.quiz, null, ' ')}</pre>
       </div>
     );
   }
