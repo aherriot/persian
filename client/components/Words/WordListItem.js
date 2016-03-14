@@ -29,8 +29,14 @@ export default class WordListItem extends Component {
     this.setState({editing: false});
   }
 
+  onDelete = (e) => {
+    if(confirm('Are you sure you want to delete this word?')) {
+      this.props.deleteWord(this.props.word);
+    }
+  }
+
   render() {
-    const {word, deleteWord} = this.props;
+    const {word} = this.props;
 
     if (this.state.editing) {
       return (
@@ -67,7 +73,7 @@ export default class WordListItem extends Component {
 
           <div className={styles.col}>
             <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
-            <a href="#" onClick={() => deleteWord(word)}>delete</a>
+            <a href="#" onClick={this.onDelete}>delete</a>
           </div>
         </div>
       );
