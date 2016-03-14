@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {fetchWords, bulkAddWords} from '../actions/words';
 
-import Import from '../components/words/Import';
+import Import from '../components/Words/Import';
 
 
 function mapStateToProps(state) {
