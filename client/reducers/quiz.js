@@ -19,18 +19,21 @@ const defaultState = {
 
 function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizOptions) {
 
-  let bucketIndex = 0;
-  let bucket = [];
+  //filter previousWordId from recentWrongIds
+  const filteredRecentWrong = recentWrongIds.filter(wordId => wordId !== previousWordId);
 
   //select from recentWrongIds
-  const recentWrongThreshold = recentWrongIds.length / constants.MAX_RECENT_WRONG_LENGTH;
+  const recentWrongThreshold = filteredRecentWrong.length / constants.MAX_RECENT_WRONG_LENGTH;
   if(seed < recentWrongThreshold) {
     const newSeed = seed / recentWrongThreshold;
-    const wordId = recentWrongIds[Math.floor(newSeed*recentWrongIds.length)];
-    console.log('from recentWrong');
+    const wordId = filteredRecentWrong[Math.floor(newSeed*filteredRecentWrong.length)];
     return list.find(word => word._id === wordId);
   } else {
     // search through word list from lowest score upwards until we find a word.
+
+    let bucketIndex = 0;
+    let bucket = [];
+
     while(bucket.length === 0 && bucketIndex <= constants.MAX_BUCKET) {
       bucket = list.filter((word) => {
         //Don't show the same word twice in a row
@@ -48,6 +51,7 @@ function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizO
           return false;
         }
 
+        // if the tags do not contain the filter text
         if(quizOptions.filter.length > 0) {
           if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
             return false;
@@ -60,23 +64,22 @@ function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizO
     }
 
     if(bucket.length) {
-      console.log('from bucket: ', bucketIndex-1)
       return bucket[Math.floor(seed*bucket.length)];
     } else {
-      console.log('not found');
       return null; //no word match
     }
   }
 }
 
-
 function selectRandomFromSeed(list, seed, previousWordId, recentWrongIds, quizOptions) {
 
-  //select from recentWrongIds
-  const recentWrongThreshold = recentWrongIds.length / constants.MAX_RECENT_WRONG_LENGTH;
+  //filter previousWordId from recentWrongIds
+  const filteredRecentWrong = recentWrongIds.filter(wordId => wordId !== previousWordId);
+
+  const recentWrongThreshold = filteredRecentWrong.length / constants.MAX_RECENT_WRONG_LENGTH;
   if(seed < recentWrongThreshold) {
     const newSeed = seed / recentWrongThreshold;
-    const wordId = recentWrongIds[Math.floor(newSeed*recentWrongIds.length)];
+    const wordId = filteredRecentWrong[Math.floor(newSeed*filteredRecentWrong.length)];
     return list.find(word => word._id === wordId);
   } else {
     // search through word list from lowest score upwards until we find a word.
@@ -91,6 +94,7 @@ function selectRandomFromSeed(list, seed, previousWordId, recentWrongIds, quizOp
         return false;
       }
 
+      //If the tags do not contain the filter text
       if(quizOptions.filter.length > 0) {
         if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
           return false;
