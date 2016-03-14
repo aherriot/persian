@@ -14,11 +14,12 @@ class Import extends Component {
     if(text.indexOf('|') >= -1) {
       words = text.split('\n').map(word => {
         word = word.split('|');
+        let tags = word[3].split(',').map(tag => tag.trim());
         return {
           english: word[0],
           persian: word[1],
           phonetic: word[2],
-          tags: word[3].split(',')
+          tags: tags
         };
       });
 
