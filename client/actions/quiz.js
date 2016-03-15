@@ -73,10 +73,10 @@ export function markWrong(word, languagePair) {
 export function undoMarkWrong() {
   return (dispatch, getState) => {
 
-    const word =  getState().quiz.currentWord;
-    httpPut('/api/words/' + word._id, {word: word})
+    const word = getState().quiz.currentWord.scores;
+    httpPut('/api/words/' + word._id, {scores: word.scores})
       .then(data => {
-        dispatch(editWordSuccess(editedWord));
+        dispatch(editWordSuccess(data));
       })
       .catch(err => dispatch(editWordError(err)));
   }

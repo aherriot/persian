@@ -94,6 +94,8 @@ api.post('/words', function(req, res) {
 
 api.put('/words/:word_id', function(req, res) {
 
+  delete req.body.word._id;
+  
   Word.findByIdAndUpdate(req.params.word_id, req.body.word, {new: true}, function(err, word) {
     if(err) {
       return res.status(500).json({ error: err });

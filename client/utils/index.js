@@ -125,3 +125,7 @@ export function thirdSide(fromLang, toLang) {
 export function areEqual(word1, word2) {
   return word1 === word2;
 }
+
+export function pick(o, ...fields) {
+  return Object.assign({}, ...(for (p of fields) {[p]: o[p]}));
+}

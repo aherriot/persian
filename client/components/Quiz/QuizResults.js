@@ -20,6 +20,11 @@ class QuizResults extends Component {
     this.props.selectWord();
   }
 
+  onUndoMarkWrong = (e) => {
+    e.preventDefault();
+    this.props.undoMarkWrong();
+  }
+
   render() {
     let content;
 
@@ -35,7 +40,7 @@ class QuizResults extends Component {
     } else {
       content = (
         <div>
-          <a href="#" className="right" onClick={this.props.undoMarkWrong}>I Mistyped</a>
+          <a href="#" className="right" onClick={this.onUndoMarkWrong}>I Mistyped</a>
           <div>
             <span>Response: </span>
             <span className="red">{this.props.response}</span>
