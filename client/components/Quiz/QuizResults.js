@@ -26,9 +26,10 @@ class QuizResults extends Component {
     if(this.props.isCorrect) {
       content = (
         <div>
-          <h2>Correct!</h2>
+          Correct: {' '}
+          {this.props.response} {' '}
+          <span className="">({this.props.thirdSide})</span>
 
-          {this.props.response}
         </div>
       );
     } else {

@@ -1,3 +1,5 @@
+import constants from '../constants/constants';
+
 const defaultHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -96,4 +98,30 @@ export function httpDelete(url) {
       throw new Error(err.toString());
     }
   })
+}
+
+export function thirdSide(fromLang, toLang) {
+  if(fromLang === constants.ENGLISH) {
+    if(toLang === constants.PERSIAN) {
+      return constants.PHONETIC;
+    } else {
+      return constants.PERSIAN;
+    }
+  } else if(fromLang === constants.PERSIAN) {
+    if(toLang === constants.ENGLISH) {
+      return constants.PHONETIC;
+    } else {
+      return constants.ENGLISH;
+    }
+  } else {
+    if(toLang === constants.ENGLISH) {
+      return constants.PERSIAN;
+    } else {
+      return constants.ENGLISH;
+    }
+  }
+}
+
+export function areEqual(word1, word2) {
+  return word1 === word2;
 }
