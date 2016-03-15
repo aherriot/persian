@@ -142,7 +142,6 @@ export default function quiz(state = defaultState, action, words) {
       default:
         throw new Exception("Unknown quiz algorithm: "  + state.options.selectionAlgorithm);
       }
-
     }
 
     return {

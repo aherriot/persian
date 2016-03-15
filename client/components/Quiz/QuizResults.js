@@ -15,6 +15,11 @@ class QuizResults extends Component {
     }
   }
 
+  onSelectNextWord = (e) => {
+    e.preventDefault();
+    this.props.selectWord();
+  }
+
   render() {
     let content;
 
@@ -47,9 +52,7 @@ class QuizResults extends Component {
       <div className="answerArea">
         {content}
         <div>
-          <a href="#"
-            ref="nextLink"
-             onClick={this.props.selectWord}>Next</a>
+          <a href="#" ref="nextLink" onClick={this.onSelectNextWord}>Next</a>
         </div>
       </div>
     );

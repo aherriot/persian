@@ -34,7 +34,9 @@ class QuizResponse extends Component {
     }
   }
 
-  onSubmit = () => {
+  onSubmit = (event) => {
+    event.preventDefault();
+
     if(this.state.submitEnabled) {
       let response = findDOMNode(this.refs.responseInput);
       this.props.onSubmitResponse(response.value);
@@ -44,7 +46,7 @@ class QuizResponse extends Component {
   render() {
     return (
       <div className="responseArea">
-        <div className="input-field">
+        <form onSubmit={this.onSubmit}>
           <input type="text"
             id="responseInput"
             ref="responseInput"
@@ -52,12 +54,11 @@ class QuizResponse extends Component {
             onChange={this.onChange}>
           </input>
           <label htmlFor="responseInput"></label>
-        </div>
-        <button
-          ref="checkButton"
-          className="btn green"
-          onClick={this.onSubmit}
-          disabled={!this.state.submitEnabled}>check</button>
+          <input type="submit"
+            ref="checkButton"
+            disabled={!this.state.submitEnabled}
+          ></input>
+        </form>
       </div>
     );
   }
