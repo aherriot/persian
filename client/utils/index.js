@@ -123,7 +123,7 @@ export function thirdSide(fromLang, toLang) {
 }
 
 export function areEqual(word1, word2) {
-  return word1 === word2;
+  return word1.toLowerCase() === word2.toLowerCase();
 }
 
 export function pick(o, ...fields) {

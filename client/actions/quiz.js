@@ -1,8 +1,8 @@
-import {httpPut} from '../utils';
+import {httpPut, areEqual} from '../utils';
 
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
-import {editWordPending, editWordSuccess, editWordError} from './words';
+import {editWord, editWordPending, editWordSuccess, editWordError} from './words';
 
 export function selectWord() {
   return {
@@ -31,7 +31,7 @@ export function checkWord(response) {
 
     const currentWord = quiz.currentWord;
 
-    const isCorrect = (response === currentWord[quiz.options.toLang]);
+    const isCorrect = areEqual(response, currentWord[quiz.options.toLang]);
 
     dispatch(submitWord(response, isCorrect));
 
@@ -46,25 +46,23 @@ export function checkWord(response) {
 }
 
 export function markCorrect(word, languagePair) {
-  const editedWord = {_id: word._id, scores: Math.min(word.scores + 1, constants.MAX_BUCKET)};
 
+  const wordUpdate = {scores: Math.min(word.scores + 1, constants.MAX_BUCKET)};
   return (dispatch, getState) => {
-
-    httpPut('/api/words/' + word._id, {word: editedWord})
+    httpPut('/api/words/' + word._id, {word: wordUpdate})
       .then(data => {
-        dispatch(editWordSuccess(editedWord));
+        dispatch(editWordSuccess(data));
       })
       .catch(err => dispatch(editWordError(err)));
   };
 }
 
 export function markWrong(word, languagePair) {
-  const editedWord = {_id: word._id, scores: constants.MIN_BUCKET};
-
+  const wordUpdate = {scores: constants.MIN_BUCKET};
   return (dispatch, getState) => {
-    httpPut('/api/words/' + word._id, {word: editedWord})
+    httpPut('/api/words/' + word._id, {word: wordUpdate})
       .then(data => {
-        dispatch(editWordSuccess(editedWord));
+        dispatch(editWordSuccess(data));
       })
       .catch(err => dispatch(editWordError(err)));
   };
@@ -73,8 +71,8 @@ export function markWrong(word, languagePair) {
 export function undoMarkWrong() {
   return (dispatch, getState) => {
 
-    const word = getState().quiz.currentWord.scores;
-    httpPut('/api/words/' + word._id, {scores: word.scores})
+    const word = getState().quiz.currentWord;
+    httpPut('/api/words/' + word._id, {word: {scores: word.scores}})
       .then(data => {
         dispatch(editWordSuccess(data));
       })
@@ -94,5 +92,31 @@ export function updateQuizOptions(options) {
     payload: {
       options: options
     }
+  }
+}
+
+export function startEditingWord() {
+  return {
+    type: types.START_EDITING_WORD
+  }
+}
+
+export function quizEditWord(word) {
+  return (dispatch) => {
+    dispatch(editWord(word));
+    dispatch({
+      type: types.QUIZ_EDIT_WORD,
+      payload: {
+        word: word
+      }
+    });
+  }
+}
+
+
+
+export function revertEditWord() {
+  return {
+    type: types.REVERT_EDIT_WORD
   }
 }

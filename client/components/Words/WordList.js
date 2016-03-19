@@ -12,7 +12,7 @@ export default class WordList extends Component {
     this.state = {
       filterText: '',
       sortColumn: constants.ENGLISH,
-      sortDirection: constants.DESCENDING,
+      sortDirection: constants.ASCENDING,
     }
 
   }
@@ -78,6 +78,10 @@ export default class WordList extends Component {
         a = a[sortColumn].join(',').toLocaleLowerCase();
         b = b[sortColumn].join(',').toLocaleLowerCase();
         return a.localeCompare(b)*sortDirection;
+      });
+    } else if(sortColumn === constants.SCORES) {
+      return words.sort((a,b) => {
+        return (a.scores > b.scores ? 1 : -1) * sortDirection;
       });
     } else {
       return words.sort((a, b) => {

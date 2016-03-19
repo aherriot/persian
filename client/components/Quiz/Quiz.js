@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 
 import {thirdSide} from '../../utils/';
 
+import QuizPrompt from './QuizPrompt';
 import QuizResponse from './QuizResponse';
 import QuizResults from './QuizResults';
 import QuizOptions from './QuizOptions';
+import WordEditForm from '../Words/WordEditForm';
 
 export default class Quiz extends Component {
   constructor(props) {
@@ -28,6 +30,11 @@ export default class Quiz extends Component {
     this.props.actions.showQuizOptions();
   }
 
+  startEditingWord = (event) => {
+    event.preventDefault();
+    this.props.actions.startEditingWord();
+  }
+
   render() {
 
     const {
@@ -36,11 +43,16 @@ export default class Quiz extends Component {
       isCorrect,
       response,
       options,
-      showingOptions
+      showingOptions,
+      isEditingWord
     } = this.props.quiz;
 
     const {
       updateQuizOptions,
+      startEditingWord,
+      editWord,
+      quizEditWord,
+      revertEditWord,
       showQuizOptions,
       selectWord,
       undoMarkWrong
@@ -48,6 +60,10 @@ export default class Quiz extends Component {
 
     return (
       <div>
+        <a href="#" onClick={this.showQuizOptions}>Options</a><br />
+        <a href="#" onClick={this.startEditingWord}>Edit Word</a>
+
+
         {() => {
           if(showingOptions) {
             return (
@@ -57,43 +73,44 @@ export default class Quiz extends Component {
               />
             );
 
-          } else if(currentWord && isQuizzing) {
-            return (
-              <div>
-                <a href="#" onClick={this.showQuizOptions}>Options</a>
+          } else if(currentWord) {
+
+            if(isEditingWord) {
+              return (
+                <WordEditForm
+                  isNew={false}
+                  word={currentWord}
+                  revert={revertEditWord}
+                  quizEditWord={quizEditWord}/>
+              )
+
+            } else if(isQuizzing) {
+              return (
                 <div>
-                  Bucket: {currentWord.scores}
-                  <br/>
-                  Filter: {options.filter}
-
+                  <QuizPrompt word={currentWord} options={options}/>
+                  <QuizResponse onSubmitResponse={this.onSubmitResponse} />
                 </div>
-                {currentWord[options.fromLang]}
+              );
+            } else if(response !== null && response !== undefined) {
+              return (
+                <div>
+                  <p>{currentWord[options.fromLang]}</p>
 
-                <QuizResponse onSubmitResponse={this.onSubmitResponse} />
-              </div>
-            );
-          } else if(currentWord && response) {
+                  <QuizResults
+                    selectWord={selectWord}
+                    undoMarkWrong={undoMarkWrong}
+                    isCorrect={isCorrect}
+                    response={response}
+                    correctAnswer={currentWord[options.toLang]}
+                    thirdSide={currentWord[thirdSide(options.fromLang, options.toLang)]}
+                  />
+                </div>
+              );
+            }
+          } else if(!currentWord){
             return (
               <div>
-                <a href="#" onClick={showQuizOptions}>Options</a>
-                <p>{currentWord[options.fromLang]}</p>
-
-                <QuizResults
-                  selectWord={selectWord}
-                  undoMarkWrong={undoMarkWrong}
-                  isCorrect={isCorrect}
-                  response={response}
-                  correctAnswer={currentWord[options.toLang]}
-                  thirdSide={currentWord[thirdSide(options.fromLang, options.toLang)]}
-                />
-              </div>
-            );
-          } else if(isQuizzing && !currentWord){
-            return (
-              <div>
-                <a href="#" onClick={showQuizOptions}>Options</a>
-                <br/>
-                <p>No words match filter.</p>
+                <p>No words match filter: {options.filter}</p>
               </div>
             );
           }

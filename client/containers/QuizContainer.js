@@ -2,9 +2,19 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Quiz from '../components/Quiz/Quiz';
-import {editWord, fetchWords} from '../actions/words';
-import {selectWord, checkWord, markCorrect, markWrong, undoMarkWrong,
-  showQuizOptions, updateQuizOptions} from '../actions/quiz';
+import {fetchWords} from '../actions/words';
+import {
+  selectWord,
+  checkWord,
+  markCorrect,
+  markWrong,
+  undoMarkWrong,
+  showQuizOptions,
+  updateQuizOptions,
+  startEditingWord,
+  revertEditWord,
+  quizEditWord
+} from '../actions/quiz';
 
 
 function mapStateToProps(state) {
@@ -17,7 +27,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      editWord,
+      quizEditWord,
       fetchWords,
       selectWord,
       checkWord,
@@ -25,7 +35,9 @@ function mapDispatchToProps(dispatch) {
       markWrong,
       undoMarkWrong,
       showQuizOptions,
-      updateQuizOptions
+      updateQuizOptions,
+      startEditingWord,
+      revertEditWord
     }, dispatch)
   };
 }

@@ -5,6 +5,7 @@ const defaultState = {
   showingOptions: false,
   isQuizzing: false,
   isCorrect: true,
+  isEditingWord: false,
   currentWord: null,
   previousWordId: null,
   recentWrongIds: [],
@@ -202,6 +203,26 @@ export default function quiz(state = defaultState, action, words) {
       options: {...state.options, ...action.payload.options},
       recentWrongIds: []
     }
+
+  case types.START_EDITING_WORD:
+    return {
+      ...state,
+      isEditingWord: true
+    };
+
+  case types.QUIZ_EDIT_WORD:
+    return {
+      ...state,
+      isEditingWord: false,
+      currentWord: action.payload.word
+    };
+
+
+  case types.REVERT_EDIT_WORD:
+    return {
+      ...state,
+      isEditingWord: false
+    };
 
   default:
     return state;

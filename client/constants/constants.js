@@ -13,6 +13,7 @@ export default {
   PERSIAN: 'persian',
   PHONETIC: 'phonetic',
   TAGS: 'tags',
+  SCORES: 'scores',
 
   //score mappings (E_TO_P means english to persian, ...)
   E_TO_P: 0,
