@@ -69,7 +69,7 @@ export default class WordListItem extends Component {
           <div className={styles.col}>{word.english}</div>
           <div className={styles.col}>{word.phonetic}</div>
           <div className={styles.col}>{word.tags.join(',')}</div>
-          <div className={styles.col}>{word.scores}</div>
+          <div className={styles.col}>{word.scores.reduce((sum,current)=>{return sum+current;},0)}</div>
 
           <div className={styles.col}>
             <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}

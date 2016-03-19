@@ -1,5 +1,6 @@
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
+import {getScoreIndex} from '../utils/';
 
 const defaultState = {
   showingOptions: false,
@@ -32,8 +33,11 @@ function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizO
   } else {
     // search through word list from lowest score upwards until we find a word.
 
+
     let bucketIndex = 0;
     let bucket = [];
+    const scoreIndex = getScoreIndex(quizOptions.fromLang, quizOptions.toLang);
+
 
     while(bucket.length === 0 && bucketIndex <= constants.MAX_BUCKET) {
       bucket = list.filter((word) => {
@@ -43,7 +47,7 @@ function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizO
         }
 
         //if it is in a different bucket
-        if(word.scores !== bucketIndex) {
+        if(word.scores[scoreIndex] !== bucketIndex) {
           return false;
         }
 

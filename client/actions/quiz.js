@@ -1,4 +1,4 @@
-import {httpPut, quizEqual} from '../utils';
+import {httpPut, quizEqual, getScoreIndex} from '../utils';
 
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
@@ -35,19 +35,20 @@ export function checkWord(response) {
 
     dispatch(submitWord(response, isCorrect));
 
-    //quiz direction:
-    // etc...
+    const scoreIndex = getScoreIndex(quiz.options.fromLang, quiz.options.toLang);
+
     if(isCorrect) {
-      dispatch(markCorrect(currentWord));
+      dispatch(markCorrect(currentWord, scoreIndex));
     } else {
-      dispatch(markWrong(currentWord));
+      dispatch(markWrong(currentWord, scoreIndex));
     }
   }
 }
 
-export function markCorrect(word, languagePair) {
+export function markCorrect(word, scoreIndex) {
 
-  const wordUpdate = {scores: Math.min(word.scores + 1, constants.MAX_BUCKET)};
+  const wordUpdate = {scores: word.scores.slice()};
+  wordUpdate.scores[scoreIndex] = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
   return (dispatch, getState) => {
     httpPut('/api/words/' + word._id, {word: wordUpdate})
       .then(data => {
@@ -57,8 +58,9 @@ export function markCorrect(word, languagePair) {
   };
 }
 
-export function markWrong(word, languagePair) {
-  const wordUpdate = {scores: constants.MIN_BUCKET};
+export function markWrong(word, scoreIndex) {
+  const wordUpdate = {scores: word.scores.slice()};
+  wordUpdate.scores[scoreIndex] = constants.MIN_BUCKET;
   return (dispatch, getState) => {
     httpPut('/api/words/' + word._id, {word: wordUpdate})
       .then(data => {

@@ -15,13 +15,12 @@ export default {
   TAGS: 'tags',
   SCORES: 'scores',
 
-  //score mappings (E_TO_P means english to persian, ...)
-  E_TO_P: 0,
-  E_TO_PH: 1,
-  P_TO_E: 2,
-  P_TO_PH: 3,
-  PH_TO_E: 4,
-  PH_TO_P: 5,
+  english_persian: 0,
+  persian_english: 1,
+  english_phonetic: 2,
+  phonetic_english: 3,
+  persian_phonetic: 4,
+  phonetic_persian: 5,
 
   //sort direction
   ASCENDING: 1,

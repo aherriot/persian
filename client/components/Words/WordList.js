@@ -81,7 +81,9 @@ export default class WordList extends Component {
       });
     } else if(sortColumn === constants.SCORES) {
       return words.sort((a,b) => {
-        return (a.scores > b.scores ? 1 : -1) * sortDirection;
+        const sumA = a.scores.reduce((sum, current) => {return sum + current;}, 0);
+        const sumB = b.scores.reduce((sum, current) => {return sum + current;}, 0);
+        return (sumA > sumB ? 1 : -1) * sortDirection;
       });
     } else {
       return words.sort((a, b) => {

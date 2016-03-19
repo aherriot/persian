@@ -6,39 +6,22 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 mongoose.connect('mongodb://localhost/persian');
+// db.words.find().forEach(function(word) {word.scores = [0,0,0,0,0,0]; db.words.save(word); });
 
 var wordSchema = new mongoose.Schema({
-  createdAt: {type: Date, default: Date.now},
-  modifiedAt: {type: Date},
   english:  {type: String, required: true},
   persian: {type: String, required: true},
   phonetic: {type: String, required: true},
   tags: {type: [String], required: true},
-  scores: {type: Number, default: 0}, //todo: change to array
+  scores: {type: [Number], default: [0,0,0,0,0,0]},
   // quizzedAt: {type: Date},
   // correctCount: {type: Number, default: 0},
   // wrongCount: {type: Number, default: 0},
-
+},{
+  timestamps: true
 });
 
 var Word = mongoose.model('Word', wordSchema);
-
-// Word.remove({}, function(err) {
-//    console.log('Cleared words');
-// });
-//
-// Word.insertMany([
-//   {english: 'banana', persian: 'موز', phonetic: 'moz', tags: ['noun', 'food', 'fruit']},
-//   {english: 'apple', persian: 'سیب', phonetic: 'sib', tags: ['noun', 'food', 'fruit']},
-//   {english: 'pear', persian: 'گلابی', phonetic: 'golaabi', tags: ['noun', 'food', 'fruit']},
-//   {english: 'fig', persian: 'انجیر', phonetic: 'anjir', tags: ['noun', 'food', 'fruit']},
-//   {english: 'soft drink', persian: 'نوشابه', phonetic: 'nooshaabe', tags: ['noun', 'food', 'drink']}
-// ]).then(function(words) {
-//   console.log('bulk insert');
-// })
-// .catch(function(err) {
-//   console.error(err);
-// });
 
 var api = express.Router();
 
@@ -95,7 +78,7 @@ api.post('/words', function(req, res) {
 api.put('/words/:word_id', function(req, res) {
 
   delete req.body.word._id;
-  
+
   Word.findByIdAndUpdate(req.params.word_id, req.body.word, {new: true}, function(err, word) {
     if(err) {
       return res.status(500).json({ error: err });
