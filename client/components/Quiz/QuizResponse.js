@@ -37,7 +37,6 @@ class QuizResponse extends Component {
   onSubmit = (event) => {
     if(event) {
       event.preventDefault();
-      
     }
 
     if(this.state.submitEnabled) {

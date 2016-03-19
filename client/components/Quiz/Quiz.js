@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import {thirdSide} from '../../utils/';
-
 import QuizPrompt from './QuizPrompt';
 import QuizResponse from './QuizResponse';
 import QuizResults from './QuizResults';
@@ -101,8 +99,9 @@ export default class Quiz extends Component {
                     undoMarkWrong={undoMarkWrong}
                     isCorrect={isCorrect}
                     response={response}
-                    correctAnswer={currentWord[options.toLang]}
-                    thirdSide={currentWord[thirdSide(options.fromLang, options.toLang)]}
+                    word={currentWord}
+                    fromLang={options.fromLang}
+                    toLang={options.toLang}
                   />
                 </div>
               );

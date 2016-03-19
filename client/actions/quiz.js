@@ -1,4 +1,4 @@
-import {httpPut, areEqual} from '../utils';
+import {httpPut, quizEqual} from '../utils';
 
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
@@ -31,7 +31,7 @@ export function checkWord(response) {
 
     const currentWord = quiz.currentWord;
 
-    const isCorrect = areEqual(response, currentWord[quiz.options.toLang]);
+    const isCorrect = quizEqual(response, currentWord[quiz.options.toLang]);
 
     dispatch(submitWord(response, isCorrect));
 

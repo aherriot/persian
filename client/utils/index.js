@@ -122,8 +122,16 @@ export function thirdSide(fromLang, toLang) {
   }
 }
 
-export function areEqual(word1, word2) {
-  return word1.toLowerCase() === word2.toLowerCase();
+
+// match anything inside paranthesis or any punctuation or white
+// used to strip out noise and compare just the letters in quiz
+const stripRegex = /(\(.*?\)|[!\.\?,;\s]+)/gi;
+
+export function quizEqual(word1, word2) {
+  word1 = word1.replace(stripRegex, '').toLowerCase();
+  word2 = word2.replace(stripRegex, '').toLowerCase();
+  return word1 === word2;
+  // return word1.toLowerCase() === word2.toLowerCase();
 }
 
 export function pick(o, ...fields) {

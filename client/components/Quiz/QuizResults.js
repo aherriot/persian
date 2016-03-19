@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import {thirdSide} from '../../utils/';
+
 
 class QuizResults extends Component {
 
@@ -32,8 +34,8 @@ class QuizResults extends Component {
       content = (
         <div>
           Correct: {' '}
-          {this.props.response} {' '}
-          <span className="">({this.props.thirdSide})</span>
+          {this.props.word[this.props.toLang]} {' '}
+          <span className="">({this.props.word[thirdSide(this.props.fromLang, this.props.toLang)]})</span>
 
         </div>
       );
@@ -47,8 +49,9 @@ class QuizResults extends Component {
           </div>
           <div>
             <span>Answer: </span>
-            <span className="green">{this.props.correctAnswer}</span>&nbsp;
-            <span className="">({this.props.thirdSide})</span>
+            <span className="green">{this.props.word[this.props.toLang]}</span>&nbsp;
+            <span className="">({this.props.word[thirdSide(this.props.fromLang, this.props.toLang)]})</span>
+
           </div>
         </div>
       );
@@ -69,10 +72,7 @@ class QuizResults extends Component {
 QuizResults.propTypes = {
   isCorrect: React.PropTypes.bool.isRequired,
   response: React.PropTypes.string.isRequired,
-  correctAnswer: React.PropTypes.string.isRequired,
-  thirdSide: React.PropTypes.string.isRequired,
   undoMarkWrong: React.PropTypes.func.isRequired,
-  // actions: React.PropTypes.func.isRequired
 };
 
 export default QuizResults;

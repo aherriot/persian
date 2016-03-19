@@ -174,6 +174,7 @@ export default function quiz(state = defaultState, action, words) {
         return {...state,
           isQuizzing: false,
           isCorrect: false,
+          response: action.payload.response,
           previousWordId: state.currentWord._id
         };
       } else {
