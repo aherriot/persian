@@ -125,7 +125,7 @@ export function thirdSide(fromLang, toLang) {
 
 // match anything inside paranthesis or any punctuation or white
 // used to strip out noise and compare just the letters in quiz
-const stripRegex = /(\(.*?\)|[!\.\?,;\s]+)/gi;
+const stripRegex = /(\(.*?\)|[!\.\?,'";\s]+)/gi;
 
 export function quizEqual(word1, word2) {
   word1 = word1.replace(stripRegex, '').toLowerCase();
