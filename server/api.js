@@ -78,6 +78,8 @@ api.post('/words', function(req, res) {
 api.put('/words/:word_id', function(req, res) {
 
   delete req.body.word._id;
+  delete req.body.word.createdAt;
+  delete req.body.word.updatedAt;
 
   Word.findByIdAndUpdate(req.params.word_id, req.body.word, {new: true}, function(err, word) {
     if(err) {

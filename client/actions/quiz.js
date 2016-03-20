@@ -77,6 +77,7 @@ export function undoMarkWrong() {
     httpPut('/api/words/' + word._id, {word: {scores: word.scores}})
       .then(data => {
         dispatch(editWordSuccess(data));
+        dispatch(selectWord());
       })
       .catch(err => dispatch(editWordError(err)));
   }
