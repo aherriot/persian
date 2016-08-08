@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import constants from '../../constants/constants';
+import {thirdSide} from '../../utils';
 
 class QuizOptions extends Component {
   constructor(props) {
@@ -14,14 +15,30 @@ class QuizOptions extends Component {
   }
 
   onFromLangChanged = (e) => {
+
+    let toLang = this.state.toLang;
+
+    if(e.target.value === this.state.toLang) {
+      toLang = e.target.value === constants.ENGLISH ? constants.PHONETIC : constants.ENGLISH;
+    }
+
     this.setState({
-      fromLang: e.target.value
+      fromLang: e.target.value,
+      toLang: toLang
     });
   }
 
   onToLangChanged = (e) => {
+
+    let fromLang = this.state.fromLang;
+
+    if(e.target.value === this.state.fromLang) {
+      fromLang = e.target.value === constants.ENGLISH ? constants.PHONETIC : constants.ENGLISH;
+    }
+
     this.setState({
-      toLang: e.target.value
+      toLang: e.target.value,
+      fromLang: fromLang
     });
   }
 
@@ -39,7 +56,12 @@ class QuizOptions extends Component {
 
   onSave = (e) => {
     e.preventDefault();
-    this.props.updateQuizOptions(this.state);
+    this.props.setQuizOptions(this.state);
+  }
+
+  onRevert = (e) => {
+    e.preventDefault();
+    this.props.revertQuizOptions();
   }
 
   render() {
@@ -47,44 +69,69 @@ class QuizOptions extends Component {
       <div>
         <h2>Quiz Options</h2>
         <form>
-          <input type="radio"
-            name="fromLang"
-            value="english"
-            defaultChecked={this.props.options.fromLang === "english"}
-            onChange={this.onFromLangChanged}
-          /> English
-          <input type="radio"
-            name="fromLang"
-            value="phonetic"
-            defaultChecked={this.props.options.fromLang === "phonetic"}
-            onChange={this.onFromLangChanged}
-          /> Phonetic
-          <input type="radio"
-            name="fromLang"
-            value="persian"
-            defaultChecked={this.props.options.fromLang === "persian"}
-            onChange={this.onFromLangChanged}
-          /> Persian
+          <label>
+            <input type="radio"
+              name="fromLang"
+              value="english"
+              checked={this.state.fromLang === "english"}
+              onChange={this.onFromLangChanged}
+            />
+            English
+          </label>
+
+          <label>
+            <input type="radio"
+              name="fromLang"
+              value="phonetic"
+              checked={this.state.fromLang === "phonetic"}
+              onChange={this.onFromLangChanged}
+            />
+            Phonetic
+          </label>
+
+          <label>
+            <input type="radio"
+              name="fromLang"
+              value="persian"
+              checked={this.state.fromLang === "persian"}
+              onChange={this.onFromLangChanged}
+            />
+          Persian
+          </label>
+
 
           <br />
-          <input type="radio"
-            name="toLang"
-            value="english"
-            defaultChecked={this.props.options.toLang === "english"}
-            onChange={this.onToLangChanged}
-            /> English
-          <input type="radio"
-            name="toLang"
-            value="phonetic"
-            defaultChecked={this.props.options.toLang === "phonetic"}
-            onChange={this.onToLangChanged}
-            /> Phonetic
-          <input type="radio"
-            name="toLang"
-            value="persian"
-            defaultChecked={this.props.options.toLang === "persian"}
-            onChange={this.onToLangChanged}
-            /> Persian
+
+          <label>
+            <input type="radio"
+              name="toLang"
+              value="english"
+              checked={this.state.toLang === "english"}
+              onChange={this.onToLangChanged}
+            />
+            English
+          </label>
+
+          <label>
+            <input type="radio"
+              name="toLang"
+              value="phonetic"
+              checked={this.state.toLang === "phonetic"}
+              onChange={this.onToLangChanged}
+            />
+            Phonetic
+          </label>
+
+          <label>
+            <input type="radio"
+              name="toLang"
+              value="persian"
+              checked={this.state.toLang === "persian"}
+              onChange={this.onToLangChanged}
+              />
+            Persian
+          </label>
+
 
           <br/>
           <input type="text"
@@ -100,6 +147,8 @@ class QuizOptions extends Component {
 
           <br/>
           <button onClick={this.onSave}>Save</button>
+          <button onClick={this.onRevert}>Revert</button>
+
         </form>
       </div>
     );

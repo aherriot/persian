@@ -89,12 +89,31 @@ export function showQuizOptions() {
   }
 }
 
-export function updateQuizOptions(options) {
+function updateQuizOptions(options) {
   return {
     type: types.UPDATE_QUIZ_OPTIONS,
     payload: {
       options: options
     }
+  }
+}
+
+export function setQuizOptions(newOptions) {
+  return (dispatch, getState) => {
+
+    let currentOptions = getState().quiz.options;
+
+    dispatch(updateQuizOptions(newOptions));
+
+    if(newOptions.filter !== currentOptions.filter) {
+      dispatch(selectWord());
+    }
+  }
+}
+
+export function revertQuizOptions() {
+  return {
+    type: types.REVERT_QUIZ_OPTIONS
   }
 }
 

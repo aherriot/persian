@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import classNames from 'classnames';
 
 import styles from './Words.css';
 
@@ -10,11 +11,17 @@ export default class WordEditForm extends Component {
   onAddWord = (e) => {
     e.preventDefault();
     this.props.addWord({
-      persian: this.persianInput.value,
-      english: this.englishInput.value,
-      phonetic: this.phoneticInput.value,
-      tags: this.tagsInput.value.split(',').map(tag => tag.trim())
+      persian: this.refs.persian.value,
+      english: this.refs.english.value,
+      phonetic: this.refs.phonetic.value,
+      tags: this.refs.tags.value.split(',').map(tag => tag.trim())
     });
+
+    this.refs.persian.value = '';
+    this.refs.english.value = '';
+    this.refs.phonetic.value = '';
+    this.refs.tags.value = '';
+
   }
 
   onSave = (e) => {
@@ -48,25 +55,35 @@ export default class WordEditForm extends Component {
       );
     }
 
+
+    if(this.props.word) {
+      var english = this.props.word.english;
+      var persian = this.props.word.persian;
+      var phonetic = this.props.word.phonetic;
+      var tags = this.props.word.tags.join(',');
+    }
+
+    const fieldClasses = classNames({[styles.col]: this.props.horizontalLayout});
     return (
+
       <div>
-        <div className={styles.row}>
-          <div className={styles['persian-col']}>
-            <input type="text" placeholder="persian" defaultValue={this.props.word.persian} ref="persian"/>
+        <div className={classNames({[styles.row]: this.props.horizontalLayout})}>
+          <div className={classNames({[styles['persian-col']]: this.props.horizontalLayout})}>
+            <input type="text" placeholder="persian" defaultValue={persian} ref="persian"/>
           </div>
-          <div className={styles.col}>
-            <input type="text" placeholder="english" defaultValue={this.props.word.english} ref="english"/>
+          <div className={fieldClasses}>
+            <input type="text" placeholder="english" defaultValue={english} ref="english"/>
           </div>
-          <div className={styles.col}>
-            <input type="text" placeholder="phonetic" defaultValue={this.props.word.phonetic} ref="phonetic"/>
+          <div className={fieldClasses}>
+            <input type="text" placeholder="phonetic" defaultValue={phonetic} ref="phonetic"/>
           </div>
-          <div className={styles.col}>
-            <input type="text" placeholder="tags" defaultValue={this.props.word.tags.join(',')} ref="tags"/>
+          <div className={fieldClasses}>
+            <input type="text" placeholder="tags" defaultValue={tags} ref="tags"/>
           </div>
-          <div className={styles.col}>
+          <div className={fieldClasses}>
 
           </div>
-          <div className={styles.col}>
+          <div className={fieldClasses}>
             {buttons}
           </div>
         </div>

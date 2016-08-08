@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
+
 import WordListItem from './WordListItem';
+import WordEditForm from './WordEditForm';
+
 import constants from '../../constants/constants';
 import styles from './Words.css';
 
@@ -37,16 +40,6 @@ export default class WordList extends Component {
     this.setState({
       sortColumn: col,
       sortDirection: this.state.sortColumn === col ? this.state.sortDirection*-1 : this.state.sortDirection
-    });
-  }
-
-  onAddWord = (e) => {
-    e.preventDefault();
-    this.props.actions.addWord({
-      persian: this.persianInput.value,
-      english: this.englishInput.value,
-      phonetic: this.phoneticInput.value,
-      tags: this.tagsInput.value.split(',').map(tag => tag.trim())
     });
   }
 
@@ -129,26 +122,11 @@ export default class WordList extends Component {
           }()}
         </div>
 
-        <div className={styles.row}>
-          <div className={styles['persian-col']}>
-            <input type="text" placeholder="persian" ref={(n) => this.persianInput = n}/>
-          </div>
-          <div className={styles.col}>
-            <input type="text" placeholder="english" ref={(n) => this.englishInput = n}/>
-          </div>
-          <div className={styles.col}>
-            <input type="text" placeholder="phonetic" ref={(n) => this.phoneticInput = n}/>
-          </div>
-          <div className={styles.col}>
-            <input type="text" placeholder="tags" ref={(n) => this.tagsInput = n}/>
-          </div>
-          <div className={styles.col}>
-          </div>
-          <div className={styles.col}>
-            <button onClick={this.onAddWord}>Add</button>
-          </div>
-        </div>
-
+        <WordEditForm
+          isNew={true}
+          addWord={this.props.actions.addWord}
+          horizontalLayout={true}
+        />
 
       </div>
     );

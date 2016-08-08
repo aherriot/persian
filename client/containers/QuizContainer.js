@@ -10,7 +10,8 @@ import {
   markWrong,
   undoMarkWrong,
   showQuizOptions,
-  updateQuizOptions,
+  setQuizOptions,
+  revertQuizOptions,
   startEditingWord,
   revertEditWord,
   quizEditWord
@@ -35,7 +36,8 @@ function mapDispatchToProps(dispatch) {
       markWrong,
       undoMarkWrong,
       showQuizOptions,
-      updateQuizOptions,
+      setQuizOptions,
+      revertQuizOptions,
       startEditingWord,
       revertEditWord
     }, dispatch)

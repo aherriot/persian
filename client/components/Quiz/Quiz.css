@@ -1,0 +1,22 @@
+.quiz {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fefefe;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 12px, rgba(0, 0, 0, 0.2) 0px 1px 8px
+}
+
+.quizHeader {
+  display: flex;
+  justify-content: flex-end;
+
+  background-color: #4CAF50;
+  padding: 15px 10px;
+}
+
+.quizHeader > div {
+  margin: 0 4px;
+}
+
+.quizBody {
+  padding: 15px;
+}

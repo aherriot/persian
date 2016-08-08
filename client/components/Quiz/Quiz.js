@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 
+import quizStates from '../../constants/quizStates';
+
 import QuizPrompt from './QuizPrompt';
 import QuizResponse from './QuizResponse';
 import QuizResults from './QuizResults';
 import QuizOptions from './QuizOptions';
 import WordEditForm from '../Words/WordEditForm';
 
-export default class Quiz extends Component {
+import * as styles from './Quiz.css';
+
+class Quiz extends Component {
   constructor(props) {
     super(props);
   }
@@ -18,6 +22,7 @@ export default class Quiz extends Component {
       this.props.actions.fetchWords();
     }
   }
+
 
   onSubmitResponse = (response) => {
     this.props.actions.checkWord(response);
@@ -33,93 +38,133 @@ export default class Quiz extends Component {
     this.props.actions.startEditingWord();
   }
 
-  render() {
+  getContent = () => {
 
     const {
+      quizState,
       currentWord,
-      isQuizzing,
-      isCorrect,
       response,
       options,
-      showingOptions,
       isEditingWord
     } = this.props.quiz;
 
     const {
-      updateQuizOptions,
-      startEditingWord,
+      setQuizOptions,
       editWord,
       quizEditWord,
       revertEditWord,
       showQuizOptions,
+      revertQuizOptions,
       selectWord,
       undoMarkWrong
     } = this.props.actions;
 
+
+    switch (quizState) {
+
+      case quizStates.QUIZZING:
+
+        if(currentWord) {
+          return (
+            <div>
+              <QuizPrompt word={currentWord} options={options}/>
+              <QuizResponse onSubmitResponse={this.onSubmitResponse} />
+            </div>
+          )
+        } else {
+          return (<div>No words match filter: {options.filter}</div>)
+        }
+
+
+      case quizStates.CORRECT:
+        return (
+          <div>
+            <p>{currentWord[options.fromLang]}</p>
+
+            <QuizResults
+              selectWord={selectWord}
+              undoMarkWrong={undoMarkWrong}
+              isCorrect={true}
+              response={response}
+              word={currentWord}
+              fromLang={options.fromLang}
+              toLang={options.toLang}
+            />
+          </div>
+        )
+
+      case quizStates.WRONG:
+        return (
+          <div>
+            <p>{currentWord[options.fromLang]}</p>
+
+            <QuizResults
+              selectWord={selectWord}
+              undoMarkWrong={undoMarkWrong}
+              isCorrect={false}
+              response={response}
+              word={currentWord}
+              fromLang={options.fromLang}
+              toLang={options.toLang}
+            />
+          </div>
+        )
+
+      case quizStates.EDITING:
+        return (
+          <WordEditForm
+            isNew={false}
+            word={currentWord}
+            revert={revertEditWord}
+            quizEditWord={quizEditWord}
+            horizontalLayout={false}
+          />
+        )
+
+      case quizStates.OPTIONS:
+        return (
+          <QuizOptions
+            options={options}
+            setQuizOptions={setQuizOptions}
+            revertQuizOptions={revertQuizOptions}
+          />
+        )
+
+      default:
+
+        return (
+          <div>
+            <p>No words match filter: {options.filter}</p>
+          </div>
+        )
+
+    }
+  }
+
+  render() {
+    const {
+      showQuizOptions,
+      startEditingWord
+    } = this.props.actions;
+
     return (
-      <div>
-        <a href="#" onClick={this.showQuizOptions}>Options</a><br />
-        <a href="#" onClick={this.startEditingWord}>Edit Word</a>
-
-
-        {() => {
-          if(showingOptions) {
-            return (
-              <QuizOptions
-                options={options}
-                updateQuizOptions={updateQuizOptions}
-              />
-            );
-
-          } else if(currentWord) {
-
-            if(isEditingWord) {
-              return (
-                <WordEditForm
-                  isNew={false}
-                  word={currentWord}
-                  revert={revertEditWord}
-                  quizEditWord={quizEditWord}/>
-              )
-
-            } else if(isQuizzing) {
-              return (
-                <div>
-                  <QuizPrompt word={currentWord} options={options}/>
-                  <QuizResponse onSubmitResponse={this.onSubmitResponse} />
-                </div>
-              );
-            } else if(response !== null && response !== undefined) {
-              return (
-                <div>
-                  <p>{currentWord[options.fromLang]}</p>
-
-                  <QuizResults
-                    selectWord={selectWord}
-                    undoMarkWrong={undoMarkWrong}
-                    isCorrect={isCorrect}
-                    response={response}
-                    word={currentWord}
-                    fromLang={options.fromLang}
-                    toLang={options.toLang}
-                  />
-                </div>
-              );
-            }
-          } else if(!currentWord){
-            return (
-              <div>
-                <p>No words match filter: {options.filter}</p>
-              </div>
-            );
-          }
-        }()}
-
+      <div className={styles.quiz}>
+        <div className={styles.quizHeader}>
+          <div><a href="#" onClick={this.showQuizOptions}>Options</a></div>
+          <div><a href="#" onClick={this.startEditingWord}>Edit Word</a></div>
+        </div>
+        <div className={styles.quizBody}>
+          {this.getContent()}
+        </div>
       </div>
     );
   }
 }
+
+
 Quiz.propTypes = {
   // quiz: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired
 };
+
+export default Quiz

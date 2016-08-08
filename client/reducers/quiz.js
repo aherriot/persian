@@ -1,14 +1,14 @@
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
-import {getScoreIndex} from '../utils/';
+import quizStates from '../constants/quizStates';
+import {getScoreIndex, selectLeitnerFromSeed, selectRandomFromSeed} from '../utils/';
 
 const defaultState = {
-  showingOptions: false,
-  isQuizzing: false,
-  isCorrect: true,
-  isEditingWord: false,
+  quizState: quizStates.NO_WORDS,
+  nextQuizState: null,
   currentWord: null,
   previousWordId: null,
+
   recentWrongIds: [],
   response: null,
   options: {
@@ -19,109 +19,13 @@ const defaultState = {
   }
 };
 
-function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds, quizOptions) {
-
-  //filter previousWordId from recentWrongIds
-  const filteredRecentWrong = recentWrongIds.filter(wordId => wordId !== previousWordId);
-
-  //select from recentWrongIds
-  const recentWrongThreshold = filteredRecentWrong.length / constants.MAX_RECENT_WRONG_LENGTH;
-  if(seed < recentWrongThreshold) {
-    const newSeed = seed / recentWrongThreshold;
-    const wordId = filteredRecentWrong[Math.floor(newSeed*filteredRecentWrong.length)];
-    return list.find(word => word._id === wordId);
-  } else {
-    // search through word list from lowest score upwards until we find a word.
-
-
-    let bucketIndex = 0;
-    let bucket = [];
-    const scoreIndex = getScoreIndex(quizOptions.fromLang, quizOptions.toLang);
-
-
-    while(bucket.length === 0 && bucketIndex <= constants.MAX_BUCKET) {
-      bucket = list.filter((word) => {
-        //Don't show the same word twice in a row
-        if (previousWordId === word._id) {
-          return false;
-        }
-
-        //if it is in a different bucket
-        if(word.scores[scoreIndex] !== bucketIndex) {
-          return false;
-        }
-
-        // if already in recent wrong list, don't use.
-        if(recentWrongIds.includes(word._id)) {
-          return false;
-        }
-
-        // if the tags do not contain the filter text
-        if(quizOptions.filter.length > 0) {
-          if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
-            return false;
-          }
-        }
-
-        return true;
-      });
-      bucketIndex++;
-    }
-
-    if(bucket.length) {
-      return bucket[Math.floor(seed*bucket.length)];
-    } else {
-      return null; //no word match
-    }
-  }
-}
-
-function selectRandomFromSeed(list, seed, previousWordId, recentWrongIds, quizOptions) {
-
-  //filter previousWordId from recentWrongIds
-  const filteredRecentWrong = recentWrongIds.filter(wordId => wordId !== previousWordId);
-
-  const recentWrongThreshold = filteredRecentWrong.length / constants.MAX_RECENT_WRONG_LENGTH;
-  if(seed < recentWrongThreshold) {
-    const newSeed = seed / recentWrongThreshold;
-    const wordId = filteredRecentWrong[Math.floor(newSeed*filteredRecentWrong.length)];
-    return list.find(word => word._id === wordId);
-  } else {
-    // search through word list from lowest score upwards until we find a word.
-    const filteredList = list.filter((word) => {
-        //Don't show the same word twice in a row
-      if (previousWordId === word._id) {
-        return false;
-      }
-
-      // if already in recent wrong list, don't use.
-      if(recentWrongIds.includes(word._id)) {
-        return false;
-      }
-
-      //If the tags do not contain the filter text
-      if(quizOptions.filter.length > 0) {
-        if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-
-    if(filteredList.length) {
-      return filteredList[Math.floor(seed*filteredList.length)];
-    } else {
-      return null; //no word match
-    }
-  }
-}
-
 export default function quiz(state = defaultState, action, words) {
   switch (action.type) {
 
   case types.SELECT_WORD:
     let word = null;
+
+    // If we have words, select the next word
     if (words.list.length) {
       switch(state.options.selectionAlgorithm) {
       case constants.LEITNER:
@@ -152,9 +56,8 @@ export default function quiz(state = defaultState, action, words) {
     return {
       ...state,
       currentWord: word,
-      isQuizzing: true,
-      isCorrect: null,
-    };
+      quizState: quizStates.QUIZZING,
+    }
 
   case types.SUBMIT_WORD:
 
@@ -165,19 +68,18 @@ export default function quiz(state = defaultState, action, words) {
       });
 
       return {...state,
-        isQuizzing: false,
-        isCorrect: true,
+        quizState: quizStates.CORRECT,
         previousWordId: state.currentWord._id,
         recentWrongIds: recentWrongIds,
         response: action.payload.response
       };
+
     } else {
       let inRecentWrong = (state.recentWrongIds.indexOf(state.currentWord._id) !== -1);
 
       if(inRecentWrong) {
         return {...state,
-          isQuizzing: false,
-          isCorrect: false,
+          quizState: quizStates.WRONG,
           response: action.payload.response,
           previousWordId: state.currentWord._id
         };
@@ -185,8 +87,7 @@ export default function quiz(state = defaultState, action, words) {
         let newRecentWrongs = state.recentWrongIds.slice();
         newRecentWrongs.push(state.currentWord._id);
         return {...state,
-          isQuizzing: false,
-          isCorrect: false,
+          quizState: quizStates.WRONG,
           previousWordId: state.currentWord._id,
           recentWrongIds: newRecentWrongs,
           response: action.payload.response
@@ -198,27 +99,35 @@ export default function quiz(state = defaultState, action, words) {
   case types.SHOW_QUIZ_OPTIONS:
     return {
       ...state,
-      showingOptions: true
+      quizState: quizStates.OPTIONS,
+      nextQuizState: state.quizState === quizStates.OPTIONS || state.quizState === quizStates.EDITING ? state.nextQuizState : state.quizState
     };
 
   case types.UPDATE_QUIZ_OPTIONS:
     return {
       ...state,
-      showingOptions: false,
+      quizState: state.nextQuizState,
       options: {...state.options, ...action.payload.options},
       recentWrongIds: []
+    }
+
+  case types.REVERT_QUIZ_OPTIONS:
+    return {
+      ...state,
+      quizState: state.nextQuizState
     }
 
   case types.START_EDITING_WORD:
     return {
       ...state,
-      isEditingWord: true
+      quizState: quizStates.EDITING,
+      nextQuizState: state.quizState === quizStates.OPTIONS || state.quizState === quizStates.EDITING ? state.nextQuizState : state.quizState
     };
 
   case types.QUIZ_EDIT_WORD:
     return {
       ...state,
-      isEditingWord: false,
+      quizState: state.nextQuizState,
       currentWord: action.payload.word
     };
 
@@ -226,7 +135,7 @@ export default function quiz(state = defaultState, action, words) {
   case types.REVERT_EDIT_WORD:
     return {
       ...state,
-      isEditingWord: false
+      quizState: state.nextQuizState,
     };
 
   default:

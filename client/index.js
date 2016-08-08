@@ -5,14 +5,6 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-let DevTools;
-if (process.env.NODE_ENV === 'production') {
-  DevTools = '';
-} else {
-  DevTools = require('./containers/DevTools');
-  DevTools = <DevTools />;
-}
-
 ReactDOM.render(
   <Provider store={store}>
     <div className="test">
@@ -33,7 +25,6 @@ ReactDOM.render(
           <Route path="*" component={require('./components/NoMatch')}/>
         </Route>
       </Router>
-      {DevTools}
     </div>
   </Provider>,
   document.getElementById('root')

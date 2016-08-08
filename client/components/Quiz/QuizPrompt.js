@@ -11,9 +11,6 @@ export default class QuizPrompt extends Component {
 
     return (
       <div>
-        <div>
-          Filter: {options.filter}
-        </div>
         {word[options.fromLang]}
       </div>
     );

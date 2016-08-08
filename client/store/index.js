@@ -13,7 +13,8 @@ let middleware = [ thunk, reduxRouterMiddleware];
 if (process.env.NODE_ENV === 'production') {
 
   let createStoreWithMiddleware = compose(
-    applyMiddleware(...middleware)
+    applyMiddleware(...middleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   )(createStore);
 
   store = createStoreWithMiddleware(reducers);
@@ -22,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 
   let createStoreWithMiddleware = compose(
     applyMiddleware(...middleware),
-    require('../containers/DevTools').instrument()
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   )(createStore);
 
   store = createStoreWithMiddleware(reducers);

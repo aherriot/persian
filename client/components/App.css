@@ -18,10 +18,6 @@ a:hover {
   text-decoration: underline;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 h1, h2 {
   font-weight: 200;
 }
@@ -29,4 +25,95 @@ h1, h2 {
 .wrapper {
   margin: 0 auto;
   max-width: 900px;
+}
+
+/* pure css */
+
+input[type=text] {
+  font-size: 11px;
+  line-height: 0.7rem;
+  padding: .5em .6em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px #ddd;
+  border-radius: 2px;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+button {
+    /* Structure */
+    display: inline-block;
+    zoom: 1;
+    line-height: normal;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Firefox: Get rid of the inner focus border */
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+button,
+input[type=submit] {
+    font-family: inherit;
+    font-size: 100%;
+    padding: 0.4em 0.5em;
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: #2196F3;
+    text-decoration: none;
+    border-radius: 1px;
+}
+
+button:hover,
+button:focus,
+input[type=submit]:focus,
+input[type=submit]:focus {
+}
+
+button:active,
+input[type=submit]:active {
+    box-shadow: 0 0 0 1px rgba(0,0,0, 0.15) inset, 0 0 6px rgba(0,0,0, 0.20) inset;
+    border-color: #000\9;
+}
+
+button[disabled],
+input[type=submit][disabled] {
+    border: none;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    filter: alpha(opacity=40);
+    -khtml-opacity: 0.40;
+    -moz-opacity: 0.40;
+    opacity: 0.40;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Firefox: Get rid of the inner focus border */
+button::-moz-focus-inner,
+input[type=submit]::-moz-focus-inner{
+    padding: 0;
+    border: 0;
+}
+
+button.primary,input[type=submit].primary {
+    background-color: rgb(0, 120, 231);
+    color: #fff;
 }
