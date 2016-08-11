@@ -13,7 +13,7 @@ const defaultState = {
   response: null,
   options: {
     fromLang: localStorage.getItem('fromLang') || constants.PHONETIC,
-    toLang: localStorage.getItem('toLang') || consstants.ENGLISH,
+    toLang: localStorage.getItem('toLang') || constants.ENGLISH,
     selectionAlgorithm: localStorage.getItem('selectionAlgorithm') || constants.LEITNER,
     filter: localStorage.getItem('filter') || ''
   }
