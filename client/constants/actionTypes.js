@@ -30,7 +30,13 @@ export const EDIT_WORD_SUCCESS = 'EDIT_WORD_SUCCESS';
 export const EDIT_WORD_ERROR = 'EDIT_WORD_ERROR';
 
 export const SELECT_WORD = 'SELECT_WORD';
-export const SUBMIT_WORD = 'SUBMIT_WORD';
+
+export const MARK_CORRECT = 'MARK_CORRECT';
+export const MARK_WRONG = 'MARK_WRONG';
+
+export const MARK_SUCCESS = 'MARK_SUCCESS';
+export const MARK_ERROR = 'MARK_ERROR';
+
 
 export const SHOW_QUIZ_OPTIONS = 'SHOW_QUIZ_OPTIONS';
 export const UPDATE_QUIZ_OPTIONS = 'UPDATE_QUIZ_OPTIONS';

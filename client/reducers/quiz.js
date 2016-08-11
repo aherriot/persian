@@ -59,10 +59,8 @@ export default function quiz(state = defaultState, action, words) {
       quizState: quizStates.QUIZZING,
     }
 
-  case types.SUBMIT_WORD:
+  case types.MARK_CORRECT:
 
-    if(action.payload.isCorrect) {
-      //remove from recent wrong list
       let recentWrongIds = state.recentWrongIds.filter((wordId) => {
         return wordId !== state.currentWord._id;
       });
@@ -74,27 +72,22 @@ export default function quiz(state = defaultState, action, words) {
         response: action.payload.response
       };
 
-    } else {
-      let inRecentWrong = (state.recentWrongIds.indexOf(state.currentWord._id) !== -1);
+  case types.MARK_WRONG:
 
-      if(inRecentWrong) {
-        return {...state,
-          quizState: quizStates.WRONG,
-          response: action.payload.response,
-          previousWordId: state.currentWord._id
-        };
-      } else {
-        let newRecentWrongs = state.recentWrongIds.slice();
-        newRecentWrongs.push(state.currentWord._id);
-        return {...state,
-          quizState: quizStates.WRONG,
-          previousWordId: state.currentWord._id,
-          recentWrongIds: newRecentWrongs,
-          response: action.payload.response
-        };
+      let inRecentWrong = (state.recentWrongIds.indexOf(state.currentWord._id) !== -1);
+      let recentWrongs = state.recentWrongIds;
+
+      if(!inRecentWrong) {
+        recentWrongs = state.recentWrongIds.slice();
+        recentWrongs.push(state.currentWord._id);
       }
 
-    }
+      return {...state,
+        quizState: quizStates.WRONG,
+        previousWordId: state.currentWord._id,
+        recentWrongIds: recentWrongs,
+        response: action.payload.response
+      };
 
   case types.SHOW_QUIZ_OPTIONS:
     return {

@@ -4,7 +4,8 @@ import quizStates from '../../constants/quizStates';
 
 import QuizPrompt from './QuizPrompt';
 import QuizResponse from './QuizResponse';
-import QuizResults from './QuizResults';
+import QuizCorrect from './QuizCorrect';
+import QuizWrong from './QuizWrong';
 import QuizOptions from './QuizOptions';
 import WordEditForm from '../Words/WordEditForm';
 
@@ -81,10 +82,9 @@ class Quiz extends Component {
           <div>
             <p>{currentWord[options.fromLang]}</p>
 
-            <QuizResults
+            <QuizCorrect
               selectWord={selectWord}
-              undoMarkWrong={undoMarkWrong}
-              isCorrect={true}
+              
               response={response}
               word={currentWord}
               fromLang={options.fromLang}
@@ -97,11 +97,10 @@ class Quiz extends Component {
         return (
           <div>
             <p>{currentWord[options.fromLang]}</p>
-
-            <QuizResults
+            <QuizWrong
               selectWord={selectWord}
               undoMarkWrong={undoMarkWrong}
-              isCorrect={false}
+
               response={response}
               word={currentWord}
               fromLang={options.fromLang}

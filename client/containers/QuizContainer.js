@@ -6,8 +6,6 @@ import {fetchWords} from '../actions/words';
 import {
   selectWord,
   checkWord,
-  markCorrect,
-  markWrong,
   undoMarkWrong,
   showQuizOptions,
   setQuizOptions,
@@ -32,8 +30,6 @@ function mapDispatchToProps(dispatch) {
       fetchWords,
       selectWord,
       checkWord,
-      markCorrect,
-      markWrong,
       undoMarkWrong,
       showQuizOptions,
       setQuizOptions,

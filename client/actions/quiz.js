@@ -13,13 +13,39 @@ export function selectWord() {
   };
 }
 
-function submitWord(response, isCorrect) {
+function markCorrect(response) {
   return {
-    type: types.SUBMIT_WORD,
+    type: types.MARK_CORRECT,
     payload: {
-      response: response,
-      isCorrect: isCorrect
+      response: response
     }
+  }
+
+}
+
+function markWrong(response) {
+  return {
+    type: types.MARK_WRONG,
+    payload: {
+      response: response
+    }
+  }
+}
+
+function markSuccess(word) {
+  return {
+    type: types.MARK_SUCCESS,
+    payload: {
+      word: word
+    }
+  }
+
+}
+
+function markError(error) {
+  return {
+    type: types.MARK_ERROR,
+    error: error
   }
 }
 
@@ -28,55 +54,48 @@ export function checkWord(response) {
   return (dispatch, getState) => {
 
     const quiz = getState().quiz;
-
     const currentWord = quiz.currentWord;
-
     const isCorrect = quizEqual(response, currentWord[quiz.options.toLang]);
-
-    dispatch(submitWord(response, isCorrect));
-
     const scoreIndex = getScoreIndex(quiz.options.fromLang, quiz.options.toLang);
 
     if(isCorrect) {
-      dispatch(markCorrect(currentWord, scoreIndex));
+      dispatch(markCorrect(response));
+
+      const score = Math.min(currentWord.scores[scoreIndex] + 1, constants.MAX_BUCKET);
+      httpPut('/api/words/' + currentWord._id + '/score', {index: scoreIndex, score: score})
+        .then(word =>
+          dispatch(markSuccess(word))
+        )
+        .catch(err =>
+          dispatch(markError(err))
+        );
+
+
     } else {
-      dispatch(markWrong(currentWord, scoreIndex));
+      dispatch(markWrong(response));
+      const score = constants.MIN_BUCKET;
+
+      httpPut('/api/words/' + currentWord._id + '/score', {index: scoreIndex, score: score})
+        .then(word => {
+          dispatch(markSuccess(word));
+        })
+        .catch(err => {
+          dispatch(markError(err));
+        });
     }
   }
-}
-
-export function markCorrect(word, scoreIndex) {
-
-  const wordUpdate = {scores: word.scores.slice()};
-  wordUpdate.scores[scoreIndex] = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
-  return (dispatch, getState) => {
-    httpPut('/api/words/' + word._id, {word: wordUpdate})
-      .then(data => {
-        dispatch(editWordSuccess(data));
-      })
-      .catch(err => dispatch(editWordError(err)));
-  };
-}
-
-export function markWrong(word, scoreIndex) {
-  const wordUpdate = {scores: word.scores.slice()};
-  wordUpdate.scores[scoreIndex] = constants.MIN_BUCKET;
-  return (dispatch, getState) => {
-    httpPut('/api/words/' + word._id, {word: wordUpdate})
-      .then(data => {
-        dispatch(editWordSuccess(data));
-      })
-      .catch(err => dispatch(editWordError(err)));
-  };
 }
 
 export function undoMarkWrong() {
   return (dispatch, getState) => {
 
-    const word = getState().quiz.currentWord;
-    httpPut('/api/words/' + word._id, {word: {scores: word.scores}})
-      .then(data => {
-        dispatch(editWordSuccess(data));
+    const {currentWord: word, options} = getState().quiz;
+    const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
+    const newScore = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
+
+    httpPut('/api/words/' + word._id + '/score', {index: scoreIndex, score: newScore})
+      .then(word => {
+        dispatch(markSuccess(word));
         dispatch(selectWord());
       })
       .catch(err => dispatch(editWordError(err)));
