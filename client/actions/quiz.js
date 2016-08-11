@@ -109,6 +109,12 @@ export function showQuizOptions() {
 }
 
 function updateQuizOptions(options) {
+
+  localStorage.setItem('fromLang', options.fromLang);
+  localStorage.setItem('toLang', options.toLang);
+  localStorage.setItem('selectionAlgorithm', options.selectionAlgorithm);
+  localStorage.setItem('filter', options.filter);
+  
   return {
     type: types.UPDATE_QUIZ_OPTIONS,
     payload: {

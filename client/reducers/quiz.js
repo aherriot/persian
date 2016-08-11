@@ -12,10 +12,10 @@ const defaultState = {
   recentWrongIds: [],
   response: null,
   options: {
-    fromLang: 'phonetic',
-    toLang: 'english',
-    selectionAlgorithm: constants.LEITNER,
-    filter: ''
+    fromLang: localStorage.getItem('fromLang') || constants.PHONETIC,
+    toLang: localStorage.getItem('toLang') || consstants.ENGLISH,
+    selectionAlgorithm: localStorage.getItem('selectionAlgorithm') || constants.LEITNER,
+    filter: localStorage.getItem('filter') || ''
   }
 };
 
