@@ -44,20 +44,23 @@ export default class WordList extends Component {
   }
 
   filterWords = (words, filterText) => {
+
+    filterText = filterText.toLowerCase();
+    
     return words.filter(word => {
       if (filterText.length === 0)
         return true;
 
-      if (word.english.indexOf(filterText) >= 0)
+      if (word.english.toLowerCase().indexOf(filterText) >= 0)
         return true;
 
-      if (word.persian.indexOf(filterText) >= 0)
+      if (word.persian.toLowerCase().indexOf(filterText) >= 0)
         return true;
 
-      if (word.phonetic.indexOf(filterText) >= 0)
+      if (word.phonetic.toLowerCase().indexOf(filterText) >= 0)
         return true;
 
-      if(word.tags.some(tag => tag.indexOf(filterText) >= 0))
+      if(word.tags.some(tag => tag.toLowerCase().indexOf(filterText) >= 0))
         return true;
 
       return false;
