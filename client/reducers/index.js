@@ -11,7 +11,7 @@ const rootReducer = (state = {}, action) => {
     routing: routeReducer(state.routing, action),
     auth: auth(state.auth, action),
     words: words(state.words, action),
-    quiz: quiz(state.quiz, action, state.words)
+    quiz: quiz(state.quiz, action)
   };
 }
 

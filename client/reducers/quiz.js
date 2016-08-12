@@ -19,18 +19,18 @@ const defaultState = {
   }
 };
 
-export default function quiz(state = defaultState, action, words) {
+export default function quiz(state = defaultState, action) {
   switch (action.type) {
 
   case types.SELECT_WORD:
     let word = null;
 
     // If we have words, select the next word
-    if (words.list.length) {
+    if (action.payload.words.length) {
       switch(state.options.selectionAlgorithm) {
       case constants.LEITNER:
         word = selectLeitnerFromSeed(
-          words.list,
+          action.payload.words,
           action.payload.seed,
           state.previousWordId,
           state.recentWrongIds,
@@ -40,7 +40,7 @@ export default function quiz(state = defaultState, action, words) {
 
       case constants.RANDOM:
         word = selectRandomFromSeed(
-          words.list,
+          action.payload.words,
           action.payload.seed,
           state.previousWordId,
           state.recentWrongIds,

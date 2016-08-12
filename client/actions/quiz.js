@@ -5,12 +5,16 @@ import constants from '../constants/constants';
 import {editWord, editWordPending, editWordSuccess, editWordError} from './words';
 
 export function selectWord() {
-  return {
-    type: types.SELECT_WORD,
-    payload: {
-      seed: Math.random()
-    }
-  };
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.SELECT_WORD,
+      payload: {
+        seed: Math.random(),
+        words: getState().words.list
+      }
+    });
+  }
+
 }
 
 function markCorrect(response) {
@@ -92,13 +96,14 @@ export function undoMarkWrong() {
     const {currentWord: word, options} = getState().quiz;
     const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
     const newScore = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
+    dispatch(markCorrect(''));
 
     httpPut('/api/words/' + word._id + '/score', {index: scoreIndex, score: newScore})
       .then(word => {
         dispatch(markSuccess(word));
         dispatch(selectWord());
       })
-      .catch(err => dispatch(editWordError(err)));
+      .catch(err => dispatch(markError(err)));
   }
 }
 
@@ -114,7 +119,7 @@ function updateQuizOptions(options) {
   localStorage.setItem('toLang', options.toLang);
   localStorage.setItem('selectionAlgorithm', options.selectionAlgorithm);
   localStorage.setItem('filter', options.filter);
-  
+
   return {
     type: types.UPDATE_QUIZ_OPTIONS,
     payload: {
