@@ -128,10 +128,18 @@ export function thirdSide(fromLang, toLang) {
 const stripRegex = /(\(.*?\)|[!\.\?,'";\-\s]+)/gi;
 
 export function quizEqual(word1, word2) {
-  word1 = word1.replace(stripRegex, '').toLowerCase();
-  word2 = word2.replace(stripRegex, '').toLowerCase();
-  return word1 === word2;
-  // return word1.toLowerCase() === word2.toLowerCase();
+
+  const words1 = word1.split('/');
+  const words2 = word2.split('/');
+
+  return words1.some(word1 => {
+    word1 = word1.replace(stripRegex, '').toLowerCase();
+    return words2.some(word2 => {
+      word2 = word2.replace(stripRegex, '').toLowerCase();
+      return (word1 === word2);
+    });
+
+  });
 }
 
 export function pick(o, ...fields) {
