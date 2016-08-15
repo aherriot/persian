@@ -6,7 +6,7 @@ export default {
   LEITNER: 'LEITNER',
   RANDOM: 'RANDOM',
   NEWEST: 'NEWEST',
-  OLDEST: 'OLDEST',
+  LEAST_RECENT: 'LEAST_RECENT',
 
   //enum for properties of each word.
   ENGLISH: 'english',

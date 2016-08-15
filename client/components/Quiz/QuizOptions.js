@@ -140,8 +140,9 @@ class QuizOptions extends Component {
             placeholder="Filter by Tags" />
           <br/>
 
-          <select onChange={this.onAlgorithmChanged}>
+          <select onChange={this.onAlgorithmChanged} value={this.state.selectionAlgorithm}>
             <option value={constants.LEITNER}>Least Known</option>
+            <option value={constants.LEAST_RECENT}>Least Recent</option>
             <option value={constants.RANDOM}>Random</option>
           </select>
 

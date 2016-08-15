@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
 import quizStates from '../constants/quizStates';
-import {getScoreIndex, selectLeitnerFromSeed, selectRandomFromSeed} from '../utils/';
+import {getScoreIndex, selectLeitner, selectLeastRecent, selectRandom} from '../utils/';
 
 const defaultState = {
   quizState: quizStates.NO_WORDS,
@@ -29,7 +29,7 @@ export default function quiz(state = defaultState, action) {
     if (action.payload.words.length) {
       switch(state.options.selectionAlgorithm) {
       case constants.LEITNER:
-        word = selectLeitnerFromSeed(
+        word = selectLeitner(
           action.payload.words,
           action.payload.seed,
           state.previousWordId,
@@ -39,7 +39,7 @@ export default function quiz(state = defaultState, action) {
         break;
 
       case constants.RANDOM:
-        word = selectRandomFromSeed(
+        word = selectRandom(
           action.payload.words,
           action.payload.seed,
           state.previousWordId,
@@ -47,6 +47,17 @@ export default function quiz(state = defaultState, action) {
           state.options
         );
         break;
+
+      case constants.LEAST_RECENT:
+        word = selectLeastRecent(
+          action.payload.words,
+          action.payload.seed,
+          state.previousWordId,
+          state.recentWrongIds,
+          state.options
+        );
+        break;
+
 
       default:
         throw new Exception("Unknown quiz algorithm: "  + state.options.selectionAlgorithm);
