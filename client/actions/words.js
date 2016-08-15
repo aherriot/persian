@@ -1,7 +1,7 @@
-import {routeActions} from 'redux-simple-router';
+import {push} from 'react-router-redux';
 
 import * as types from '../constants/actionTypes';
-import {httpGet, httpPut, httpPost, httpDelete} from '../utils';
+import {request} from '../utils';
 
 import {selectWord} from './quiz';
 
@@ -16,8 +16,7 @@ function fetchWordsSuccess(words) {
   return {
     type: types.FETCH_WORDS_SUCCESS,
     payload: {
-      words: words,
-      error: {}
+      words: words
     }
   };
 }
@@ -34,7 +33,7 @@ function fetchWordsError(error) {
 export function fetchWords() {
   return (dispatch) => {
     dispatch(fetchWordsPending());
-    httpGet('/api/words')
+    request('/api/words')
       .then(data => {
         dispatch(fetchWordsSuccess(data));
         dispatch(selectWord());
@@ -78,7 +77,7 @@ export function addWord(word) {
   return (dispatch) => {
     dispatch(addWordPending());
 
-    httpPost('/api/words', word)
+    request('/api/words', 'POST', word)
       .then(data => dispatch(addWordSuccess(data)))
       .catch(err => dispatch(addWordError(err)));
   };
@@ -114,10 +113,10 @@ export function bulkAddWords(words) {
   return (dispatch) => {
     dispatch(bulkAddWordsPending());
 
-    httpPost('/api/words', words)
+    request('/api/words', 'POST', words)
       .then(data => {
         dispatch(bulkAddWordsSuccess(data));
-        dispatch(routeActions.push('/words'))
+        dispatch(push('/words'))
       })
       .catch(err => dispatch(bulkAddWordsError(err)));
   };
@@ -155,30 +154,31 @@ export function deleteWord(word) {
   return (dispatch) => {
     dispatch(deleteWordPending(word));
 
-    httpDelete('/api/words/' + word._id)
+    request('/api/words/' + word._id, 'DELETE')
       .then(data => dispatch(deleteWordSuccess(data)))
       .catch(err => dispatch(deleteWordError(err)));
   };
 }
 
-export function editWordPending() {
+function editWordPending() {
   return {
     type: types.EDIT_WORD_PENDING
   };
 }
 
-export function editWordSuccess(word) {
+function editWordSuccess(word) {
   return {
     type: types.EDIT_WORD_SUCCESS,
-    payload: {word: word}
+    payload: {
+      word: word
+    }
   };
 }
 
-export function editWordError(word, error) {
+function editWordError(error) {
   return {
-    type: types.EDIT_WORDS_ERROR,
+    type: types.EDIT_WORD_ERROR,
     payload: {
-      word: word,
       error: error
     }
   };
@@ -187,11 +187,13 @@ export function editWordError(word, error) {
 export function editWord(word) {
   return (dispatch) => {
     dispatch(editWordPending(word));
-    httpPut('/api/words/' + word._id, {word: word})
-      .then(data => dispatch(
-        editWordSuccess(data)
-      ))
-      .catch(err => dispatch(editWordError(err)));
+    request('/api/words/' + word._id, 'PUT', {word: word})
+      .then(word =>
+        dispatch(editWordSuccess(word))
+      )
+      .catch(err =>
+        dispatch(editWordError(err))
+      );
 
   };
 }

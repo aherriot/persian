@@ -1,22 +1,22 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {fetchWords} from '../actions/words';
-import Export from '../components/Words/Export';
+import {login, logout} from '../actions/auth';
+import Header from '../components/Header';
 
 function mapStateToProps(state) {
   return {
-    words: state.words
+    auth: state.auth
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({fetchWords}, dispatch)
+    actions: bindActionCreators({login, logout}, dispatch)
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Export);
+)(Header);

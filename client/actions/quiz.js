@@ -1,4 +1,4 @@
-import {httpPut, quizEqual, getScoreIndex} from '../utils';
+import {request, quizEqual, getScoreIndex} from '../utils';
 
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
@@ -66,7 +66,9 @@ export function checkWord(response) {
       dispatch(markCorrect(response));
 
       const score = Math.min(currentWord.scores[scoreIndex] + 1, constants.MAX_BUCKET);
-      httpPut('/api/words/' + currentWord._id + '/score', {index: scoreIndex, score: score})
+      request('/api/words/' + currentWord._id + '/score', 'PUT',
+        {index: scoreIndex, score: score}
+      )
         .then(word =>
           dispatch(markSuccess(word))
         )
@@ -79,7 +81,9 @@ export function checkWord(response) {
       dispatch(markWrong(response));
       const score = constants.MIN_BUCKET;
 
-      httpPut('/api/words/' + currentWord._id + '/score', {index: scoreIndex, score: score})
+      request('/api/words/' + currentWord._id + '/score', 'PUT',
+        {index: scoreIndex, score: score}
+      )
         .then(word => {
           dispatch(markSuccess(word));
         })
@@ -98,7 +102,9 @@ export function undoMarkWrong() {
     const newScore = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
     dispatch(markCorrect(''));
 
-    httpPut('/api/words/' + word._id + '/score', {index: scoreIndex, score: newScore})
+    request('/api/words/' + word._id + '/score',  'PUT',
+      {index: scoreIndex, score: newScore}
+    )
       .then(word => {
         dispatch(markSuccess(word));
         dispatch(selectWord());

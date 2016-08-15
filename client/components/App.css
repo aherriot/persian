@@ -29,7 +29,7 @@ h1, h2 {
 
 /* pure css */
 
-input[type=text] {
+input[type=text], input[type=password] {
   font-size: 11px;
   line-height: 0.7rem;
   padding: .5em .6em;

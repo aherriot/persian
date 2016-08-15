@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var jwt = require('jsonwebtoken');
+var Word = require('./models/Word');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -8,30 +10,55 @@ db.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connect('mongodb://localhost/persian');
 // db.words.find().forEach(function(word) {word.quizzedAt = null; db.words.save(word); });
 
-var wordSchema = new mongoose.Schema({
-  english:  {type: String, required: true},
-  persian: {type: String, required: true},
-  phonetic: {type: String, required: true},
-  tags: {type: [String], required: true},
-  scores: {type: [Number], default: [0,0,0,0,0,0]},
-  createdAt: {type: Date, default: Date.now},
-  updatedAt: {type: Date, default: Date.now},
-  quizzedAt: {type: Date},
-  // correctCount: {type: Number, default: 0},
-  // wrongCount: {type: Number, default: 0},
-});
-
-var Word = mongoose.model('Word', wordSchema);
-
-// function validateWord(word) {
-//   if(word.english) {
-//     if(word.english )
-//   }
-// }
-
 var api = express.Router();
 
 api.use(bodyParser.json());
+
+var secret = 'hard-to-guess-secret-key';
+
+function authentication(req, res, next) {
+
+  var token = req.headers['authorization'];
+  if(token) {
+    token = token.replace('Bearer ', '');
+
+    // verifies secret and checks exp
+    jwt.verify(token, secret, function(err, decoded) {
+      if (err) {
+        if(err.name === 'TokenExpiredError') {
+          return res.status(401).json({name: err.name, message: err.message });
+        } else {
+          return res.status(401).json({name: err.name, message: err.message });
+        }
+      } else {
+
+        req.authenticated = true;
+        next();
+      }
+    });
+
+  } else {
+    req.authenticated = false;
+    next();
+  }
+}
+
+api.post('/login', function(req, res) {
+
+  if(!req.body.password) {
+    return res.status(400).json({error: 'Password missing from body'});
+  } else if(!req.body.username) {
+    return res.status(400).json({error: 'Username missing from body'});
+  } else if(req.body.password === 'test') {
+
+      var token = jwt.sign({authenticated: true}, secret, {
+        expiresIn: 86400
+      });
+
+      return res.json({token: token});
+  }
+  return res.status(401).json({error: 'Authentication failed. Wrong password.' });
+});
 
 api.get('/words', function(req, res) {
   Word.find({}, function(err, words) {
@@ -54,7 +81,7 @@ api.get('/words/:word_id', function(req, res) {
 
 });
 
-api.post('/words', function(req, res) {
+api.post('/words', authentication, function(req, res) {
 
   if(Array.isArray(req.body)) {
 
@@ -81,7 +108,7 @@ api.post('/words', function(req, res) {
 
 });
 
-api.put('/words/:word_id/score', function(req, res) {
+api.put('/words/:word_id/score', authentication, function(req, res) {
 
   if(!Number.isInteger(req.body.index) || !Number.isInteger(req.body.score)) {
     return res.status(400).json({error: 'Required index and score to be integers'});
@@ -116,7 +143,7 @@ api.put('/words/:word_id/score', function(req, res) {
   });
 });
 
-api.put('/words/:word_id', function(req, res) {
+api.put('/words/:word_id', authentication, function(req, res) {
 
   var editedWord = {
     updatedAt: Date.now()
@@ -156,7 +183,7 @@ api.put('/words/:word_id', function(req, res) {
   });
 });
 
-api.delete('/words/:word_id', function(req, res) {
+api.delete('/words/:word_id', authentication, function(req, res) {
 
   Word.findByIdAndRemove(req.params.word_id, function(err, word){
     if(err) {

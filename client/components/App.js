@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
+import HeaderContainer from '../containers/HeaderContainer';
 import styles from './App.css';
 
 export default class App extends Component {
@@ -9,11 +9,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <h1>Persian Flashcards</h1>
-        <p>
-          <Link to="/words">Words</Link>{' '}
-          <Link to="/quiz">Quiz</Link>
-        </p>
+        <HeaderContainer />
         {this.props.children}
       </div>
     );

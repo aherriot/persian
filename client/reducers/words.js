@@ -81,7 +81,18 @@ export default function wordsReducer(state = defaultState, action) {
     });
     return {...state, list: newWords, loading: false};
   case types.EDIT_WORD_ERROR:
-    return {...state, error: {message: action.error}, loading: false};
+    if(action.payload.error.response.status === 401) {
+      return {...state,
+        error: {message: 'Unauthorized'},
+        loading: false
+      };
+    } else {
+      return {...state,
+        error: {message: action.payload.error},
+        loading: false
+      };
+    }
+
   case types.DELETE_WORD_PENDING:
     newWords = state.list.filter((word) => word._id !== action.payload.word._id);
     return {...state, list: newWords, loading: true};

@@ -1,34 +1,51 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import {browserHistory} from 'react-router';
-import {syncHistory} from 'redux-simple-router';
+import { routerMiddleware } from 'react-router-redux';
+import rootReducer from '../reducers';
 
-import reducers from '../reducers';
 
-const reduxRouterMiddleware = syncHistory(browserHistory);
+export default function configureStore(history) {
 
-let store;
-let middleware = [ thunk, reduxRouterMiddleware];
-
-if (process.env.NODE_ENV === 'production') {
-
-  let createStoreWithMiddleware = compose(
-    applyMiddleware(...middleware),
+  const enhancer = compose(
+    applyMiddleware(thunk, routerMiddleware(history)),
     window.devToolsExtension ? window.devToolsExtension() : f => f
-  )(createStore);
+  );
 
-  store = createStoreWithMiddleware(reducers);
+  const store = createStore(rootReducer, undefined, enhancer);
 
-} else {
+  if (module.hot) {
+    module.hot.accept('../reducers', () =>
+      store.replaceReducer(require('../reducers').default)
+    );
+  }
 
-  let createStoreWithMiddleware = compose(
-    applyMiddleware(...middleware),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
-  )(createStore);
-
-  store = createStoreWithMiddleware(reducers);
-
-  reduxRouterMiddleware.listenForReplays(store);
+  return store;
 }
 
-export default store;
+
+//
+// let store;
+// let middleware = [ thunk, reduxRouterMiddleware];
+//
+// if (process.env.NODE_ENV === 'production') {
+//
+//   let createStoreWithMiddleware = compose(
+//     applyMiddleware(...middleware),
+//     window.devToolsExtension ? window.devToolsExtension() : f => f
+//   )(createStore);
+//
+//   store = createStoreWithMiddleware(reducers);
+//
+// } else {
+//
+//   let createStoreWithMiddleware = compose(
+//     applyMiddleware(...middleware),
+//     window.devToolsExtension ? window.devToolsExtension() : f => f
+//   )(createStore);
+//
+//   store = createStoreWithMiddleware(reducers);
+//
+//   reduxRouterMiddleware.listenForReplays(store);
+// }
+//
+// export default store;

@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
+import configureStore from './store';
 
-import store from './store';
+const store = configureStore(browserHistory);
+const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
     <div className="test">
-      <Router history={browserHistory}>
+      <Router history={history}>
         <Route path="/" component={require('./components/App')}>
           <IndexRoute component={require('./containers/WordListContainer')} />
           <Route path="/login" component={require('./containers/LoginContainer')} />

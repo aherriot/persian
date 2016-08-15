@@ -1,20 +1,20 @@
 import constants from '../constants/constants';
 
-const defaultHeaders = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-};
+function getHeaders() {
+  const token = localStorage.getItem('token');
 
-function buildHeaders() {
-  const authToken = localStorage.getItem('authToken');
-
-  return { ...defaultHeaders, Authorization: authToken };
+  return {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+     Authorization: token ? 'Bearer ' + token : undefined
+   };
 }
 
 export function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
+    //AuthenticationError
     var error = new Error(response.statusText);
     error.response = response;
     throw error;
@@ -25,79 +25,15 @@ export function parseJSON(response) {
   return response.json();
 }
 
-export function httpGet(url) {
+export function request(url, method = 'GET', data) {
 
   return fetch(url, {
-    headers: buildHeaders(),
-  })
-  .then(checkStatus)
-  .then(parseJSON)
-  .catch(err => {
-    if(err.response) {
-      err.response.json()
-      .then(errorJSON => {throw new Error(errorJSON)});
-    } else {
-      throw new Error(err.toString());
-    }
-  })
-}
-
-export function httpPut(url, data) {
-
-  return fetch(url, {
-    method: 'PUT',
-    headers: buildHeaders(),
+    method: method,
+    headers: getHeaders(),
     body: JSON.stringify(data)
   })
   .then(checkStatus)
   .then(parseJSON)
-  .catch(err => {
-    if(err.response) {
-      err.response.json()
-      .then(errorJSON => {throw new Error(errorJSON)});
-    } else {
-      throw new Error(err.toString());
-    }
-  })
-}
-
-
-export function httpPost(url, data) {
-
-  return fetch(url, {
-    method: 'POST',
-    headers: buildHeaders(),
-    body:JSON.stringify(data)
-  })
-  .then(checkStatus)
-  .then(parseJSON)
-  .catch(err => {
-    if(err.response) {
-      err.response.json()
-      .then(errorJSON => {throw new Error(errorJSON)});
-    } else {
-      throw new Error(err.toString());
-    }
-  })
-}
-
-export function httpDelete(url) {
-  const authToken = localStorage.getItem('phoenixAuthToken');
-
-  return fetch(url, {
-    method: 'DELETE',
-    headers: buildHeaders()
-  })
-  .then(checkStatus)
-  .then(parseJSON)
-  .catch(err => {
-    if(err.response) {
-      err.response.json()
-      .then(errorJSON => {throw new Error(errorJSON)});
-    } else {
-      throw new Error(err.toString());
-    }
-  })
 }
 
 export function thirdSide(fromLang, toLang) {
@@ -164,7 +100,6 @@ export function selectLeitnerFromSeed(list, seed, previousWordId, recentWrongIds
     return list.find(word => word._id === wordId);
   } else {
     // search through word list from lowest score upwards until we find a word.
-
 
     let bucketIndex = 0;
     let bucket = [];

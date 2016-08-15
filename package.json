@@ -1,6 +1,6 @@
 {
   "name": "persian",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "server.js",
   "repository": {
@@ -15,7 +15,7 @@
   "author": "Andrew Herriot",
   "license": "MIT",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/aherriot/persian/issues"
   },
   "homepage": "http://persian.aherriot.com",
   "scripts": {
@@ -28,13 +28,14 @@
     "body-parser": "^1.14.2",
     "classnames": "^2.2.3",
     "express": "^4.13.3",
+    "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.4.7",
     "react": "15.3.0",
     "react-dom": "15.3.0",
     "react-redux": "^4.0.5",
     "react-router": "^2.6.1",
-    "redux": "^3.0.5",
-    "redux-simple-router": "^2.0.3",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.5.2",
     "redux-thunk": "^1.0.3",
     "reselect": "^2.0.2"
   },
