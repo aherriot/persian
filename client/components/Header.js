@@ -16,6 +16,11 @@ export default class Header extends Component {
     this.setState({promptForLogin: true});
   }
 
+  onLogout = (e) => {
+    e.preventDefault();
+    this.props.actions.logout();
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
     this.props.actions.login(this.refs.username.value, this.refs.password.value);
@@ -25,7 +30,7 @@ export default class Header extends Component {
 
     if(this.props.auth.username) {
       return (
-        <span>{this.props.auth.username}</span>
+        <span>{this.props.auth.username} {' '} <a href="#" onClick={this.onLogout}>Logout</a></span>
       )
     } else if(this.state.promptForLogin) {
       return (
@@ -50,9 +55,9 @@ export default class Header extends Component {
       <div>
         <h1>Persian Flashcards</h1>
 
-        <Link to="/words">Words</Link>
-        <Link to="/quiz">Quiz</Link>
-
+        <Link to="/words">Words</Link>{' '}
+        <Link to="/quiz">Quiz</Link>{' '}
+        {' '}
         {this.getAuthSection()}
       </div>
     )
