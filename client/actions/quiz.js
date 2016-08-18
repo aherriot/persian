@@ -145,13 +145,13 @@ export function undoMarkWrong() {
     const newScore = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
 
     dispatch(markCorrectPending());
+    dispatch(selectWord());
 
     request('/api/words/' + word._id + '/score',  'PUT',
       {index: scoreIndex, score: newScore}
     )
       .then(word => {
         dispatch(markCorrectSuccess(word));
-        dispatch(selectWord());
       })
       .catch(err => dispatch(markError(err)));
   }
