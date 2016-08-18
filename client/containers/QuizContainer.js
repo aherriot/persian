@@ -5,7 +5,10 @@ import Quiz from '../components/Quiz/Quiz';
 import {fetchWords} from '../actions/words';
 import {
   selectWord,
+  selfEvaluate,
   checkWord,
+  markCorrect,
+  markWrong,
   undoMarkWrong,
   showQuizOptions,
   setQuizOptions,
@@ -29,7 +32,10 @@ function mapDispatchToProps(dispatch) {
       quizEditWord,
       fetchWords,
       selectWord,
+      selfEvaluate,
       checkWord,
+      markCorrect,
+      markWrong,
       undoMarkWrong,
       showQuizOptions,
       setQuizOptions,

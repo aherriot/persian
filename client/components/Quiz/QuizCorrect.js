@@ -30,7 +30,7 @@ class QuizCorrect extends Component {
         <span className="">({this.props.word[thirdSide(this.props.fromLang, this.props.toLang)]})</span>
 
         <div>
-          <a href="#" ref="nextLink" onClick={this.onSelectNextWord}>Next</a>
+          <button href="#" ref="nextLink" onClick={this.onSelectNextWord}>Next</button>
         </div>
       </div>
     );
@@ -39,7 +39,6 @@ class QuizCorrect extends Component {
 };
 
 QuizCorrect.propTypes = {
-  response: React.PropTypes.string.isRequired,
   word: React.PropTypes.object.isRequired,
   fromLang: React.PropTypes.string.isRequired,
   toLang: React.PropTypes.string.isRequired

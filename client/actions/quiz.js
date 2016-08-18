@@ -2,6 +2,7 @@ import {request, quizEqual, getScoreIndex} from '../utils';
 
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';
+import quizStates from '../constants/quizStates';
 import {editWord, editWordPending, editWordSuccess, editWordError} from './words';
 
 export function selectWord() {
@@ -14,41 +15,107 @@ export function selectWord() {
       }
     });
   }
-
 }
 
-function markCorrect(response) {
+export function selfEvaluate() {
   return {
-    type: types.MARK_CORRECT,
-    payload: {
-      response: response
+    type: types.SELF_EVAL
+  }
+}
+
+export function markCorrect(currentWord) {
+  return (dispatch, getState) => {
+    const quiz = getState().quiz;
+    const scoreIndex = getScoreIndex(quiz.options.fromLang, quiz.options.toLang);
+    const score = Math.min(currentWord.scores[scoreIndex] + 1, constants.MAX_BUCKET);
+
+    dispatch(markCorrectPending());
+    if(quiz.quizState === quizStates.SELF_EVAL) {
+      dispatch(selectWord());
     }
+
+    request('/api/words/' + currentWord._id + '/score', 'PUT',
+      {index: scoreIndex, score: score}
+    )
+    .then(word =>
+      dispatch(markCorrectSuccess(word))
+    )
+    .catch(err =>
+      dispatch(markCorrectError(err))
+    );
   }
 
 }
 
-function markWrong(response) {
+function markCorrectPending() {
   return {
-    type: types.MARK_WRONG,
-    payload: {
-      response: response
-    }
+    type: types.MARK_CORRECT_PENDING,
   }
 }
 
-function markSuccess(word) {
+function markCorrectSuccess(word) {
   return {
-    type: types.MARK_SUCCESS,
+    type: types.MARK_CORRECT_SUCCESS,
     payload: {
       word: word
     }
   }
-
 }
 
-function markError(error) {
+function markCorrectError(error) {
   return {
-    type: types.MARK_ERROR,
+    type: types.MARK_CORRECT_ERROR,
+    error: error
+  }
+}
+
+export function markWrong(response, currentWord) {
+  return (dispatch, getState) => {
+
+    const quiz = getState().quiz;
+    const score = constants.MIN_BUCKET;
+    const scoreIndex = getScoreIndex(quiz.options.fromLang, quiz.options.toLang);
+
+    dispatch(markWrongPending(response));
+    if(quiz.quizState === quizStates.SELF_EVAL) {
+      dispatch(selectWord());
+    }
+
+    request('/api/words/' + currentWord._id + '/score', 'PUT',
+      {index: scoreIndex, score: score}
+    )
+      .then(word => {
+        dispatch(markWrongSuccess(word));
+      })
+      .catch(err => {
+        dispatch(markWrongError(err));
+      });
+  }
+}
+
+
+function markWrongPending(response) {
+  return {
+    type: types.MARK_WRONG_PENDING,
+    payload: {
+      response: response,
+    }
+  }
+}
+
+function markWrongSuccess(word) {
+  return {
+    type: types.MARK_WRONG_SUCCESS,
+    payload: {
+      word: word
+    }
+  }
+}
+
+
+function markWrongError(error) {
+  return {
+    type: types.MARK_WRONG_ERROR,
     error: error
   }
 }
@@ -60,36 +127,12 @@ export function checkWord(response) {
     const quiz = getState().quiz;
     const currentWord = quiz.currentWord;
     const isCorrect = quizEqual(response, currentWord[quiz.options.toLang]);
-    const scoreIndex = getScoreIndex(quiz.options.fromLang, quiz.options.toLang);
 
     if(isCorrect) {
-      dispatch(markCorrect(response));
-
-      const score = Math.min(currentWord.scores[scoreIndex] + 1, constants.MAX_BUCKET);
-      request('/api/words/' + currentWord._id + '/score', 'PUT',
-        {index: scoreIndex, score: score}
-      )
-        .then(word =>
-          dispatch(markSuccess(word))
-        )
-        .catch(err =>
-          dispatch(markError(err))
-        );
-
+      dispatch(markCorrect(currentWord));
 
     } else {
-      dispatch(markWrong(response));
-      const score = constants.MIN_BUCKET;
-
-      request('/api/words/' + currentWord._id + '/score', 'PUT',
-        {index: scoreIndex, score: score}
-      )
-        .then(word => {
-          dispatch(markSuccess(word));
-        })
-        .catch(err => {
-          dispatch(markError(err));
-        });
+      dispatch(markWrong(response, currentWord));
     }
   }
 }
@@ -100,13 +143,14 @@ export function undoMarkWrong() {
     const {currentWord: word, options} = getState().quiz;
     const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
     const newScore = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
-    dispatch(markCorrect(''));
+
+    dispatch(markCorrectPending());
 
     request('/api/words/' + word._id + '/score',  'PUT',
       {index: scoreIndex, score: newScore}
     )
       .then(word => {
-        dispatch(markSuccess(word));
+        dispatch(markCorrectSuccess(word));
         dispatch(selectWord());
       })
       .catch(err => dispatch(markError(err)));
@@ -125,6 +169,7 @@ function updateQuizOptions(options) {
   localStorage.setItem('toLang', options.toLang);
   localStorage.setItem('selectionAlgorithm', options.selectionAlgorithm);
   localStorage.setItem('filter', options.filter);
+  localStorage.setItem('typeResponse', options.typeResponse);
 
   return {
     type: types.UPDATE_QUIZ_OPTIONS,
@@ -170,8 +215,6 @@ export function quizEditWord(word) {
     });
   }
 }
-
-
 
 export function revertEditWord() {
   return {

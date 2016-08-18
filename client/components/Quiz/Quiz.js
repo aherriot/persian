@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import quizStates from '../../constants/quizStates';
 
 import QuizPrompt from './QuizPrompt';
-import QuizResponse from './QuizResponse';
+import SelfEvaluationResponse from './SelfEvaluationResponse';
 import QuizCorrect from './QuizCorrect';
 import QuizWrong from './QuizWrong';
 import QuizOptions from './QuizOptions';
@@ -22,11 +22,6 @@ class Quiz extends Component {
     } else {
       this.props.actions.fetchWords();
     }
-  }
-
-
-  onSubmitResponse = (response) => {
-    this.props.actions.checkWord(response);
   }
 
   showQuizOptions = (event) => {
@@ -57,6 +52,10 @@ class Quiz extends Component {
       showQuizOptions,
       revertQuizOptions,
       selectWord,
+      selfEvaluate,
+      checkWord,
+      markCorrect,
+      markWrong,
       undoMarkWrong
     } = this.props.actions;
 
@@ -67,14 +66,27 @@ class Quiz extends Component {
 
         if(currentWord) {
           return (
-            <div>
-              <QuizPrompt word={currentWord} options={options}/>
-              <QuizResponse onSubmitResponse={this.onSubmitResponse} />
-            </div>
+            <QuizPrompt
+              word={currentWord}
+              options={options}
+              checkWord={checkWord}
+              selfEvaluate={selfEvaluate}
+            />
           )
         } else {
           return (<div>No words match filter: {options.filter}</div>)
         }
+
+      case quizStates.SELF_EVAL:
+
+        return (
+          <SelfEvaluationResponse
+            word={currentWord}
+            options={options}
+            markCorrect={markCorrect}
+            markWrong={markWrong}
+          />
+        )
 
 
       case quizStates.CORRECT:
@@ -84,7 +96,6 @@ class Quiz extends Component {
 
             <QuizCorrect
               selectWord={selectWord}
-              
               response={response}
               word={currentWord}
               fromLang={options.fromLang}
@@ -100,11 +111,11 @@ class Quiz extends Component {
             <QuizWrong
               selectWord={selectWord}
               undoMarkWrong={undoMarkWrong}
-
               response={response}
               word={currentWord}
               fromLang={options.fromLang}
               toLang={options.toLang}
+              typeResponse={options.typeResponse}
             />
           </div>
         )

@@ -3,6 +3,15 @@ import constants from '../constants/constants';
 import quizStates from '../constants/quizStates';
 import {getScoreIndex, selectLeitner, selectLeastRecent, selectRandom} from '../utils/';
 
+
+//determine if "typeResponse" is true, false, or not defined in localStorage
+let typeResponse = localStorage.getItem('typeResponse');
+if(typeResponse) {
+  typeResponse = (typeResponse === 'true');
+} else {
+  typeResponse = true;
+}
+
 const defaultState = {
   quizState: quizStates.NO_WORDS,
   nextQuizState: null,
@@ -15,7 +24,8 @@ const defaultState = {
     fromLang: localStorage.getItem('fromLang') || constants.PHONETIC,
     toLang: localStorage.getItem('toLang') || constants.ENGLISH,
     selectionAlgorithm: localStorage.getItem('selectionAlgorithm') || constants.LEITNER,
-    filter: localStorage.getItem('filter') || ''
+    filter: localStorage.getItem('filter') || '',
+    typeResponse: typeResponse
   }
 };
 
@@ -70,35 +80,39 @@ export default function quiz(state = defaultState, action) {
       quizState: quizStates.QUIZZING,
     }
 
-  case types.MARK_CORRECT:
+  case types.SELF_EVAL:
+    return {...state,
+      quizState: quizStates.SELF_EVAL
+    };
 
-      let recentWrongIds = state.recentWrongIds.filter((wordId) => {
-        return wordId !== state.currentWord._id;
-      });
+  case types.MARK_CORRECT_PENDING:
 
-      return {...state,
-        quizState: quizStates.CORRECT,
-        previousWordId: state.currentWord._id,
-        recentWrongIds: recentWrongIds,
-        response: action.payload.response
-      };
+    let recentWrongIds = state.recentWrongIds.filter((wordId) => {
+      return wordId !== state.currentWord._id;
+    });
 
-  case types.MARK_WRONG:
+    return {...state,
+      quizState: quiz.quizState === quizStates.SELF_EVAL ? quizStates.SELF_EVAL : quizStates.CORRECT,
+      previousWordId: state.currentWord._id,
+      recentWrongIds: recentWrongIds
+    };
 
-      let inRecentWrong = (state.recentWrongIds.indexOf(state.currentWord._id) !== -1);
-      let recentWrongs = state.recentWrongIds;
+  case types.MARK_WRONG_PENDING:
 
-      if(!inRecentWrong) {
-        recentWrongs = state.recentWrongIds.slice();
-        recentWrongs.push(state.currentWord._id);
-      }
+    let inRecentWrong = (state.recentWrongIds.indexOf(state.currentWord._id) !== -1);
+    let recentWrongs = state.recentWrongIds;
 
-      return {...state,
-        quizState: quizStates.WRONG,
-        previousWordId: state.currentWord._id,
-        recentWrongIds: recentWrongs,
-        response: action.payload.response
-      };
+    if(!inRecentWrong) {
+      recentWrongs = state.recentWrongIds.slice();
+      recentWrongs.push(state.currentWord._id);
+    }
+
+    return {...state,
+      quizState: quiz.quizState === quizStates.SELF_EVAL ? quizStates.SELF_EVAL : quizStates.WRONG,
+      previousWordId: state.currentWord._id,
+      recentWrongIds: recentWrongs,
+      response: action.payload.response
+    };
 
   case types.SHOW_QUIZ_OPTIONS:
     return {

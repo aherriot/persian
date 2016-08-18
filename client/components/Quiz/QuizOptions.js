@@ -10,7 +10,8 @@ class QuizOptions extends Component {
       fromLang: this.props.options.fromLang,
       toLang: this.props.options.toLang,
       filter: this.props.options.filter,
-      selectionAlgorithm: this.props.options.selectionAlgorithm
+      selectionAlgorithm: this.props.options.selectionAlgorithm,
+      typeResponse: this.props.options.typeResponse
     }
   }
 
@@ -51,6 +52,12 @@ class QuizOptions extends Component {
   onAlgorithmChanged = (e) => {
     this.setState({
       selectionAlgorithm: e.target.value
+    });
+  }
+
+  onTypeResponseChanged = (e) => {
+    this.setState({
+      typeResponse: e.target.checked
     });
   }
 
@@ -140,11 +147,21 @@ class QuizOptions extends Component {
             placeholder="Filter by Tags" />
           <br/>
 
-          <select onChange={this.onAlgorithmChanged} value={this.state.selectionAlgorithm}>
+          <label htmlFor="algorithmChangeSelect">Word Selection Algorithm</label>
+          <select id="algorithmChangeSelect" onChange={this.onAlgorithmChanged} value={this.state.selectionAlgorithm}>
             <option value={constants.LEITNER}>Least Known</option>
             <option value={constants.LEAST_RECENT}>Least Recent</option>
             <option value={constants.RANDOM}>Random</option>
           </select>
+
+          <br/>
+          <input
+            type="checkbox"
+            id="typeResponseCheckbox"
+            checked={this.state.typeResponse}
+            onChange={this.onTypeResponseChanged}>
+          </input>
+          <label htmlFor="typeResponseCheckbox">Type Response</label>
 
           <br/>
           <button onClick={this.onSave}>Save</button>

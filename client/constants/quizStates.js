@@ -3,6 +3,7 @@ export default {
   OPTIONS: 'OPTIONS', // Show quiz options
   EDITING: 'EDITING', // Editing word
   QUIZZING: 'QUIZZING', // Asking if user knows word
+  SELF_EVAL: 'SELF_EVAL', // self evaluating the word
   CORRECT: 'CORRECT', // Correct user response
   WRONG: 'WRONG' // Incorrect user response
 }
