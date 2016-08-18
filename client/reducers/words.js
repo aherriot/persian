@@ -71,7 +71,8 @@ export default function wordsReducer(state = defaultState, action) {
   case types.EDIT_WORD_PENDING:
     return {...state, loading: true};
   case types.EDIT_WORD_SUCCESS:
-  case types.MARK_SUCCESS:
+  case types.MARK_CORRECT_SUCCESS:
+  case types.MARK_WRONG_SUCCESS:
     let newWords = state.list.map((word) => {
       if (action.payload.word._id === word._id) {
         return {...word, ...action.payload.word};
