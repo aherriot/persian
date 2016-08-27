@@ -37,9 +37,7 @@ class TextResponse extends Component {
     }
   }
 
-  onSubmit = (e) => {
-    console.log('submit');
-    
+  onSubmit = (e) => {    
     if(e) {
       e.preventDefault();
     }

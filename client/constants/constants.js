@@ -27,4 +27,9 @@ export default {
   DESCENDING: -1,
   ORIGINAL_ORDER: 2,
 
+  INIT: 'INIT',
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR'
+
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import quizStates from '../../constants/quizStates';
+import * as constants from '../../constants/constants';
 
 import QuizPrompt from './QuizPrompt';
 import SelfEvaluationResponse from './SelfEvaluationResponse';
@@ -17,10 +18,20 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    if (this.props.words.hasLoaded) {
-      this.props.actions.selectWord();
-    } else {
+    if(this.props.words.status === constants.INIT) {
       this.props.actions.fetchWords();
+    }
+
+    if(this.props.words.status === constants.SUCCESS) {
+      this.props.actions.selectWord();
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if(!this.props.quiz.currentWord) {
+      if(this.props.words.status !== constants.SUCCESS && newProps.words.status === constants.SUCCESS) {
+        this.props.actions.selectWord();
+      }
     }
   }
 

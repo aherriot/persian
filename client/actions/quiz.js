@@ -30,6 +30,7 @@ export function markCorrect(currentWord) {
     const score = Math.min(currentWord.scores[scoreIndex] + 1, constants.MAX_BUCKET);
 
     dispatch(markCorrectPending());
+
     if(quiz.quizState === quizStates.SELF_EVAL) {
       dispatch(selectWord());
     }
@@ -40,9 +41,10 @@ export function markCorrect(currentWord) {
     .then(word =>
       dispatch(markCorrectSuccess(word))
     )
-    .catch(err =>
+    .catch(err => {
+      console.log('dispatch markCorrectError');
       dispatch(markCorrectError(err))
-    );
+    });
   }
 
 }

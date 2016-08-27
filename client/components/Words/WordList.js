@@ -46,7 +46,7 @@ export default class WordList extends Component {
   filterWords = (words, filterText) => {
 
     filterText = filterText.toLowerCase();
-    
+
     return words.filter(word => {
       if (filterText.length === 0)
         return true;
@@ -111,8 +111,8 @@ export default class WordList extends Component {
           </div>
 
           {() => {
-            if (this.props.words.loading) {
-              return <p>Loading</p>;
+            if (this.props.words.status === constants.PENDING) {
+              return <h1>Loading...</h1>;
             } else {
 
               let words = this.filterWords(this.props.words.list, this.state.filterText);

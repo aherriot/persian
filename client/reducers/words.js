@@ -1,4 +1,6 @@
 import * as types from '../constants/actionTypes';
+import * as constants from '../constants/constants';
+
 
 function editReducer(state, action) {
   switch (action.status) {
@@ -18,8 +20,7 @@ function deleteReducer(state, action) {
 }
 
 const defaultState = {
-  loading: false,
-  hasLoaded: false,
+  status: constants.INIT,
   list: [],
   error: {}
 };
@@ -30,35 +31,34 @@ export default function wordsReducer(state = defaultState, action) {
     return {
       ...state,
       list: [],
-      loading: true,
-      hasLoaded: false
+      status: constants.PENDING
     };
   case types.FETCH_WORDS_SUCCESS:
     return {
       ...state,
       list: action.payload.words,
-      loading: false,
-      hasLoaded: true
+      status: constants.SUCCESS
     };
   case types.FETCH_WORDS_ERROR:
     return {
       ...state,
       error: action.payload.error,
-      loading: false,
-      hasLoaded: false
+      status: constants.ERROR
     };
   case types.ADD_WORD_PENDING:
-    return {...state, loading: true};
+    return {...state,
+      status: constants.PENDING
+    };
   case types.ADD_WORD_SUCCESS:
     return {
       ...state,
       list: [...state.list, action.payload.word],
-      loading: false
+      status: constants.SUCCESS
     };
   case types.ADD_WORD_ERROR:
     return {
       ...state,
-      loading: false,
+      status: constants.ERROR,
       error: {message: 'Failed to delete word'}
     };
 
@@ -66,10 +66,14 @@ export default function wordsReducer(state = defaultState, action) {
 
     return {
       ...state,
-      list: [...state.list, ...action.payload.words]
+      list: [...state.list, ...action.payload.words],
+      status: constants.SUCCESS
     };
   case types.EDIT_WORD_PENDING:
-    return {...state, loading: true};
+    return {
+      ...state,
+      status: constants.SUCCESS
+    };
   case types.EDIT_WORD_SUCCESS:
   case types.MARK_CORRECT_SUCCESS:
   case types.MARK_WRONG_SUCCESS:
@@ -80,27 +84,38 @@ export default function wordsReducer(state = defaultState, action) {
         return word;
       }
     });
-    return {...state, list: newWords, loading: false};
+    return {...state,
+      list: newWords,
+      status: constants.SUCCESS
+    };
   case types.EDIT_WORD_ERROR:
     if(action.payload.error.response.status === 401) {
       return {...state,
         error: {message: 'Unauthorized'},
-        loading: false
+        status: constants.ERROR
       };
     } else {
       return {...state,
         error: {message: action.payload.error},
-        loading: false
+        status: constants.ERROR
       };
     }
 
   case types.DELETE_WORD_PENDING:
     newWords = state.list.filter((word) => word._id !== action.payload.word._id);
-    return {...state, list: newWords, loading: true};
+    return {...state,
+      list: newWords,
+      status: constants.SUCCESS
+    };
   case types.DELETE_WORD_SUCCESS:
-    return {...state, loading: false};
+    return {...state,
+      status: constants.SUCCESS
+    };
   case types.DELETE_WORD_ERROR:
-    return {...state, error: {message: action.error}, loading: false};
+    return {...state,
+      error: {message: action.error},
+      status: constants.ERROR
+    };
   default:
     return state;
   }

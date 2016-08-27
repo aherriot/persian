@@ -14,10 +14,19 @@ export function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
-    //AuthenticationError
-    var error = new Error(response.statusText);
-    error.response = response;
-    throw error;
+
+    response.json()
+      .then(resp => {
+        console.log('err message', resp);
+      })
+      .catch(err => {
+        console.error('unknown error', err);
+      })
+
+
+    // debugger;
+    // var error = new Error(response);
+    // throw error;
   }
 }
 
@@ -227,4 +236,17 @@ export function selectLeastRecent(list, seed, previousWordId, recentWrongIds, qu
     return leastRecentWord;
   }
 
+}
+
+export function enumFromArray(array) {
+  if(!Array.isArray(array)) {
+    console.error('enumFromArray expected argument to be an array.');
+  }
+
+  let obj;
+  array.forEach(elem =>{
+    obj[elem] = elem;
+  })
+
+  return obj;
 }

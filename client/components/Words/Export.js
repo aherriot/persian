@@ -4,7 +4,7 @@ class Export extends Component {
   constructor(props) {
     super(props);
 
-    if(!this.props.words.hasLoaded) {
+    if(this.props.words.status !== constants.SUCCESS) {
       this.props.actions.fetchWords();
     }
 

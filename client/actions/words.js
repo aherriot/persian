@@ -36,7 +36,7 @@ export function fetchWords() {
     request('/api/words')
       .then(data => {
         dispatch(fetchWordsSuccess(data));
-        dispatch(selectWord());
+        // dispatch(selectWord());
       })
       .catch(err => {
         dispatch(fetchWordsError(err));
