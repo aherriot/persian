@@ -1,6 +1,7 @@
 import {push} from 'react-router-redux';
 
 import * as types from '../constants/actionTypes';
+import * as constants from '../constants/constants';
 import {request} from '../utils';
 
 import {selectWord} from './quiz';
@@ -31,16 +32,20 @@ function fetchWordsError(error) {
 }
 
 export function fetchWords() {
-  return (dispatch) => {
-    dispatch(fetchWordsPending());
-    request('/api/words')
+  return (dispatch, getState) => {
+
+    let status = getState().words.status;
+    if(status !== constants.PENDING) {
+      dispatch(fetchWordsPending());
+      request('/api/words')
       .then(data => {
         dispatch(fetchWordsSuccess(data));
-        // dispatch(selectWord());
       })
       .catch(err => {
         dispatch(fetchWordsError(err));
       });
+    }
+
   };
 }
 
