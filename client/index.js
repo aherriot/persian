@@ -17,9 +17,12 @@ ReactDOM.render(
           <Route path="/login" component={require('./containers/LoginContainer')} />
           <Route path="/createAccount" component={require('./containers/CreateAccountContainer')} />
 
-          <Route path="/words" component={require('./containers/WordListContainer')} />
-          <Route path="/words/import" component={require('./containers/ImportContainer')} />
-          <Route path="/words/export" component={require('./containers/ExportContainer')} />
+          <Route path="/words" component={require('./components/Words/Words')}>
+            <IndexRoute component={require('./containers/WordListContainer')} />
+            <Route path="import" component={require('./containers/ImportContainer')} />
+            <Route path="export" component={require('./containers/ExportContainer')} />
+          </Route>
+
 
           <Route path="/quiz" component={require('./containers/QuizContainer')} />
           <Route path="/quiz/options" component={require('./containers/QuizContainer')} />

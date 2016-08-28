@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import classnames from 'classnames';
 
 import quizStates from '../../constants/quizStates';
 import * as constants from '../../constants/constants';
@@ -163,16 +164,43 @@ class Quiz extends Component {
   }
 
   render() {
+
+    const {
+      quizState,
+      options
+    } = this.props.quiz;
+
     const {
       showQuizOptions,
       startEditingWord
     } = this.props.actions;
 
+
     return (
       <div className={styles.quiz}>
         <div className={styles.quizHeader}>
-          <div><a href="#" onClick={this.showQuizOptions}>Options</a></div>
-          <div><a href="#" onClick={this.startEditingWord}>Edit Word</a></div>
+          <div className={styles.titleSection}>
+            Quiz: {options.filter ? options.filter : 'All'}
+          </div>
+          <div className={styles.actionSection}>
+            <a
+              className={classnames(
+                [styles.actionLink],
+                {[styles.activeActionLink]: quizState === quizStates.OPTIONS}
+              )}
+              href="#" onClick={this.showQuizOptions}>
+              Options
+            </a>
+
+            <a
+              className={classnames(
+                [styles.actionLink],
+                {[styles.activeActionLink]: quizState === quizStates.EDITING}
+              )}
+              href="#" onClick={this.startEditingWord}>
+              Edit Word
+            </a>
+          </div>
         </div>
         <div className={styles.quizBody}>
           {this.getContent()}

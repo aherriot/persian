@@ -40,7 +40,7 @@ export function login(username, password) {
     return function(dispatch) {
         dispatch(loginPending());
 
-        return request('/api/login', 'POST',{
+        return request('/api/login', 'POST', {
           username: username,
           password: password
         })

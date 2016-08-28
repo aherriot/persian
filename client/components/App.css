@@ -2,6 +2,8 @@ body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   color: black;
+  padding: 0px;
+  margin: 0px;
 }
 
 a {
@@ -26,6 +28,12 @@ h1, h2 {
   margin: 0 auto;
   max-width: 900px;
 }
+
+
+.content {
+  margin-top: 60px;
+}
+
 
 /* pure css */
 

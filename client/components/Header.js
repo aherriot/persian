@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router';
 
+import styles from './Header.css';
+
 export default class Header extends Component {
 
   constructor() {
@@ -30,34 +32,49 @@ export default class Header extends Component {
 
     if(this.props.auth.username) {
       return (
-        <span>{this.props.auth.username} {' '} <a href="#" onClick={this.onLogout}>Logout</a></span>
+        <div className={styles.authSection}>
+
+          {this.props.auth.username} {' '}
+          <a href="#" onClick={this.onLogout}>Logout</a>
+        </div>
       )
     } else if(this.state.promptForLogin) {
       return (
-        <span>
+        <div className={styles.authSection}>
           <form onSubmit={this.onSubmit}>
             <input type="text" ref="username" placeholder="username"/>
             <input type="password" ref="password" placeholder="password"/>
             <input type="submit" value="Login"/>
           </form>
-        </span>
+        </div>
       )
     } else {
       return (
-        <span>
+        <div className={styles.authSection}>
           <a href="#" onClick={this.onLogin}>Login</a>
-        </span>
+        </div>
       )
     }
   }
   render() {
     return (
-      <div>
-        <h1>Persian Flashcards</h1>
+      <div className={styles.container}>
+        <div className={styles.title}>Persian Flashcards</div>
 
-        <Link to="/words">Words</Link>{' '}
-        <Link to="/quiz">Quiz</Link>{' '}
-        {' '}
+        <div className={styles.linkSection}>
+
+          <Link to="/words"
+            className={styles.link}
+            activeClassName={styles.activeLink}>
+            Words
+          </Link>
+          <Link to="/quiz"
+            className={styles.link}
+            activeClassName={styles.activeLink}>
+            Quiz
+          </Link>
+        </div>
+
         {this.getAuthSection()}
       </div>
     )

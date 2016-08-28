@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
 
 import WordListItem from './WordListItem';
 import WordEditForm from './WordEditForm';
@@ -17,7 +16,6 @@ export default class WordList extends Component {
       sortColumn: constants.ENGLISH,
       sortDirection: constants.ASCENDING,
     }
-
   }
 
   componentWillMount() {
@@ -94,12 +92,7 @@ export default class WordList extends Component {
 
     return (
       <div>
-        <h2>Word List</h2>
         <div>{this.props.words.error.message}</div>
-        <div>
-          <Link to="/words/import">Import</Link>{' '}
-          <Link to="/words/export">Export</Link>
-        </div>
         <div>
           <input type="text" placeholder="filter" onChange={this.onFilterChanged}/>
           <div className={styles.row} data="test">
@@ -108,6 +101,7 @@ export default class WordList extends Component {
             <div className={styles.col} onClick={this.onHeaderClicked} data="phonetic">Phonetic</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="tags">Tags</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="scores">Scores</div>
+            <div className={styles.col}></div>
           </div>
 
           {() => {

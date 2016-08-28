@@ -30,7 +30,7 @@ export default class WordListItem extends Component {
   }
 
   onDelete = (e) => {
-    if(confirm('Are you sure you want to delete this word?')) {
+    if(confirm('Are you sure you want to delete the word: ' + JSON.stringify(this.props.word, null, ' '))) {
       this.props.deleteWord(this.props.word);
     }
   }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 import styles from './Words.css';
 
@@ -55,7 +55,6 @@ export default class WordEditForm extends Component {
       );
     }
 
-
     if(this.props.word) {
       var english = this.props.word.english;
       var persian = this.props.word.persian;
@@ -63,12 +62,12 @@ export default class WordEditForm extends Component {
       var tags = this.props.word.tags.join(',');
     }
 
-    const fieldClasses = classNames({[styles.col]: this.props.horizontalLayout});
+    const fieldClasses = classnames({[styles.col]: this.props.horizontalLayout});
     return (
 
       <div>
-        <div className={classNames({[styles.row]: this.props.horizontalLayout})}>
-          <div className={classNames({[styles['persian-col']]: this.props.horizontalLayout})}>
+        <div className={classnames({[styles.row]: this.props.horizontalLayout})}>
+          <div className={classnames({[styles['persian-col']]: this.props.horizontalLayout})}>
             <input type="text" placeholder="persian" defaultValue={persian} ref="persian"/>
           </div>
           <div className={fieldClasses}>

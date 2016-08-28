@@ -6,7 +6,8 @@ import Header from '../components/Header';
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth
+    auth: state.auth,
+    routing: state.routing
   };
 }
 
