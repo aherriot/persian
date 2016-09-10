@@ -11,7 +11,8 @@ class QuizOptions extends Component {
       toLang: this.props.options.toLang,
       filter: this.props.options.filter,
       selectionAlgorithm: this.props.options.selectionAlgorithm,
-      typeResponse: this.props.options.typeResponse
+      typeResponse: this.props.options.typeResponse,
+      currentBucket: this.props.currentBucket
     }
   }
 
@@ -55,6 +56,12 @@ class QuizOptions extends Component {
     });
   }
 
+  onCurrentBucketChanged = (e) => {
+    this.setState({
+      currentBucket: Number(e.target.value)
+    })
+  }
+
   onTypeResponseChanged = (e) => {
     this.setState({
       typeResponse: e.target.checked
@@ -63,7 +70,7 @@ class QuizOptions extends Component {
 
   onSave = (e) => {
     e.preventDefault();
-    this.props.setQuizOptions(this.state);
+    this.props.setQuizOptions(this.state, this.state.currentBucket);
   }
 
   onRevert = (e) => {
@@ -72,6 +79,12 @@ class QuizOptions extends Component {
   }
 
   render() {
+
+    let bucketNumbers = [];
+    for(let i = 0; i < constants.MAX_BUCKET + 1; i++) {
+      bucketNumbers.push(i);
+    }
+
     return (
       <div>
         <h2>Quiz Options</h2>
@@ -162,6 +175,14 @@ class QuizOptions extends Component {
             onChange={this.onTypeResponseChanged}>
           </input>
           <label htmlFor="typeResponseCheckbox">Type Response</label>
+
+          <br/>
+          <label htmlFor="currentBucketSelect">Current Bucket</label>
+          <select id="currentBucketSelect" onChange={this.onCurrentBucketChanged} value={this.state.currentBucket}>
+            {bucketNumbers.map(i =>
+              <option key={i} value={i}>{i}</option>
+            )}
+          </select>
 
           <br/>
           <button onClick={this.onSave}>Save</button>

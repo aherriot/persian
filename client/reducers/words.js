@@ -21,7 +21,7 @@ function deleteReducer(state, action) {
 
 const defaultState = {
   status: constants.INIT,
-  list: [],
+  byIds: {},
   error: {}
 };
 
@@ -30,13 +30,19 @@ export default function wordsReducer(state = defaultState, action) {
   case types.FETCH_WORDS_PENDING:
     return {
       ...state,
-      list: [],
+      byIds: {},
       status: constants.PENDING
     };
   case types.FETCH_WORDS_SUCCESS:
+
+    const byIds = action.payload.words.reduce((acc, word, index) => {
+      acc[word._id] = word;
+      return acc;
+    }, {});
+
     return {
       ...state,
-      list: action.payload.words,
+      byIds: byIds,
       status: constants.SUCCESS
     };
   case types.FETCH_WORDS_ERROR:
@@ -50,9 +56,11 @@ export default function wordsReducer(state = defaultState, action) {
       status: constants.PENDING
     };
   case types.ADD_WORD_SUCCESS:
+
+    let newWord = action.payload.word;
     return {
       ...state,
-      list: [...state.list, action.payload.word],
+      byIds: {...state.byIds, [newWord._id]: newWord},
       status: constants.SUCCESS
     };
   case types.ADD_WORD_ERROR:
@@ -64,9 +72,14 @@ export default function wordsReducer(state = defaultState, action) {
 
   case types.BULK_ADD_WORDS_SUCCESS:
 
+    const newByIds = action.payload.words.reduce((acc, word, index) => {
+      acc[word._id] = word;
+      return acc;
+    }, {});
+
     return {
       ...state,
-      list: [...state.list, ...action.payload.words],
+      byIds: {...state.byIds, ...newByIds},
       status: constants.SUCCESS
     };
   case types.EDIT_WORD_PENDING:
@@ -74,18 +87,25 @@ export default function wordsReducer(state = defaultState, action) {
       ...state,
       status: constants.SUCCESS
     };
+
+  case types.MARK_CORRECT_PENDING:
+  case types.MARK_WRONG_PENDING:
+
+    //TODO update the word bucket in here, so selection algorithm picks the right word immediately
+    // otherwise, word list has wrong score for word until server responds after editing word.
+    return {
+      ...state
+    }
+
+
   case types.EDIT_WORD_SUCCESS:
   case types.MARK_CORRECT_SUCCESS:
   case types.MARK_WRONG_SUCCESS:
-    let newWords = state.list.map((word) => {
-      if (action.payload.word._id === word._id) {
-        return {...word, ...action.payload.word};
-      } else {
-        return word;
-      }
-    });
+
+
+    const editedWord = action.payload.word;
     return {...state,
-      list: newWords,
+      byIds: {...state.byIds, [editedWord._id]: editedWord},
       status: constants.SUCCESS
     };
   case types.EDIT_WORD_ERROR:
@@ -102,9 +122,11 @@ export default function wordsReducer(state = defaultState, action) {
     }
 
   case types.DELETE_WORD_PENDING:
-    newWords = state.list.filter((word) => word._id !== action.payload.word._id);
+    const newWords = {...state.byIds};
+    delete newWords[action.payload.word._id];
+
     return {...state,
-      list: newWords,
+      byIds: newWords,
       status: constants.SUCCESS
     };
   case types.DELETE_WORD_SUCCESS:

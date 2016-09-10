@@ -23,7 +23,7 @@ export default class WordList extends Component {
     //   this.props.router.push('/login');
     // }
 
-    if (this.props.words.list.length === 0) {
+    if (this.props.words.status === constants.INIT) {
       this.props.actions.fetchWords();
     }
   }
@@ -109,7 +109,11 @@ export default class WordList extends Component {
               return <h1>Loading...</h1>;
             } else {
 
-              let words = this.filterWords(this.props.words.list, this.state.filterText);
+              let words = Object.keys(this.props.words.byIds).map(wordId => {
+                return this.props.words.byIds[wordId];
+              })
+
+              words = this.filterWords(words, this.state.filterText);
               words = this.sortWords(words, this.state.sortColumn, this.state.sortDirection);
 
               return words.map(word => {

@@ -6,7 +6,7 @@ class Export extends Component {
   constructor(props) {
     super(props);
 
-    if(this.props.words.status !== constants.SUCCESS) {
+    if(this.props.words.status === constants.INIT) {
       this.props.actions.fetchWords();
     }
 
@@ -42,7 +42,10 @@ class Export extends Component {
 
   render() {
     const filter = this.state.filter;
-    const filteredWords = this.props.words.list.filter(word => {
+    let words = Object.keys(this.props.words.byIds).map(
+      wordId => this.props.words.byIds[wordId]
+    );
+    words = words.filter(word => {
       if(filter.length === 0)
         return true;
 
@@ -87,7 +90,7 @@ class Export extends Component {
         <label htmlFor="json-radio">JSON</label>
 
         <br/>
-        <textarea cols="100" rows="20" value={this.format(filteredWords)} readOnly="true"/>
+        <textarea cols="100" rows="20" value={this.format(words)} readOnly="true"/>
       </div>
     );
   }

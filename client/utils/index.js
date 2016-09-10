@@ -95,146 +95,95 @@ export function getScoreIndex(fromLang, toLang) {
   return constants[fromLang + '_' + toLang];
 }
 
+export function filterWords(words, options, currentBucket) {
+
+  const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
+
+  const filteredWords =  Object.keys(words).filter(wordId => {
+
+    let word = words[wordId]
+
+    if(options.selectionAlgorithm === constants.LEITNER) {
+      if(word.scores[scoreIndex] !== currentBucket) {
+        return false;
+      }
+    }
+
+    // if the tags do not contain the filter text
+    if(options.filter.length > 0) {
+      if(word.tags.every(tag => !tag.includes(options.filter))) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  return filteredWords;
+}
 
 export function selectLeitner(list, seed, previousWordId, recentWrongIds, quizOptions) {
 
-  //filter previousWordId from recentWrongIds
-  const filteredRecentWrong = recentWrongIds.filter(wordId => wordId !== previousWordId);
+  // search through word list from lowest score upwards until we find a word.
 
-  //select from recentWrongIds
-  const recentWrongThreshold = filteredRecentWrong.length / constants.MAX_RECENT_WRONG_LENGTH;
-  if(seed < recentWrongThreshold) {
-    const newSeed = seed / recentWrongThreshold;
-    const wordId = filteredRecentWrong[Math.floor(newSeed*filteredRecentWrong.length)];
-    return list.find(word => word._id === wordId);
+  if(list.length) {
+    return list[Math.floor(seed*list.length)];
   } else {
-    // search through word list from lowest score upwards until we find a word.
-
-    let bucketIndex = 0;
-    let bucket = [];
-    const scoreIndex = getScoreIndex(quizOptions.fromLang, quizOptions.toLang);
-
-
-    while(bucket.length === 0 && bucketIndex <= constants.MAX_BUCKET) {
-      bucket = list.filter((word) => {
-        //Don't show the same word twice in a row
-        if (previousWordId === word._id) {
-          return false;
-        }
-
-        //if it is in a different bucket
-        if(word.scores[scoreIndex] !== bucketIndex) {
-          return false;
-        }
-
-        // if already in recent wrong list, don't use.
-        if(recentWrongIds.includes(word._id)) {
-          return false;
-        }
-
-        // if the tags do not contain the filter text
-        if(quizOptions.filter.length > 0) {
-          if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
-            return false;
-          }
-        }
-
-        return true;
-      });
-      bucketIndex++;
-    }
-
-    if(bucket.length) {
-      return bucket[Math.floor(seed*bucket.length)];
-    } else {
-      return null; //no word match
-    }
+    return null; //no word match
   }
+
 }
 
 export function selectRandom(list, seed, previousWordId, recentWrongIds, quizOptions) {
 
-  //filter previousWordId from recentWrongIds
-  const filteredRecentWrong = recentWrongIds.filter(wordId => wordId !== previousWordId);
-
-  const recentWrongThreshold = filteredRecentWrong.length / constants.MAX_RECENT_WRONG_LENGTH;
-  if(seed < recentWrongThreshold) {
-    const newSeed = seed / recentWrongThreshold;
-    const wordId = filteredRecentWrong[Math.floor(newSeed*filteredRecentWrong.length)];
-    return list.find(word => word._id === wordId);
-  } else {
-    // search through word list from lowest score upwards until we find a word.
-    const filteredList = list.filter((word) => {
-        //Don't show the same word twice in a row
-      if (previousWordId === word._id) {
-        return false;
-      }
-
-      // if already in recent wrong list, don't use.
-      if(recentWrongIds.includes(word._id)) {
-        return false;
-      }
-
-      //If the tags do not contain the filter text
-      if(quizOptions.filter.length > 0) {
-        if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-
-    if(filteredList.length) {
-      return filteredList[Math.floor(seed*filteredList.length)];
-    } else {
-      return null; //no word match
+  // search through word list from lowest score upwards until we find a word.
+  const filteredList = list.filter((word) => {
+      //Don't show the same word twice in a row
+    if (previousWordId === word._id) {
+      return false;
     }
+
+    // if already in recent wrong list, don't use.
+    if(recentWrongIds.includes(word._id)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  if(filteredList.length) {
+    return filteredList[Math.floor(seed*filteredList.length)];
+  } else {
+    return null; //no word match
   }
 }
 
 export function selectLeastRecent(list, seed, previousWordId, recentWrongIds, quizOptions) {
-  //filter previousWordId from recentWrongIds
-  const filteredRecentWrong = recentWrongIds.filter(wordId => wordId !== previousWordId);
 
-  const recentWrongThreshold = filteredRecentWrong.length / constants.MAX_RECENT_WRONG_LENGTH;
-  if(seed < recentWrongThreshold) {
-    const newSeed = seed / recentWrongThreshold;
-    const wordId = filteredRecentWrong[Math.floor(newSeed*filteredRecentWrong.length)];
-    return list.find(word => word._id === wordId);
-  } else {
-    // search through word list from lowest score upwards until we find a word.
-    const filteredList = list.filter((word) => {
-        //Don't show the same word twice in a row
-      if (previousWordId === word._id) {
-        return false;
-      }
+  // search through word list from lowest score upwards until we find a word.
+  const filteredList = list.filter((word) => {
+      //Don't show the same word twice in a row
+    if (previousWordId === word._id) {
+      return false;
+    }
 
-      // if already in recent wrong list, don't use.
-      if(recentWrongIds.includes(word._id)) {
-        return false;
-      }
+    // if already in recent wrong list, don't use.
+    if(recentWrongIds.includes(word._id)) {
+      return false;
+    }
 
-      //If the tags do not contain the filter text
-      if(quizOptions.filter.length > 0) {
-        if(word.tags.every(tag => !tag.includes(quizOptions.filter))) {
-          return false;
-        }
-      }
+    return true;
+  });
 
-      return true;
-    });
+  let leastRecentWord = null;
+  filteredList.forEach(word => {
 
-    let leastRecentWord = null;
-    filteredList.forEach(word => {
+    if(!leastRecentWord || !word.quizzedAt || word.quizzedAt < leastRecentWord.quizzedAt) {
+      leastRecentWord = word;
+    }
+  })
 
-      if(!leastRecentWord || !word.quizzedAt || word.quizzedAt < leastRecentWord.quizzedAt) {
-        leastRecentWord = word;
-      }
-    })
-
-    return leastRecentWord;
-  }
+  return leastRecentWord;
 
 }
 

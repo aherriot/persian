@@ -50,8 +50,9 @@ class Quiz extends Component {
 
     const {
       quizState,
-      currentWord,
+      currentWordId,
       response,
+      currentBucket,
       options,
       isEditingWord
     } = this.props.quiz;
@@ -71,12 +72,13 @@ class Quiz extends Component {
       undoMarkWrong
     } = this.props.actions;
 
+    const currentWord = this.props.words.byIds[currentWordId];
 
     switch (quizState) {
 
       case quizStates.QUIZZING:
 
-        if(currentWord) {
+        if(currentWordId) {
           return (
             <QuizPrompt
               word={currentWord}
@@ -147,6 +149,7 @@ class Quiz extends Component {
         return (
           <QuizOptions
             options={options}
+            currentBucket={currentBucket}
             setQuizOptions={setQuizOptions}
             revertQuizOptions={revertQuizOptions}
           />

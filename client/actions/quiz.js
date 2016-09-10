@@ -7,11 +7,14 @@ import {editWord, editWordPending, editWordSuccess, editWordError} from './words
 
 export function selectWord() {
   return (dispatch, getState) => {
+
+    localStorage.setItem('currentBucket', getState().quiz.currentBucket);
+
     dispatch({
       type: types.SELECT_WORD,
       payload: {
         seed: Math.random(),
-        words: getState().words.list
+        words: getState().words.byIds
       }
     });
   }
@@ -23,13 +26,16 @@ export function selfEvaluate() {
   }
 }
 
-export function markCorrect(currentWord) {
+export function markCorrect() {
   return (dispatch, getState) => {
-    const quiz = getState().quiz;
+
+    const {words: {byIds: words}, quiz} = getState();
+    const currentWord = words[quiz.currentWordId];
+
     const scoreIndex = getScoreIndex(quiz.options.fromLang, quiz.options.toLang);
     const score = Math.min(currentWord.scores[scoreIndex] + 1, constants.MAX_BUCKET);
 
-    dispatch(markCorrectPending());
+    dispatch(markCorrectPending(currentWord));
 
     if(quiz.quizState === quizStates.SELF_EVAL) {
       dispatch(selectWord());
@@ -49,9 +55,12 @@ export function markCorrect(currentWord) {
 
 }
 
-function markCorrectPending() {
+function markCorrectPending(word) {
   return {
     type: types.MARK_CORRECT_PENDING,
+    payload: {
+      word: word
+    }
   }
 }
 
@@ -126,8 +135,8 @@ export function checkWord(response) {
 
   return (dispatch, getState) => {
 
-    const quiz = getState().quiz;
-    const currentWord = quiz.currentWord;
+    const {words: {byIds: words}, quiz} = getState();
+    const currentWord = words[quiz.currentWordId];
     const isCorrect = quizEqual(response, currentWord[quiz.options.toLang]);
 
     if(isCorrect) {
@@ -142,18 +151,20 @@ export function checkWord(response) {
 export function undoMarkWrong() {
   return (dispatch, getState) => {
 
-    const {currentWord: word, options} = getState().quiz;
-    const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
-    const newScore = Math.min(word.scores[scoreIndex] + 1, constants.MAX_BUCKET);
+    const {words: {byIds: words}, quiz: {currentWordId, options}} = getState();
 
-    dispatch(markCorrectPending());
+    const currentWord = words[currentWordId];
+    const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
+    const newScore = Math.min(currentWord.scores[scoreIndex] + 1, constants.MAX_BUCKET);
+
+    dispatch(markCorrectPending(currentWord));
     dispatch(selectWord());
 
-    request('/api/words/' + word._id + '/score',  'PUT',
+    request('/api/words/' + currentWordId + '/score',  'PUT',
       {index: scoreIndex, score: newScore}
     )
       .then(word => {
-        dispatch(markCorrectSuccess(word));
+        dispatch(markCorrectSuccess(currentWord));
       })
       .catch(err => dispatch(markError(err)));
   }
@@ -165,30 +176,34 @@ export function showQuizOptions() {
   }
 }
 
-function updateQuizOptions(options) {
+function updateQuizOptions(options, currentBucket) {
 
   localStorage.setItem('fromLang', options.fromLang);
   localStorage.setItem('toLang', options.toLang);
   localStorage.setItem('selectionAlgorithm', options.selectionAlgorithm);
   localStorage.setItem('filter', options.filter);
   localStorage.setItem('typeResponse', options.typeResponse);
+  localStorage.setItem('currentBucket', currentBucket);
 
   return {
     type: types.UPDATE_QUIZ_OPTIONS,
     payload: {
-      options: options
+      options: options,
+      currentBucket: currentBucket
     }
   }
 }
 
-export function setQuizOptions(newOptions) {
+export function setQuizOptions(newOptions, newBucket) {
   return (dispatch, getState) => {
 
-    let currentOptions = getState().quiz.options;
+    let quiz = getState().quiz;
 
-    dispatch(updateQuizOptions(newOptions));
+    dispatch(updateQuizOptions(newOptions, newBucket));
 
-    if(newOptions.filter !== currentOptions.filter) {
+    // If we have changed the filter or the bucket, also select a new word
+    if(newOptions.filter !== quiz.options.filter ||
+        quiz.currentBucket !== newBucket) {
       dispatch(selectWord());
     }
   }
