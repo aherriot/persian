@@ -1,50 +1,5 @@
 import constants from '../constants/constants';
 
-function getHeaders() {
-  const token = localStorage.getItem('token');
-
-  return {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-     Authorization: token ? 'Bearer ' + token : undefined
-   };
-}
-
-export function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  } else {
-
-    response.json()
-      .then(resp => {
-        console.log('err message', resp);
-      })
-      .catch(err => {
-        console.error('unknown error', err);
-      })
-
-
-    // debugger;
-    // var error = new Error(response);
-    // throw error;
-  }
-}
-
-export function parseJSON(response) {
-  return response.json();
-}
-
-export function request(url, method = 'GET', data) {
-
-  return fetch(url, {
-    method: method,
-    headers: getHeaders(),
-    body: JSON.stringify(data)
-  })
-  .then(checkStatus)
-  .then(parseJSON)
-}
-
 export function thirdSide(fromLang, toLang) {
   if(fromLang === constants.ENGLISH) {
     if(toLang === constants.PERSIAN) {

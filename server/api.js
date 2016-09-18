@@ -25,21 +25,15 @@ function authentication(req, res, next) {
     // verifies secret and checks exp
     jwt.verify(token, secret, function(err, decoded) {
       if (err) {
-        if(err.name === 'TokenExpiredError') {
-          return res.status(401).json({name: err.name, message: err.message });
-        } else {
-          return res.status(401).json({name: err.name, message: err.message });
-        }
+        return res.status(401).json({name: err.name, message: err.message });
       } else {
-
         req.authenticated = true;
         next();
       }
     });
 
   } else {
-    req.authenticated = false;
-    next();
+    return res.status(401).json({name: 'missingAuthToken', message: 'No Authorization token provided' });
   }
 }
 
@@ -49,15 +43,27 @@ api.post('/login', function(req, res) {
     return res.status(400).json({error: 'Password missing from body'});
   } else if(!req.body.username) {
     return res.status(400).json({error: 'Username missing from body'});
-  } else if(req.body.password === 'test') {
+  } else {
 
-      var token = jwt.sign({authenticated: true}, secret, {
+    if(req.body.password === 'test') {
+
+      var token = jwt.sign({username: 'aherriot', role: 'user'}, secret, {
         expiresIn: 86400
       });
-
       return res.json({token: token});
+
+
+    } else if(req.body.password === 'admin') {
+
+      var token = jwt.sign({username: 'admin', role: 'admin'}, secret, {
+        expiresIn: 86400
+      });
+      return res.json({token: token});
+      
+    }
+
   }
-  return res.status(401).json({error: 'Authentication failed. Wrong password.' });
+  return res.status(401).json({error: 'Authentication failed. Wrong password.'});
 });
 
 api.get('/words', function(req, res) {

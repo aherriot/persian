@@ -147,8 +147,6 @@ export default function quiz(state = defaultState, action) {
             } else {
               currentBucket++;
             }
-            console.log('currentBucket: ', currentBucket);
-
 
             filteredWordIds = filterWords(
               action.payload.words,
@@ -188,7 +186,6 @@ export default function quiz(state = defaultState, action) {
       }
     }
 
-    console.log('SELECTED: ', word);
     return {
       ...state,
       currentWordId: word,

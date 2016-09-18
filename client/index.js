@@ -14,8 +14,6 @@ ReactDOM.render(
       <Router history={history}>
         <Route path="/" component={require('./components/App')}>
           <IndexRoute component={require('./containers/WordListContainer')} />
-          <Route path="/login" component={require('./containers/LoginContainer')} />
-          <Route path="/createAccount" component={require('./containers/CreateAccountContainer')} />
 
           <Route path="/words" component={require('./components/Words/Words')}>
             <IndexRoute component={require('./containers/WordListContainer')} />

@@ -1,4 +1,6 @@
-import {request, quizEqual, getScoreIndex} from '../utils';
+import {quizEqual, getScoreIndex} from '../utils';
+import request from '../utils/request';
+
 
 import * as types from '../constants/actionTypes';
 import constants from '../constants/constants';

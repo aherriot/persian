@@ -2,7 +2,8 @@ import {push} from 'react-router-redux';
 
 import * as types from '../constants/actionTypes';
 import * as constants from '../constants/constants';
-import {request} from '../utils';
+import request, {requestWrapper} from '../utils/request';
+
 
 import {selectWord} from './quiz';
 
@@ -62,8 +63,7 @@ function addWordSuccess(word) {
   return {
     type: types.ADD_WORD_SUCCESS,
     payload: {
-      word: word,
-      error: {}
+      word: word
     }
   };
 }
@@ -79,13 +79,15 @@ function addWordError(word, error) {
 }
 
 export function addWord(word) {
-  return (dispatch) => {
-    dispatch(addWordPending());
+  // return (dispatch) => {
+  //   dispatch(addWordPending());
+  //
+  //   request('/api/words', 'POST', word)
+  //     .then(data => dispatch(addWordSuccess(data)))
+  //     .catch(err => dispatch(addWordError(err)));
+  // };
 
-    request('/api/words', 'POST', word)
-      .then(data => dispatch(addWordSuccess(data)))
-      .catch(err => dispatch(addWordError(err)));
-  };
+  return requestWrapper('ADD_WORDS', 'api/words', 'POST', word);
 }
 
 function bulkAddWordsPending() {
@@ -98,8 +100,7 @@ function bulkAddWordsSuccess(words) {
   return {
     type: types.BULK_ADD_WORDS_SUCCESS,
     payload: {
-      words: words,
-      error: {}
+      words: words
     }
   };
 }

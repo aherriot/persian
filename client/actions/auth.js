@@ -1,25 +1,46 @@
 import { push } from 'react-router-redux';
+import jwtDecode from 'jwt-decode'
 
 import * as types from '../constants/actionTypes';
-import { request } from '../utils';
+import request from '../utils/request';
 
+export function showLoginDialog() {
+  return {
+    type: types.SHOW_LOGIN_DIALOG
+  }
+}
 
-export function loginSuccess(username, response) {
-  localStorage.setItem('token', response.token);
-  localStorage.setItem('username', username);
+export function showCreateAccountDialog() {
+  return {
+    type: types.SHOW_CREATE_ACCOUNT_DIALOG
+  }
+}
+
+export function hideAuthDialog() {
+  return {
+    type: types.HIDE_AUTH_DIALOG
+  }
+}
+
+function loginSuccess(token) {
+
+  let decoded = jwtDecode(token);
+
+  localStorage.setItem('token', token);
 
   return {
     type: types.LOGIN_SUCCESS,
     payload: {
-      username: username,
-      token: response.token,
+      username: decoded.username,
+      exp: decoded.exp,
+      role: decoded.role,
+      token: token,
     }
   }
 }
 
-export function loginError(error) {
+function loginError(error) {
   localStorage.removeItem('token');
-  localStorage.removeItem('username');
 
   return {
     type: types.LOGIN_ERROR,
@@ -30,7 +51,7 @@ export function loginError(error) {
   }
 }
 
-export function loginPending() {
+function loginPending() {
   return {
     type: types.LOGIN_PENDING
   }
@@ -44,8 +65,8 @@ export function login(username, password) {
           username: username,
           password: password
         })
-        .then(response => {
-          dispatch(loginSuccess(username, response));
+        .then(resp => {
+          dispatch(loginSuccess(resp.token));
         })
         .catch(error => {
           dispatch(loginError(error));
@@ -55,7 +76,7 @@ export function login(username, password) {
 
 export function logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('username');
+
     return {
         type: types.LOGOUT
     }
@@ -68,22 +89,25 @@ export function logoutAndRedirect(redirect = '/login') {
     }
 }
 
-export function createAccountSuccess(username, token) {
+function createAccountSuccess(token) {
   localStorage.setItem('token', token);
-  localStorage.setItem('username', username);
+
+  let decoded = jwtDecode(token);
 
   return {
     type: types.CREATE_ACCOUNT_SUCCESS,
     payload: {
-      username: username,
-      token: token
+      username: decoded.username,
+      token: token,
+      role: decoded.role,
+      exp: decoded.exp
     }
   }
 }
 
-export function createAccountFailure(error) {
+function createAccountFailure(error) {
   localStorage.removeItem('token');
-  localStorage.removeItem('username');
+
   return {
     type: types.CREATE_ACCOUNT_ERROR,
     payload: {
@@ -93,7 +117,7 @@ export function createAccountFailure(error) {
   }
 }
 
-export function createAccountPending() {
+function createAccountPending() {
   return {
     type: types.CREATE_ACCOUNT_PENDING
   }
@@ -107,7 +131,7 @@ export function createAccount(username, password, redirect="/recipes") {
           password: password
         })
         .then(response => {
-          dispatch(createAccountSuccess(response.user.username, response.token));
+          dispatch(createAccountSuccess(token));
           dispatch(push(redirect));
         })
         .catch(error => {

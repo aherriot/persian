@@ -7,7 +7,6 @@ class CreateAccount extends Component {
 
   onCreateAccount = (e) => {
     e.preventDefault();
-    console.log('login!');
     this.props.actions.login(this.refs.username.value, this.refs.password.value);
     return false;
   }
