@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import constants from '../../../constants/constants'
+import Login from './Login';
 
 class AuthModal extends Component {
-
-  onLogout = (e) => {
-    e.preventDefault();
-    this.props.actions.logout();
-  }
-
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.props.actions.login(this.refs.username.value, this.refs.password.value);
-  }
 
   render() {
     return (
@@ -21,12 +12,7 @@ class AuthModal extends Component {
         onRequestClose={this.props.actions.hideAuthDialog}>
 
         {this.props.auth.screen === constants.LOGIN &&
-          <form onSubmit={this.onSubmit}>
-            {/* <div>{this.props.auth}</div> */}
-            <input type="text" ref="username" placeholder="username"/>
-            <input type="password" ref="password" placeholder="password"/>
-            <input type="submit" value="Login"/>
-          </form>
+          <Login {...this.props}/>
         }
 
         {this.props.auth.screen === constants.CREATE_ACCOUNT &&

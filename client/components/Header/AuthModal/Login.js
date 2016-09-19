@@ -1,28 +1,58 @@
 import React, {Component} from 'react';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
+import { Field, reduxForm, SubmissionError } from 'redux-form'
+
+const validate = values => {
+
+  const errors = {}
+
+  if (!values.username) {
+    errors.username = 'Enter username'
   }
 
-  onLogin = (e) => {
-    e.preventDefault();
-    console.log('login!');
-    this.props.actions.login(this.refs.username.value, this.refs.password.value);
-    return false;
+  if (!values.password) {
+    errors.password = 'Enter password'
+  }
+  return errors
+}
+
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+  <div>
+    <label>{label}</label>
+    <div>
+      <input {...input} placeholder={label} type={type}/>
+      {touched && error && <span>{error}</span>}
+    </div>
+  </div>
+)
+
+class Login extends Component {
+  onLogin = (values) => {
+
+    return this.props.actions.login(values.username, values.password)
+      .catch(error => {
+        throw new SubmissionError({_error: 'Incorrect username or password!'})
+      })
   }
 
   render() {
+    const { error, handleSubmit, pristine, submitting } = this.props
+
     return (
       <div>
-        <form onSubmit={this.onLogin}>
-          <input type="text" ref="username" placeholder="username" />
-          <input type="password" ref="password" placeholder="password" />
-          <input type="submit" />
+        <form onSubmit={this.props.handleSubmit(this.onLogin)}>
+          <Field name="username" type="text" component={renderField} label="Username"/>
+          <Field name="password" type="password" component={renderField} label="Password"/>
+          {error && <strong>{error}</strong>}
+          <br/>
+          <button type="submit" disabled={submitting}>Login</button>
         </form>
       </div>
     );
   }
 }
 
-export default Login;
+export default reduxForm({
+  form: 'login',
+  validate
+})(Login)

@@ -38,6 +38,7 @@
     "react-router": "^2.7.0",
     "react-router-redux": "^4.0.5",
     "redux": "^3.5.2",
+    "redux-form": "^6.0.5",
     "redux-thunk": "^1.0.3",
     "reselect": "^2.0.2"
   },

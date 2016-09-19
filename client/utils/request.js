@@ -38,6 +38,11 @@ export default function request(url, method = 'GET', data) {
   })
   .then(checkStatus)
   .then(parseJSON)
+  .catch(error => {
+    return error.json().then(err => {
+      return Promise.reject(err)
+    })
+  })
 }
 
 
@@ -68,16 +73,10 @@ export function requestWrapper(type, url, method = 'GET', data) {
     })
     .catch(error => {
 
-      error.json()
-      .then(errorResp => {
+      // error.json()
+      // .then(errorResp => {
 
-        if(errorResp.name === 'TokenExpiredError') {
-          dispatch({type: 'AUTH_ERROR', error: errorResp});
-
-        } else if(errorResp.name === 'JsonWebTokenError') {
-          dispatch({type: 'AUTH_ERROR', error: errorResp});
-
-        } else if(errorResp.name === 'missingAuthToken') {
+        if(['TokenExpiredError', 'JsonWebTokenError', 'missingAuthToken'].includes(errorResp.code)) {
           dispatch({type: 'AUTH_ERROR', error: errorResp});
 
         } else {
@@ -86,10 +85,10 @@ export function requestWrapper(type, url, method = 'GET', data) {
 
         }
 
-      }).catch(error => {
-        console.error('unknown error: could not parse error', error);
-        dispatch(requestError(type, errorResp));
-      });
+      // }).catch(error => {
+      //   console.error('unknown error: could not parse error', error);
+      //   dispatch(requestError(type, errorResp));
+      // });
     })
 
   }

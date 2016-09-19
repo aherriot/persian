@@ -21,31 +21,3 @@ export default function configureStore(history) {
 
   return store;
 }
-
-
-//
-// let store;
-// let middleware = [ thunk, reduxRouterMiddleware];
-//
-// if (process.env.NODE_ENV === 'production') {
-//
-//   let createStoreWithMiddleware = compose(
-//     applyMiddleware(...middleware),
-//     window.devToolsExtension ? window.devToolsExtension() : f => f
-//   )(createStore);
-//
-//   store = createStoreWithMiddleware(reducers);
-//
-// } else {
-//
-//   let createStoreWithMiddleware = compose(
-//     applyMiddleware(...middleware),
-//     window.devToolsExtension ? window.devToolsExtension() : f => f
-//   )(createStore);
-//
-//   store = createStoreWithMiddleware(reducers);
-//
-//   reduxRouterMiddleware.listenForReplays(store);
-// }
-//
-// export default store;

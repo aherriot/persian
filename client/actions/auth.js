@@ -1,5 +1,6 @@
 import { push } from 'react-router-redux';
 import jwtDecode from 'jwt-decode'
+import { SubmissionError } from 'redux-form'
 
 import * as types from '../constants/actionTypes';
 import request from '../utils/request';
@@ -44,10 +45,7 @@ function loginError(error) {
 
   return {
     type: types.LOGIN_ERROR,
-    payload: {
-      status: error.response.status,
-      statusText: error.response.statusText
-    }
+    error: error
   }
 }
 
@@ -61,16 +59,17 @@ export function login(username, password) {
     return function(dispatch) {
         dispatch(loginPending());
 
-        return request('/api/login', 'POST', {
+        return request('/api/users/login', 'POST', {
           username: username,
           password: password
         })
         .then(resp => {
           dispatch(loginSuccess(resp.token));
         })
-        .catch(error => {
-          dispatch(loginError(error));
-        })
+        // .catch(error => {
+        //   // dispatch(loginError(error));
+        //
+        // })
     }
 }
 
@@ -126,7 +125,7 @@ function createAccountPending() {
 export function createAccount(username, password, redirect="/recipes") {
     return function(dispatch) {
         dispatch(createAccountPending());
-        return request('/users', {
+        return request('/users', 'POST', {
           username: username,
           password: password
         })
