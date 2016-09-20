@@ -12,7 +12,7 @@ function auth(req, res, next) {
       if (err) {
         return res.status(401).json({code: err.name, message: err.message });
       } else {
-        req.authenticated = true;
+        req.user = {username: decoded.username, role: decoded.role};
         next();
       }
     });

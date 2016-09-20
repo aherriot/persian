@@ -10,6 +10,4 @@ module.exports = mongoose.model('Word', new Schema({
   createdAt: {type: Date, default: Date.now},
   updatedAt: {type: Date, default: Date.now},
   quizzedAt: {type: Date, default: null},
-  // correctCount: {type: Number, default: 0},
-  // wrongCount: {type: Number, default: 0},)
 }));
