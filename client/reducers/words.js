@@ -1,27 +1,9 @@
 import * as types from '../constants/actionTypes';
 import * as constants from '../constants/constants';
 
-
-function editReducer(state, action) {
-  switch (action.status) {
-
-  default:
-    return state;
-  }
-}
-
-
-function deleteReducer(state, action) {
-  switch (action.status) {
-
-  default:
-    return state;
-  }
-}
-
 const defaultState = {
   status: constants.INIT,
-  byIds: {},
+  byId: {},
   error: {}
 };
 
@@ -30,19 +12,19 @@ export default function wordsReducer(state = defaultState, action) {
   case types.FETCH_WORDS_PENDING:
     return {
       ...state,
-      byIds: {},
+      byId: {},
       status: constants.PENDING
     };
   case types.FETCH_WORDS_SUCCESS:
 
-    const byIds = action.payload.words.reduce((acc, word, index) => {
+    const byId = action.payload.response.reduce((acc, word, index) => {
       acc[word._id] = word;
       return acc;
     }, {});
 
     return {
       ...state,
-      byIds: byIds,
+      byId: byId,
       status: constants.SUCCESS
     };
   case types.FETCH_WORDS_ERROR:
@@ -53,14 +35,14 @@ export default function wordsReducer(state = defaultState, action) {
     };
   case types.ADD_WORD_PENDING:
     return {...state,
-      status: constants.PENDING
+      // status: constants.PENDING
     };
   case types.ADD_WORD_SUCCESS:
 
-    let newWord = action.payload.word;
+    let newWord = action.payload.response;
     return {
       ...state,
-      byIds: {...state.byIds, [newWord._id]: newWord},
+      byId: {...state.byId, [newWord._id]: newWord},
       status: constants.SUCCESS
     };
   case types.ADD_WORD_ERROR:
@@ -72,14 +54,14 @@ export default function wordsReducer(state = defaultState, action) {
 
   case types.BULK_ADD_WORDS_SUCCESS:
 
-    const newByIds = action.payload.words.reduce((acc, word, index) => {
+    const newByIds = action.payload.response.reduce((acc, word, index) => {
       acc[word._id] = word;
       return acc;
     }, {});
 
     return {
       ...state,
-      byIds: {...state.byIds, ...newByIds},
+      byId: {...state.byId, ...newByIds},
       status: constants.SUCCESS
     };
   case types.EDIT_WORD_PENDING:
@@ -103,34 +85,27 @@ export default function wordsReducer(state = defaultState, action) {
   case types.MARK_WRONG_SUCCESS:
 
 
-    const editedWord = action.payload.word;
+    const editedWord = action.payload.response;
     return {...state,
-      byIds: {...state.byIds, [editedWord._id]: editedWord},
+      byId: {...state.byId, [editedWord._id]: editedWord},
       status: constants.SUCCESS
     };
   case types.EDIT_WORD_ERROR:
-    if(action.payload.error.response.status === 401) {
-      return {...state,
-        error: {message: 'Unauthorized'},
-        status: constants.ERROR
-      };
-    } else {
-      return {...state,
-        error: {message: action.payload.error},
-        status: constants.ERROR
-      };
-    }
+    return {...state,
+      error: {message: action.payload.error},
+      status: constants.ERROR
+    };
 
   case types.DELETE_WORD_PENDING:
-    const newWords = {...state.byIds};
-    delete newWords[action.payload.word._id];
-
     return {...state,
-      byIds: newWords,
-      status: constants.SUCCESS
+      // status: constants.PENDING
     };
   case types.DELETE_WORD_SUCCESS:
+    const newWords = {...state.byId};
+    delete newWords[action.payload.response._id];
+
     return {...state,
+      byId: newWords,
       status: constants.SUCCESS
     };
   case types.DELETE_WORD_ERROR:

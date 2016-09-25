@@ -42,8 +42,8 @@ class Export extends Component {
 
   render() {
     const filter = this.state.filter;
-    let words = Object.keys(this.props.words.byIds).map(
-      wordId => this.props.words.byIds[wordId]
+    let words = Object.keys(this.props.words.byId).map(
+      wordId => this.props.words.byId[wordId]
     );
     words = words.filter(word => {
       if(filter.length === 0)

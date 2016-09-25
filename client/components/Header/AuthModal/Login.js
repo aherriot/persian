@@ -41,8 +41,15 @@ class Login extends Component {
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onLogin)}>
+
+          {this.props.auth.error &&
+            <div>Your login has expired, please log in again.</div>
+          }
+
           <Field name="username" type="text" component={renderField} label="Username"/>
+
           <Field name="password" type="password" component={renderField} label="Password"/>
+
           {error && <strong>{error}</strong>}
           <br/>
           <button type="submit" disabled={submitting}>Login</button>

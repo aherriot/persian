@@ -63,32 +63,24 @@ const requestError = (type, error) => ({
   error: error
 })
 
-export function requestWrapper(type, url, method = 'GET', data) {
+export function authRequest(type, url, method = 'GET', data) {
   return (dispatch, getState) => {
     dispatch(requestPending(type));
 
     request(url, method, data)
     .then(response => {
       dispatch(requestSuccess(type, response));
+      return response
     })
     .catch(error => {
 
-      // error.json()
-      // .then(errorResp => {
+      if(['TokenExpiredError', 'JsonWebTokenError', 'missingAuthToken'].includes(error.code)) {
+        dispatch({type: 'AUTH_ERROR', error: error});
 
-        if(['TokenExpiredError', 'JsonWebTokenError', 'missingAuthToken'].includes(errorResp.code)) {
-          dispatch({type: 'AUTH_ERROR', error: errorResp});
-
-        } else {
-          console.log(errorResp);
-          dispatch(requestError(type, errorResp));
-
-        }
-
-      // }).catch(error => {
-      //   console.error('unknown error: could not parse error', error);
-      //   dispatch(requestError(type, errorResp));
-      // });
+      } else {
+        dispatch(requestError(type, error));
+        return error
+      }
     })
 
   }

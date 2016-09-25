@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import constants from '../../../constants/constants'
+
 import Login from './Login';
+import CreateAccount from './CreateAccount';
 
 class AuthModal extends Component {
 
@@ -16,7 +18,7 @@ class AuthModal extends Component {
         }
 
         {this.props.auth.screen === constants.CREATE_ACCOUNT &&
-          <div>create account</div>
+          <CreateAccount {...this.props} />
         }
 
         {this.props.auth.screen === constants.FORGOT &&

@@ -86,6 +86,8 @@ export default function auth(state = defaultState, action) {
       username: undefined,
       token: undefined,
       role: undefined,
+      showAuthDialog: true,
+      screen: constants.LOGIN,
       error: action.error
     }
 
@@ -98,7 +100,7 @@ export default function auth(state = defaultState, action) {
       token: action.payload.token,
       role: action.payload.role,
       showAuthDialog: false,
-      
+
     };
 
   case types.CREATE_ACCOUNT_ERROR:

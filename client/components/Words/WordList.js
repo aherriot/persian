@@ -109,8 +109,8 @@ export default class WordList extends Component {
               return <h1>Loading...</h1>;
             } else {
 
-              let words = Object.keys(this.props.words.byIds).map(wordId => {
-                return this.props.words.byIds[wordId];
+              let words = Object.keys(this.props.words.byId).map(wordId => {
+                return this.props.words.byId[wordId];
               })
 
               words = this.filterWords(words, this.state.filterText);

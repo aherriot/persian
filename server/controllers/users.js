@@ -41,7 +41,7 @@ router.post('/login', function(req, res) {
           }
 
           if(isMatch) {
-            var token = jwt.sign({username: user.username, role: user.role}, config.JWT_SECRET, {
+            var token = jwt.sign({_id: user._id, username: user.username, role: user.role}, config.JWT_SECRET, {
               expiresIn: config.JWT_EXPIRY
             });
 
@@ -101,7 +101,7 @@ router.post('/', function(req, res) {
           return res.status(500).json({error: err});
         }
 
-        var token = jwt.sign({username: user.username, role: user.role}, config.JWT_SECRET, {
+        var token = jwt.sign({_id: user._id, username: user.username, role: user.role}, config.JWT_SECRET, {
           expiresIn: config.JWT_EXPIRY
         });
 
@@ -111,16 +111,71 @@ router.post('/', function(req, res) {
   });
 });
 
-router.put('/', function(req, res) {
+router.put('/:username', auth, function(req, res) {
+  if(req.user.username !== req.params.username) {
+    return res.status(400).json({code: 'wrongUser', message: 'Can only edit the currently authenticated user'});
+  }
 
-  // testUser.save(function(err) {
-  //   if (err) throw err;
-  //
-  // }
+  if(req.body.email) {
+
+  }
+
+  if (req.body.username) {
+
+  }
+
+  res.json({})
+})
+
+// Separate route just to change password. requires current password to be reauthenicated.
+router.put('/:username/password', auth, function(req, res) {
+
+  if(req.user.username !== req.params.username) {
+    return res.status(400).json({code: 'wrongUser', message: 'Can only edit the currently authenticated user'});
+  } else if(!req.body.password) {
+    return res.status(400).json({code: 'missingPassword', message: 'Password missing from body'});
+  } else if(!req.body.newPassword) {
+    return res.status(400).json({code: 'missingNewPassword', message: 'New password missing from body'});
+  }
+
+  User.findOne({username: req.params.username}, function(err, user) {
+
+    if(err) {
+      return res.status(500).json({error: err});
+    }
+
+    if(user) {
+      user.comparePassword(req.body.password, function(err, isMatch) {
+        if(err) {
+          return res.status(500).json({error: err});
+        }
+
+        if(isMatch) {
+
+          user.password = req.body.newPassword;
+
+          user.save(function(err, user) {
+            if(err) {
+              return res.status(500).json({error: err});
+            }
+
+            return res.json({});
+
+          })
+
+        } else {
+          return res.status(401).json({code: 'incorrectPassword', message: 'Authentication failed. Incorrect username or password.'});
+        }
+      });
+    } else {
+      return res.status(401).json({code: 'incorrectPassword', message: 'Authentication failed. Incorrect username.'});
+    }
+
+  })
 
 });
 
-router.delete('/:username', function(req, res) {
+router.delete('/:username', auth, admin, function(req, res) {
 
   // testUser.save(function(err) {
   //   if (err) throw err;
@@ -130,5 +185,3 @@ router.delete('/:username', function(req, res) {
 });
 
 module.exports = router;
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJyb2xlIjoidXNlciIsImlhdCI6MTQ3NDMzNTczOCwiZXhwIjoxNDc0NDIyMTM4fQ.brU4FFlZBG8PaLAP3LtJ65eVT0MQLlBvi1b2aDgQkyk
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFoZXJyaW90Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE0NzQzMzYxMjksImV4cCI6MTQ3NDQyMjUyOX0._aDfZQsmCtkHSK-AnRU4FrP-qmrwPvGEivhcQnRTWyQ

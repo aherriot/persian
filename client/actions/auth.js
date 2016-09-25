@@ -67,8 +67,8 @@ export function login(username, password) {
           dispatch(loginSuccess(resp.token));
         })
         // .catch(error => {
-        //   // dispatch(loginError(error));
-        //
+        //   dispatch(loginError(error));
+        //   return error;
         // })
     }
 }
@@ -83,8 +83,8 @@ export function logout() {
 
 export function logoutAndRedirect(redirect = '/login') {
     return (dispatch, state) => {
-        dispatch(logout());
-        dispatch(push(redirect));
+      dispatch(logout());
+      dispatch(push(redirect));
     }
 }
 
@@ -109,10 +109,7 @@ function createAccountFailure(error) {
 
   return {
     type: types.CREATE_ACCOUNT_ERROR,
-    payload: {
-      status: error.response.status,
-      statusText: error.response.statusText
-    }
+    error: error
   }
 }
 
@@ -122,19 +119,20 @@ function createAccountPending() {
   }
 }
 
-export function createAccount(username, password, redirect="/recipes") {
+export function createAccount(username, email, password) {
     return function(dispatch) {
         dispatch(createAccountPending());
-        return request('/users', 'POST', {
+        return request('/api/users', 'POST', {
           username: username,
+          email: email,
           password: password
         })
         .then(response => {
-          dispatch(createAccountSuccess(token));
-          dispatch(push(redirect));
+          dispatch(createAccountSuccess(response.token));
         })
-        .catch(error => {
-            dispatch(createAccountFailure(error));
-        })
+        // .catch(error => {
+        //   dispatch(createAccountFailure(error));
+        //   return error;
+        // })
     }
 }

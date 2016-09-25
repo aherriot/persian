@@ -19,8 +19,9 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    if(this.props.words.status === constants.INIT) {
+    if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
       this.props.actions.fetchWords();
+      this.props.actions.fetchScores();
     }
 
     if(this.props.words.status === constants.SUCCESS) {
@@ -72,7 +73,7 @@ class Quiz extends Component {
       undoMarkWrong
     } = this.props.actions;
 
-    const currentWord = this.props.words.byIds[currentWordId];
+    const currentWord = this.props.words.byId[currentWordId];
 
     switch (quizState) {
 
