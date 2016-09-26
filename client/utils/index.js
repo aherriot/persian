@@ -50,7 +50,7 @@ export function getScoreIndex(fromLang, toLang) {
   return constants[fromLang + '_' + toLang];
 }
 
-export function filterWords(words, options, currentBucket) {
+export function filterWords(words, scores, options, currentBucket) {
 
   const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
 
@@ -59,7 +59,14 @@ export function filterWords(words, options, currentBucket) {
     let word = words[wordId]
 
     if(options.selectionAlgorithm === constants.LEITNER) {
-      if(word.scores[scoreIndex] !== currentBucket) {
+      let score = 0;
+
+      //Look up the associated score, otherwise, default to 0
+      if(scores[word._id]) {
+        score = scores[word._id].scores[scoreIndex];
+      }
+
+      if(score !== currentBucket) {
         return false;
       }
     }

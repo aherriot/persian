@@ -70,19 +70,9 @@ export default function wordsReducer(state = defaultState, action) {
       status: constants.SUCCESS
     };
 
-  case types.MARK_CORRECT_PENDING:
-  case types.MARK_WRONG_PENDING:
-
-    //TODO update the word bucket in here, so selection algorithm picks the right word immediately
-    // otherwise, word list has wrong score for word until server responds after editing word.
-    return {
-      ...state
-    }
-
-
   case types.EDIT_WORD_SUCCESS:
-  case types.MARK_CORRECT_SUCCESS:
-  case types.MARK_WRONG_SUCCESS:
+  // case types.MARK_CORRECT_SUCCESS:
+  // case types.MARK_WRONG_SUCCESS:
 
 
     const editedWord = action.payload.response;

@@ -89,6 +89,9 @@ class QuizOptions extends Component {
       <div>
         <h2>Quiz Options</h2>
         <form>
+          <label><strong>Front of flashcard</strong></label>
+          <br />
+
           <label>
             <input type="radio"
               name="fromLang"
@@ -119,7 +122,8 @@ class QuizOptions extends Component {
           Persian
           </label>
 
-
+          <br />
+          <label>Back of flashcard</label>
           <br />
 
           <label>

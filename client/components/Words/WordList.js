@@ -15,17 +15,19 @@ export default class WordList extends Component {
       filterText: '',
       sortColumn: constants.ENGLISH,
       sortDirection: constants.ASCENDING,
+      showAll: false
     }
   }
 
   componentWillMount() {
-    // if(!this.props.auth.username) {
-    //   this.props.router.push('/login');
-    // }
-
-    if (this.props.words.status === constants.INIT) {
+    if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
       this.props.actions.fetchWords();
     }
+
+    if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
+      this.props.actions.fetchScores();
+    }
+
   }
 
   onFilterChanged = (e) => {
@@ -39,6 +41,11 @@ export default class WordList extends Component {
       sortColumn: col,
       sortDirection: this.state.sortColumn === col ? this.state.sortDirection*-1 : this.state.sortDirection
     });
+  }
+
+  onShowAll = (e) => {
+    e.preventDefault();
+    this.setState({showAll: true});
   }
 
   filterWords = (words, filterText) => {
@@ -75,8 +82,21 @@ export default class WordList extends Component {
       });
     } else if(sortColumn === constants.SCORES) {
       return words.sort((a,b) => {
-        const sumA = a.scores.reduce((sum, current) => {return sum + current;}, 0);
-        const sumB = b.scores.reduce((sum, current) => {return sum + current;}, 0);
+
+        const aScore = this.props.scores.byWordId[a._id];
+
+        if(!aScore) {
+          return -1 * sortDirection;
+        }
+
+        const bScore = this.props.scores.byWordId[b._id];
+        if(!bScore) {
+          return 1 * sortDirection;
+        }
+
+        const sumA = aScore.scores.reduce((sum, current) => {return sum + current;}, 0);
+        const sumB = bScore.scores.reduce((sum, current) => {return sum + current;}, 0);
+
         return (sumA > sumB ? 1 : -1) * sortDirection;
       });
     } else {
@@ -116,8 +136,12 @@ export default class WordList extends Component {
               words = this.filterWords(words, this.state.filterText);
               words = this.sortWords(words, this.state.sortColumn, this.state.sortDirection);
 
+              if(!this.state.showAll) {
+                words = words.slice(0, 19);
+              }
+
               return words.map(word => {
-                return <WordListItem key={word._id} word={word} {...this.props.actions} />;
+                return <WordListItem key={word._id} word={word} score={this.props.scores.byWordId[word._id]} {...this.props.actions} />;
               });
             }
           }()}
@@ -128,6 +152,10 @@ export default class WordList extends Component {
           addWord={this.props.actions.addWord}
           horizontalLayout={true}
         />
+
+        {!this.state.showAll &&
+          <a href="#" onClick={this.onShowAll}>Show more</a>
+        }
 
       </div>
     );

@@ -21,8 +21,12 @@ class Quiz extends Component {
   componentDidMount() {
     if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
       this.props.actions.fetchWords();
+    }
+
+    if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
       this.props.actions.fetchScores();
     }
+
 
     if(this.props.words.status === constants.SUCCESS) {
       this.props.actions.selectWord();

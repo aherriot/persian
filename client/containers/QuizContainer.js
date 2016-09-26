@@ -11,6 +11,7 @@ import * as quizActions from '../actions/quiz';
 function mapStateToProps(state) {
   return {
     words: state.words,
+    scores: state.scores,
     quiz: state.quiz
   };
 }

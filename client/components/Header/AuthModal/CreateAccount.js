@@ -50,7 +50,6 @@ class CreateAccount extends Component {
 
     return this.props.actions.createAccount(values.username, values.email, values.password)
       .catch(error => {
-        debugger
         switch(error.code) {
 
         case 'passwordLength':

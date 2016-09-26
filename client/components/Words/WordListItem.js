@@ -62,6 +62,15 @@ export default class WordListItem extends Component {
     return `rgba(${red}, ${green}, ${blue}, 1)`
   }
 
+  getScore = () => {
+    if(this.props.score) {
+      return this.props.score.scores.reduce((prev, curr) => prev + curr, 0);
+    } else {
+      return '-';
+    }
+
+  }
+
   render() {
     const {word} = this.props;
 
@@ -97,7 +106,7 @@ export default class WordListItem extends Component {
           <div className={styles.col}>{word.phonetic}</div>
           <div className={styles.col}>{word.tags.join(' \u00b7 ')}</div>
           <div className={styles.col}>
-            {word.scores.reduce((prev, curr) => prev + curr, 0)}
+            {this.getScore()}
           </div>
 
           <div className={styles.col}>

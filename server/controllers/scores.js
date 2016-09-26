@@ -7,9 +7,8 @@ var auth = require('../middlewares/auth');
 
 var router = express.Router();
 
-
 router.get('/', auth, function(req, res) {
-  Score.find({userId: req.user._id}, function(err, scores) {
+  Score.find({userId: req.user._id}, 'wordId userId scores quizedAt', function(err, scores) {
     if(err) {
       return res.status(500).json({ error: err });
     }
@@ -30,9 +29,12 @@ router.put('/:wordId', auth, function(req, res) {
   }
 
   Score.findOne({userId: req.user._id, wordId: req.params.wordId}, function(err, score) {
+
     if(err) {
+      console.error(err);
       return res.status(500).json({ error: err });
     }
+
     if(score) {
 
       score.scores.splice(req.body.index, 1, req.body.score)
@@ -40,6 +42,7 @@ router.put('/:wordId', auth, function(req, res) {
 
       score.save(function(err, score) {
         if(err) {
+          console.error(err);
           return res.status(500).json({error: err});
         }
         res.json(score)
@@ -49,6 +52,7 @@ router.put('/:wordId', auth, function(req, res) {
       //ok, see if the word even exists before trying to create a score
       Word.findById(req.params.wordId, function(err, word) {
         if(err) {
+          console.error(err);
           return res.status(500).json({ error: err });
         }
 
@@ -56,16 +60,17 @@ router.put('/:wordId', auth, function(req, res) {
 
           let scores = [0, 0, 0, 0, 0 ,0]
           scores[req.body.index] = req.body.score;
-          score.quizzedAt = Date.now();
 
           var newScore = new Score({
             scores: scores,
+            quizzedAt: Date.now(),
             userId: req.user._id,
             wordId: req.params.wordId
           });
 
           newScore.save(function(err, score) {
             if(err) {
+              console.error(err);
               return res.status(500).json({error: err});
             }
             res.json(score)
