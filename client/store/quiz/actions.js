@@ -1,11 +1,11 @@
-import {quizEqual, getScoreIndex} from '../utils';
-import request from '../utils/request';
+import {quizEqual, getScoreIndex} from 'utils';
+import request from 'utils/request';
 
-import * as types from '../constants/actionTypes';
-import constants from '../constants/constants';
-import quizStates from '../constants/quizStates';
-import {setScore} from './scores';
-import {editWord} from './words';
+import * as types from './constants';
+import constants from 'constants/constants';
+import quizStates from 'constants/quizStates';
+import {setScore} from 'store/scores/actions';
+import {editWord} from 'store/words/actions';
 
 export function selectWord() {
   return (dispatch, getState) => {

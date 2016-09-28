@@ -2,8 +2,7 @@ import { push } from 'react-router-redux';
 import jwtDecode from 'jwt-decode'
 import { SubmissionError } from 'redux-form'
 
-import * as types from '../constants/actionTypes';
-import request from '../utils/request';
+import request from 'utils/request';
 
 export function showLoginDialog() {
   return {

@@ -2,10 +2,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Quiz from '../components/Quiz/Quiz';
-import {fetchWords} from '../actions/words';
-import * as scoreActions from '../actions/scores';
-
-import * as quizActions from '../actions/quiz';
+import {fetchWords} from 'store/words/actions';
+import * as scoreActions from 'store/scores/actions';
+import * as quizActions from 'store/quiz/actions';
 
 
 function mapStateToProps(state) {

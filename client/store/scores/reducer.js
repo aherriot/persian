@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import * as constants from '../constants/constants';
+import * as types from './constants';
+import * as constants from 'constants/constants';
 
 const defaultState = {
   status: constants.INIT,

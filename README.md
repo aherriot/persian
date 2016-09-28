@@ -1,27 +1,13 @@
-### Requirements
+### Persian Flashcards
 
-* Tested on Node 5.3.0 (maybe other versions too)
+A curated flashcard app for Persian language learners using React, Redux, Express, and MongoDB.
 
-### Developer setup
+This app uses a curated list of Persian words and phrases that are managed by
+me, but it allows other users to study the shared set of flashcards and track their progress independently.
 
-1. Install node
-  1. Install node version manager (nvm) from [instructions](https://github.com/creationix/nvm)
-  1. `nvm install 5.3` (install node with nvm)
-1. In project directory, run the following:
-  1. `npm install` (Download dependencies)
-  1. `npm run dev` (run development server on localhost)
-  1.  Open browser to view
-  1. `npm run eslint` (to validate source code **before committing**)
+I made this project for three reasons:
+1. I was disappointed with the lack of good Persian language learning resources on the internet. Most of what I have found is full of errors and inconsistencies.
+2. I want a better card selection algorithm that would focus on words that I struggle with, so this app has the option to study least known, least recent, and random words.
+3. I wanted something that tracks the progress of translating Persian to English independently of English to Persian, which I find more helpful. This may be the only flashcard app that does this.
 
-### Production installation
-
-1. Install node
-  1. Install node version manager (nvm) from [instructions](https://github.com/creationix/nvm)
-  1. `nvm install 5.3` (install node with nvm)
-1. In project directory, run the following:
-  1. `npm install` (Download dependencies)
-  1. `npm run build` (build project `/dist` output directory)
-  1. Edit `config.js` and set variables
-1. To run project, we should use `pm2` or similar node process manager
-  1. `npm install pm2 --global` (install `pm2`)
-  1.  `pm2 start server/server.js` (Start, Daemonize and auto restart application)
+Made by Andrew Herriot, 2015 - 2016

@@ -32,6 +32,10 @@ module.exports = {
       'process.env.NODE_ENV':  '"production"'
     })
   ],
+  resolve: {
+    root: path.resolve('client'),
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [{
       test: /\.(js|jsx)$/,

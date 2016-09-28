@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
-import rootReducer from '../reducers';
+import rootReducer from './reducer';
 
 
 export default function configureStore(history) {
@@ -14,8 +14,8 @@ export default function configureStore(history) {
   const store = createStore(rootReducer, undefined, enhancer);
 
   if (module.hot) {
-    module.hot.accept('../reducers', () =>
-      store.replaceReducer(require('../reducers').default)
+    module.hot.accept('./reducer', () =>
+      store.replaceReducer(require('./reducer').default)
     );
   }
 

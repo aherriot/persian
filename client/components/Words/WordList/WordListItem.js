@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import styles from './Words.css';
+import styles from '../Words.css';
 
 export default class WordListItem extends Component {
   constructor(props) {
@@ -77,7 +77,7 @@ export default class WordListItem extends Component {
     if (this.state.editing) {
       return (
         <div className={styles.row}>
-          <div className={styles['persian-col']}>
+          <div className={styles.col + ' ' + styles.persianCol}>
             <input type="text" ref="persian" defaultValue={word.persian} />
           </div>
           <div className={styles.col}>

@@ -1,9 +1,9 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import WordList from '../components/Words/WordList';
-import * as wordActions from '../actions/words';
-import {fetchScores} from '../actions/scores';
+import WordList from '../components/Words/WordList/WordList';
+import * as wordActions from 'store/words/actions';
+import {fetchScores} from 'store/scores/actions';
 
 function mapStateToProps(state) {
   return {

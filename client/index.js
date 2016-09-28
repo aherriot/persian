@@ -21,10 +21,7 @@ ReactDOM.render(
             <Route path="export" component={require('./containers/ExportContainer')} />
           </Route>
 
-
           <Route path="/quiz" component={require('./containers/QuizContainer')} />
-          <Route path="/quiz/options" component={require('./containers/QuizContainer')} />
-
 
           <Route path="*" component={require('./components/NoMatch')}/>
         </Route>

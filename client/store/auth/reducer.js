@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import constants from '../constants/constants';
+import * as actionsTypes from './constants';
+import constants from 'constants/constants';
 import jwtDecode from 'jwt-decode'
 
 
@@ -30,32 +30,32 @@ const defaultState = {
 export default function auth(state = defaultState, action) {
   switch(action.type) {
 
-  case types.SHOW_CREATE_ACCOUNT_DIALOG:
+  case actionsTypes.SHOW_CREATE_ACCOUNT_DIALOG:
     return {...state,
       showAuthDialog: true,
       screen: constants.CREATE_ACCOUNT
     };
 
-  case types.SHOW_LOGIN_DIALOG:
+  case actionsTypes.SHOW_LOGIN_DIALOG:
     return {...state,
       showAuthDialog: true,
       screen: constants.LOGIN
 
     };
 
-  case types.SHOW_FORGOT_DIALOG:
+  case actionsTypes.SHOW_FORGOT_DIALOG:
     return {...state,
       showAuthDialog: true,
       screen: constants.FORGOT
 
     };
 
-  case types.HIDE_AUTH_DIALOG:
+  case actionsTypes.HIDE_AUTH_DIALOG:
     return {...state,
       showAuthDialog: false
     };
 
-  case types.LOGIN_SUCCESS:
+  case actionsTypes.LOGIN_SUCCESS:
     return {...state,
       username: action.payload.username,
       token: action.payload.token,
@@ -64,7 +64,7 @@ export default function auth(state = defaultState, action) {
       error: undefined
 
     };
-  case types.LOGIN_ERROR:
+  case actionsTypes.LOGIN_ERROR:
     return {...state,
       username: undefined,
       token: undefined,
@@ -72,7 +72,7 @@ export default function auth(state = defaultState, action) {
       error: action.error
     };
 
-  case types.LOGOUT:
+  case actionsTypes.LOGOUT:
     return {...state,
       username: undefined,
       token: undefined,
@@ -80,7 +80,7 @@ export default function auth(state = defaultState, action) {
       error: undefined,
     };
 
-  case types.AUTH_ERROR:
+  case actionsTypes.AUTH_ERROR:
 
     return {...state,
       username: undefined,
@@ -91,10 +91,10 @@ export default function auth(state = defaultState, action) {
       error: action.error
     }
 
-  case types.CREATE_ACCOUNT_PENDING:
+  case actionsTypes.CREATE_ACCOUNT_PENDING:
     return state;
 
-  case types.CREATE_ACCOUNT_SUCCESS:
+  case actionsTypes.CREATE_ACCOUNT_SUCCESS:
     return {...state,
       username: action.payload.username,
       token: action.payload.token,
@@ -103,7 +103,7 @@ export default function auth(state = defaultState, action) {
 
     };
 
-  case types.CREATE_ACCOUNT_ERROR:
+  case actionsTypes.CREATE_ACCOUNT_ERROR:
     return {...state,
       username: undefined,
       token: undefined,

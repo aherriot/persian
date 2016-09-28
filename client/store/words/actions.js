@@ -1,4 +1,4 @@
-import {authRequest} from '../utils/request';
+import {authRequest} from 'utils/request';
 
 export function fetchWords() {
   return authRequest('FETCH_WORDS', 'api/words');

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 
 import WordListItem from './WordListItem';
-import WordEditForm from './WordEditForm';
+import WordEditForm from '../WordEditForm';
 
-import constants from '../../constants/constants';
-import styles from './Words.css';
+import constants from 'constants/constants';
+import styles from '../Words.css';
 
 
 export default class WordList extends Component {
@@ -115,8 +115,8 @@ export default class WordList extends Component {
         <div>{this.props.words.error.message}</div>
         <div>
           <input type="text" placeholder="filter" onChange={this.onFilterChanged}/>
-          <div className={styles.row} data="test">
-            <div className={styles['persian-col']} onClick={this.onHeaderClicked} data="persian">Persian</div>
+          <div className={styles.row}>
+            <div className={styles.col + ' ' + styles.persianCol} onClick={this.onHeaderClicked} data="persian">Persian</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="english">English</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="phonetic">Phonetic</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="tags">Tags</div>

@@ -1,7 +1,9 @@
-import * as types from '../constants/actionTypes';
-import constants from '../constants/constants';
-import quizStates from '../constants/quizStates';
-import {filterWords, selectLeitner, selectLeastRecent, selectRandom} from '../utils/';
+import * as types from './constants';
+import * as scoreTypes from 'store/quiz/constants';
+
+import constants from 'constants/constants';
+import quizStates from 'constants/quizStates';
+import {filterWords, selectLeitner, selectLeastRecent, selectRandom} from 'utils/';
 
 
 //determine if "typeResponse" is true, false, or not defined in localStorage
@@ -203,7 +205,7 @@ export default function quiz(state = defaultState, action) {
       quizState: quizStates.SELF_EVAL
     };
 
-  case types.SET_SCORE_PENDING:
+  case scoreTypes.SET_SCORE_PENDING:
 
     recentWrongIds = state.recentWrongIds.filter((wordId) => {
       return wordId !== state.currentWordId;
