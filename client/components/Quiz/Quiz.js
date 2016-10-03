@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import classnames from 'classnames';
 
 import quizStates from '../../constants/quizStates';
-import * as constants from '../../constants/constants';
+import constants from '../../constants/constants';
 
 import QuizPrompt from './QuizPrompt';
 import SelfEvaluationResponse from './SelfEvaluationResponse';
@@ -28,14 +28,17 @@ class Quiz extends Component {
     }
 
 
-    if(this.props.words.status === constants.SUCCESS) {
+    if(this.props.words.status === constants.SUCCESS && this.props.scores.status === constants.SUCCESS) {
       this.props.actions.selectWord();
     }
   }
 
   componentWillReceiveProps(newProps) {
-    if(!this.props.quiz.currentWord) {
-      if(this.props.words.status !== constants.SUCCESS && newProps.words.status === constants.SUCCESS) {
+    const {words: {status: wordsStatus}, scores: {status: scoresStatus}} = this.props;
+    const {words: {status: newWordsStatus}, scores: {status: newScoresStatus}} = newProps;
+
+    if(wordsStatus !== constants.SUCCESS || scoresStatus !== constants.SUCCESS) {
+      if(newWordsStatus === constants.SUCCESS && newScoresStatus === constants.SUCCESS) {
         this.props.actions.selectWord();
       }
     }

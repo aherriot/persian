@@ -1,8 +1,8 @@
 import * as types from './constants';
 import * as scoreTypes from 'store/quiz/constants';
 
-import constants from 'constants/constants';
-import quizStates from 'constants/quizStates';
+import constants from '../../constants/constants';
+import quizStates from '../../constants/quizStates';
 import {filterWords, selectLeitner, selectLeastRecent, selectRandom} from 'utils/';
 
 

@@ -1,32 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
-import { syncHistoryWithStore } from 'react-router-redux';
-import configureStore from './store';
+import { render } from 'react-dom';
 
-const store = configureStore(browserHistory);
-const history = syncHistoryWithStore(browserHistory, store);
+import Main from './Main';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <div className="test">
-      <Router history={history}>
-        <Route path="/" component={require('./components/App')}>
-          <IndexRoute component={require('./containers/WordListContainer')} />
+const root = document.getElementById('root')
 
-          <Route path="/words" component={require('./components/Words/Words')}>
-            <IndexRoute component={require('./containers/WordListContainer')} />
-            <Route path="import" component={require('./containers/ImportContainer')} />
-            <Route path="export" component={require('./containers/ExportContainer')} />
-          </Route>
+// if (__DEV__) {
+  const RedBox = require('redbox-react').default
 
-          <Route path="/quiz" component={require('./containers/QuizContainer')} />
+  try {
+    render(<Main />, root);
+  } catch (e) {
+    render(<RedBox error={e} />, root);
+  }
 
-          <Route path="*" component={require('./components/NoMatch')}/>
-        </Route>
-      </Router>
-    </div>
-  </Provider>,
-  document.getElementById('root')
-);
+// } else {
+//   render(<Main />, root);
+// }

@@ -1,7 +1,6 @@
 import * as actionsTypes from './constants';
-import constants from 'constants/constants';
+import constants from '../../constants/constants';
 import jwtDecode from 'jwt-decode'
-
 
 const token = localStorage.getItem('token');
 let decoded = undefined;

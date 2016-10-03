@@ -42,10 +42,6 @@ export function quizEqual(word1, word2) {
   });
 }
 
-export function pick(o, ...fields) {
-  return Object.assign({}, ...(for (p of fields) {[p]: o[p]}));
-}
-
 export function getScoreIndex(fromLang, toLang) {
   return constants[fromLang + '_' + toLang];
 }

@@ -21,10 +21,12 @@ export default class WordList extends Component {
 
   componentWillMount() {
     if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
+      console.log('fetch words');
       this.props.actions.fetchWords();
     }
 
     if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
+      console.log('fetch scores');
       this.props.actions.fetchScores();
     }
 
@@ -124,7 +126,7 @@ export default class WordList extends Component {
             <div className={styles.col}></div>
           </div>
 
-          {() => {
+          {(() => {
             if (this.props.words.status === constants.PENDING) {
               return <h1>Loading...</h1>;
             } else {
@@ -144,7 +146,7 @@ export default class WordList extends Component {
                 return <WordListItem key={word._id} word={word} score={this.props.scores.byWordId[word._id]} {...this.props.actions} />;
               });
             }
-          }()}
+          })()}
         </div>
 
         <WordEditForm

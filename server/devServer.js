@@ -1,14 +1,14 @@
 /* eslint no-console:0 */
-import path from 'path';
-import express from 'express';
+const path = require('path');
+const express = require('express');
 
-import webpack from 'webpack';
-import webpackMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack.dev.config.js';
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('../webpack.dev.config.js');
 
-import config from './config';
-import api from './api';
+const config = require('./config');
+const api = require('./api');
 
 const app = express();
 
