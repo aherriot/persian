@@ -29,7 +29,7 @@
     "test:watch": "NODE_PATH=./client mocha --watch --opts ./mocha.opts"
   },
   "dependencies": {
-    "bcrypt": "^0.8.7",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",
     "classnames": "^2.2.3",
     "express": "^4.13.3",
