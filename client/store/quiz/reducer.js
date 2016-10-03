@@ -205,7 +205,7 @@ export default function quiz(state = defaultState, action) {
       quizState: quizStates.SELF_EVAL
     };
 
-  case scoreTypes.SET_SCORE_PENDING:
+  case types.MARK_CORRECT:
 
     recentWrongIds = state.recentWrongIds.filter((wordId) => {
       return wordId !== state.currentWordId;

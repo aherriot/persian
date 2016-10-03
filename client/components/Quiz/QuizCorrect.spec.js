@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect';
+import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import QuizCorrect from './QuizCorrect';
@@ -13,6 +13,6 @@ describe('<QuizCorrect />', () => {
         toLang="persian"
       />
     );
-    expect(wrapper).toExist();
+    expect(wrapper).to.have.length(1);
   });
 });

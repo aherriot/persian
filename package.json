@@ -25,8 +25,8 @@
     "build": "rimraf dist && webpack --config ./webpack.build.config.js --progress --profile --colors",
     "lint": "eslint --ext=jsx --ext=js ./client",
     "lint:fix": "eslint --ext=jsx --ext=js --fix ./client",
-    "test": "mocha --opts ./mocha.opts ./client/**/*.spec.js",
-    "test:watch": "NODE_PATH=./client mocha --watch --opts ./mocha.opts"
+    "test": "NODE_ENV=test mocha --opts ./mocha.opts ./client/**/*.spec.js",
+    "test:watch": "NODE_ENV=test mocha --watch --opts ./mocha.opts ./client/**/*.spec.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

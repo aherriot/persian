@@ -46,8 +46,7 @@ export function markCorrect() {
 
     dispatch(setScore(quiz.currentWordId, index, score));
     dispatch({
-      type: types.MARK_CORRECT,
-      payload: {wordId: quiz.currentWordId}
+      type: types.MARK_CORRECT
     })
   };
 }
