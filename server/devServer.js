@@ -1,3 +1,5 @@
+process.env.NODE_ENV= "development"
+
 /* eslint no-console:0 */
 const path = require('path');
 const express = require('express');

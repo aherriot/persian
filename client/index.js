@@ -5,7 +5,7 @@ import Main from './Main';
 
 const root = document.getElementById('root')
 
-// if (__DEV__) {
+if (process.env.NODE_ENV === 'development') {
   const RedBox = require('redbox-react').default
 
   try {
@@ -14,6 +14,6 @@ const root = document.getElementById('root')
     render(<RedBox error={e} />, root);
   }
 
-// } else {
-//   render(<Main />, root);
-// }
+} else {
+  render(<Main />, root);
+}

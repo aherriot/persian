@@ -28,7 +28,9 @@ module.exports = {
       'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      "process.env": {
+        NODE_ENV: JSON.stringify("development")
+      }
     })
   ],
   externals: {
@@ -45,7 +47,18 @@ module.exports = {
     loaders: [{
       test: /\.(js|jsx)$/,
       exclude: /node_modules/,
-      loader: 'babel'
+      loader: 'babel',
+      query: {
+        "plugins": [
+          ["react-transform", {
+            "transforms": [{
+              "transform": "react-transform-hmr",
+              "imports": ["react"],
+              "locals": ["module"]
+            }]
+          }]
+        ]
+      }
     }, {
       test: /\.json?$/,
       loader: 'json'
