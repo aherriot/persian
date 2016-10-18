@@ -1,0 +1,27 @@
+.modal {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  width: 30rem;
+  top: 30px;
+  bottom: 30px;
+  background-color: white;
+  border: 1px solid rgb(204, 204, 204);
+
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+}
+
+@media (max-width: 500px) {
+  .modal {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    width: auto;
+  }
+}

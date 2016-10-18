@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import constants from '../../../constants/constants'
+import constants from '../../../constants/constants';
 
 import Login from './Login';
 import CreateAccount from './CreateAccount';
+
+import styles from './AuthModal.css';
 
 class AuthModal extends Component {
 
   render() {
     return (
       <Modal
+        className={styles.modal}
         isOpen={this.props.auth.showAuthDialog}
         onRequestClose={this.props.actions.hideAuthDialog}>
 
