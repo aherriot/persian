@@ -15,7 +15,7 @@ export default class WordList extends Component {
       filterText: '',
       sortColumn: constants.ENGLISH,
       sortDirection: constants.ASCENDING,
-      showAll: false
+      showAll: true
     }
   }
 
