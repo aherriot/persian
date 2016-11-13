@@ -35,7 +35,7 @@ function loginSuccess(token) {
       username: decoded.username,
       exp: decoded.exp,
       role: decoded.role,
-      token: token,
+      token: token
     }
   }
 }
@@ -65,11 +65,8 @@ export function login(username, password) {
         })
         .then(resp => {
           dispatch(loginSuccess(resp.token));
+          return resp.token
         })
-        // .catch(error => {
-        //   dispatch(loginError(error));
-        //   return error;
-        // })
     }
 }
 

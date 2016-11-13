@@ -19,17 +19,15 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
-      this.props.actions.fetchWords();
-    }
+    if(this.props.auth.role) {
 
-    if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
-      this.props.actions.fetchScores();
-    }
+      if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
+        this.props.actions.fetchWords();
+      }
 
-
-    if(this.props.words.status === constants.SUCCESS && this.props.scores.status === constants.SUCCESS) {
-      this.props.actions.selectWord();
+      if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
+        this.props.actions.fetchScores();
+      }
     }
   }
 
@@ -81,6 +79,12 @@ class Quiz extends Component {
     } = this.props.actions;
 
     const currentWord = this.props.words.byId[currentWordId];
+
+    if(!this.props.auth.role) {
+      return (
+        <p>Please login or create an account to use the quiz</p>
+      )
+    }
 
     switch (quizState) {
 
@@ -160,6 +164,7 @@ class Quiz extends Component {
             currentBucket={currentBucket}
             setQuizOptions={setQuizOptions}
             revertQuizOptions={revertQuizOptions}
+            words={this.props.words}
           />
         )
 
@@ -203,14 +208,17 @@ class Quiz extends Component {
               Options
             </a>
 
-            <a
-              className={classnames(
-                [styles.actionLink],
-                {[styles.activeActionLink]: quizState === quizStates.EDITING}
-              )}
-              href="#" onClick={this.startEditingWord}>
-              Edit Word
-            </a>
+            {this.props.auth.role === 'admin' &&
+              <a
+                className={classnames(
+                  [styles.actionLink],
+                  {[styles.activeActionLink]: quizState === quizStates.EDITING}
+                )}
+                href="#" onClick={this.startEditingWord}>
+                Edit Word
+              </a>
+            }
+
           </div>
         </div>
         <div className={styles.quizBody}>

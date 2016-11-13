@@ -2,6 +2,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import * as authActions from 'store/auth/actions';
+import { fetchScores } from 'store/scores/actions';
 import Header from '../components/Header';
 
 function mapStateToProps(state) {
@@ -13,7 +14,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({...authActions}, dispatch)
+    actions: bindActionCreators({
+      ...authActions,
+      fetchScores
+    }, dispatch)
   };
 }
 

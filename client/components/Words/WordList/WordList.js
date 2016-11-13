@@ -19,17 +19,16 @@ export default class WordList extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
-      console.log('fetch words');
       this.props.actions.fetchWords();
     }
 
-    if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
-      console.log('fetch scores');
-      this.props.actions.fetchScores();
+    if(this.props.auth.role) {
+      if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
+        this.props.actions.fetchScores();
+      }
     }
-
   }
 
   onFilterChanged = (e) => {
@@ -118,12 +117,18 @@ export default class WordList extends Component {
         <div>
           <input type="text" placeholder="filter" onChange={this.onFilterChanged}/>
           <div className={styles.row}>
-            <div className={styles.col + ' ' + styles.persianCol} onClick={this.onHeaderClicked} data="persian">Persian</div>
+            <div className={styles.col + ' ' + styles.persianCol} onClick={this.onHeaderClicked} data="persian">فارسی</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="english">English</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="phonetic">Phonetic</div>
             <div className={styles.col} onClick={this.onHeaderClicked} data="tags">Tags</div>
-            <div className={styles.col} onClick={this.onHeaderClicked} data="scores">Scores</div>
-            <div className={styles.col}></div>
+
+            {this.props.auth.role &&
+              <div className={styles.col} onClick={this.onHeaderClicked} data="scores">Scores</div>
+            }
+
+            {this.props.auth.role === 'admin' &&
+              <div className={styles.col}></div>
+            }
           </div>
 
           {(() => {
@@ -143,17 +148,26 @@ export default class WordList extends Component {
               }
 
               return words.map(word => {
-                return <WordListItem key={word._id} word={word} score={this.props.scores.byWordId[word._id]} {...this.props.actions} />;
+                return (
+                  <WordListItem
+                    key={word._id}
+                    word={word}
+                    score={this.props.scores.byWordId[word._id]}
+                    role={this.props.auth.role}
+                    {...this.props.actions} />
+                );
               });
             }
           })()}
         </div>
 
-        <WordEditForm
-          isNew={true}
-          addWord={this.props.actions.addWord}
-          horizontalLayout={true}
-        />
+        {this.props.auth.role === 'admin' &&
+          <WordEditForm
+            isNew={true}
+            addWord={this.props.actions.addWord}
+            horizontalLayout={true}
+          />
+        }
 
         {!this.state.showAll &&
           <a href="#" onClick={this.onShowAll}>Show more</a>

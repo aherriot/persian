@@ -7,18 +7,18 @@ let decoded = undefined;
 
 if(token) {
   decoded = jwtDecode(token);
-
-  //If it has expired
-  if(decoded.exp * 1000 > Date.now()) {
+  // if it has expired
+  if(decoded.exp * 1000 < Date.now()) {
     decoded = undefined;
+    localStorage.removeItem('token')
   }
 }
 
 const defaultState = {
   token: token,
-  username: decoded ? decoded.email : undefined,
+  username: decoded ? decoded.username : undefined,
   role: decoded ? decoded.role : undefined,
-  exp: decoded ? decoded.role : undefined,
+  exp: decoded ? decoded.exp : undefined,
 
   showAuthDialog: false,
   screen: constants.LOGIN,

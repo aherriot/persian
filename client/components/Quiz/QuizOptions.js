@@ -85,6 +85,14 @@ class QuizOptions extends Component {
       bucketNumbers.push(i);
     }
 
+    let tags = {};
+    Object.keys(this.props.words.byId).forEach(key => {
+      const word = this.props.words.byId[key]
+      word.tags.forEach(tag => {
+        tags[tag] = true
+      })
+    })
+
     return (
       <div>
         <h2>Quiz Options</h2>
@@ -123,7 +131,7 @@ class QuizOptions extends Component {
           </label>
 
           <br />
-          <label>Back of flashcard</label>
+          <label><strong>Back of flashcard</strong></label>
           <br />
 
           <label>
@@ -156,12 +164,15 @@ class QuizOptions extends Component {
             Persian
           </label>
 
-
           <br/>
-          <input type="text"
-            onChange={this.onFilterChanged}
-            defaultValue={this.props.options.filter}
-            placeholder="Filter by Tags" />
+          <label>Filter:</label>
+          <br />
+          <select onChange={this.onFilterChanged} defaultValue={this.props.options.filter}>
+            <option value=''>No filter</option>
+            {Object.keys(tags).map(tag =>
+              <option key={tag} value={tag}>{tag}</option>
+            )}
+          </select>
           <br/>
 
           <label htmlFor="algorithmChangeSelect">Word Selection Algorithm</label>

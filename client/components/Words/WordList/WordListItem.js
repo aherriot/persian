@@ -90,7 +90,7 @@ export default class WordListItem extends Component {
             <input type="text" ref="tags" defaultValue={word.tags.join(',')} />
           </div>
           <div className={styles.col}>
-            {word.scores.join(',')}
+            {this.props.score.scores.join(',')}
           </div>
           <div className={styles.col}>
             <a href="#" onClick={this.onSave}>save</a>{' '}
@@ -105,14 +105,20 @@ export default class WordListItem extends Component {
           <div className={styles.col}>{word.english}</div>
           <div className={styles.col}>{word.phonetic}</div>
           <div className={styles.col}>{word.tags.join(' \u00b7 ')}</div>
-          <div className={styles.col}>
-            {this.getScore()}
-          </div>
 
-          <div className={styles.col}>
-            <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
-            <a href="#" onClick={this.onDelete}>delete</a>
-          </div>
+          {this.props.role &&
+            <div className={styles.col}>
+              {this.getScore()}
+            </div>
+          }
+
+          {this.props.role === 'admin' &&
+
+            <div className={styles.col}>
+              <a href="#" onClick={this.onToggleEdit}>edit</a>{' '}
+              <a href="#" onClick={this.onDelete}>delete</a>
+            </div>
+          }
         </div>
       );
     }
@@ -121,5 +127,6 @@ export default class WordListItem extends Component {
 WordListItem.propTypes = {
   editWord: React.PropTypes.func.isRequired,
   deleteWord: React.PropTypes.func.isRequired,
-  word: React.PropTypes.object.isRequired
+  word: React.PropTypes.object.isRequired,
+  role: React.PropTypes.string
 };

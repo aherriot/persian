@@ -11,7 +11,8 @@ function mapStateToProps(state) {
   return {
     words: state.words,
     scores: state.scores,
-    quiz: state.quiz
+    quiz: state.quiz,
+    auth: state.auth
   };
 }
 

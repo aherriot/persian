@@ -37,7 +37,7 @@ export default class Header extends Component {
     } else {
       return (
         <div className={styles.authSection}>
-          <a href="#" onClick={this.onShowLogin}>Login</a>
+          <a href="#" onClick={this.onShowLogin}>Login</a>{' '}
           <a href="#" onClick={this.onShowCreateAccount}>Create Account</a>
         </div>
       )
