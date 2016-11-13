@@ -90,7 +90,7 @@ export default class WordListItem extends Component {
             <input type="text" ref="tags" defaultValue={word.tags.join(',')} />
           </div>
           <div className={styles.col}>
-            {this.props.score.scores.join(',')}
+            {this.props.score && this.props.score.scores.join(',')}
           </div>
           <div className={styles.col}>
             <a href="#" onClick={this.onSave}>save</a>{' '}
