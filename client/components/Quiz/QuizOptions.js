@@ -14,6 +14,22 @@ class QuizOptions extends Component {
       typeResponse: this.props.options.typeResponse,
       currentBucket: this.props.currentBucket
     }
+
+    this.bucketNumbers = [];
+    for(let i = 0; i < constants.MAX_BUCKET + 1; i++) {
+      this.bucketNumbers.push(i);
+    }
+
+    const tags = {};
+    Object.keys(this.props.words.byId).forEach(key => {
+      const word = this.props.words.byId[key]
+      word.tags.forEach(tag => {
+        tags[tag] = true
+      })
+    })
+
+    this.tags = Object.keys(tags).sort()
+
   }
 
   onFromLangChanged = (e) => {
@@ -79,20 +95,6 @@ class QuizOptions extends Component {
   }
 
   render() {
-
-    let bucketNumbers = [];
-    for(let i = 0; i < constants.MAX_BUCKET + 1; i++) {
-      bucketNumbers.push(i);
-    }
-
-    let tags = {};
-    Object.keys(this.props.words.byId).forEach(key => {
-      const word = this.props.words.byId[key]
-      word.tags.forEach(tag => {
-        tags[tag] = true
-      })
-    })
-
     return (
       <div>
         <h2>Quiz Options</h2>
@@ -169,7 +171,7 @@ class QuizOptions extends Component {
           <br />
           <select onChange={this.onFilterChanged} defaultValue={this.props.options.filter}>
             <option value=''>No filter</option>
-            {Object.keys(tags).map(tag =>
+            {this.tags.map(tag =>
               <option key={tag} value={tag}>{tag}</option>
             )}
           </select>
@@ -194,7 +196,7 @@ class QuizOptions extends Component {
           <br/>
           <label htmlFor="currentBucketSelect">Current Bucket</label>
           <select id="currentBucketSelect" onChange={this.onCurrentBucketChanged} value={this.state.currentBucket}>
-            {bucketNumbers.map(i =>
+            {this.bucketNumbers.map(i =>
               <option key={i} value={i}>{i}</option>
             )}
           </select>
