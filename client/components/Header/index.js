@@ -1,57 +1,44 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router';
-
+import AuthModal from './AuthModal';
 import styles from './Header.css';
 
 export default class Header extends Component {
 
   constructor() {
     super();
-
-    this.state = {
-      promptForLogin: false
-    };
   }
 
-  onLogin = (e) => {
+  onShowLogin = (e) => {
     e.preventDefault();
-    this.setState({promptForLogin: true});
+    this.props.actions.showLoginDialog();
   }
+
+  onShowCreateAccount = (e) => {
+    e.preventDefault();
+    this.props.actions.showCreateAccountDialog();
+  }
+
 
   onLogout = (e) => {
     e.preventDefault();
     this.props.actions.logout();
   }
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.props.actions.login(this.refs.username.value, this.refs.password.value);
-  }
-
   getAuthSection() {
 
-    if(this.props.auth.username) {
+    if(this.props.auth.token) {
       return (
         <div className={styles.authSection}>
-
           {this.props.auth.username} {' '}
           <a href="#" onClick={this.onLogout}>Logout</a>
-        </div>
-      )
-    } else if(this.state.promptForLogin) {
-      return (
-        <div className={styles.authSection}>
-          <form onSubmit={this.onSubmit}>
-            <input type="text" ref="username" placeholder="username"/>
-            <input type="password" ref="password" placeholder="password"/>
-            <input type="submit" value="Login"/>
-          </form>
         </div>
       )
     } else {
       return (
         <div className={styles.authSection}>
-          <a href="#" onClick={this.onLogin}>Login</a>
+          <a href="#" onClick={this.onShowLogin}>Login</a>{' '}
+          <a href="#" onClick={this.onShowCreateAccount}>Create Account</a>
         </div>
       )
     }
@@ -76,6 +63,7 @@ export default class Header extends Component {
         </div>
 
         {this.getAuthSection()}
+        <AuthModal auth={this.props.auth} actions={this.props.actions} />
       </div>
     )
   }

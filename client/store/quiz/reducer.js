@@ -1,7 +1,9 @@
-import * as types from '../constants/actionTypes';
-import constants from '../constants/constants';
-import quizStates from '../constants/quizStates';
-import {filterWords, getScoreIndex, selectLeitner, selectLeastRecent, selectRandom} from '../utils/';
+import * as types from './constants';
+import * as scoreTypes from 'store/quiz/constants';
+
+import constants from '../../constants/constants';
+import quizStates from '../../constants/quizStates';
+import {filterWords, selectLeitner, selectLeastRecent, selectRandom} from 'utils/';
 
 
 //determine if "typeResponse" is true, false, or not defined in localStorage
@@ -39,7 +41,6 @@ export default function quiz(state = defaultState, action) {
   case types.SELECT_WORD:
     //TODO: refactor this to make it legible
 
-    // debugger
     let loopCounter = 0;
     let word = null;
 
@@ -62,6 +63,7 @@ export default function quiz(state = defaultState, action) {
     if(filteredWordIds.length === 0) {
       filteredWordIds = filterWords(
         action.payload.words,
+        action.payload.scores,
         state.options,
         currentBucket
       );
@@ -147,11 +149,10 @@ export default function quiz(state = defaultState, action) {
             } else {
               currentBucket++;
             }
-            console.log('currentBucket: ', currentBucket);
-
 
             filteredWordIds = filterWords(
               action.payload.words,
+              action.payload.scores,
               state.options,
               currentBucket
             );
@@ -188,7 +189,6 @@ export default function quiz(state = defaultState, action) {
       }
     }
 
-    console.log('SELECTED: ', word);
     return {
       ...state,
       currentWordId: word,
@@ -205,7 +205,7 @@ export default function quiz(state = defaultState, action) {
       quizState: quizStates.SELF_EVAL
     };
 
-  case types.MARK_CORRECT_PENDING:
+  case types.MARK_CORRECT:
 
     recentWrongIds = state.recentWrongIds.filter((wordId) => {
       return wordId !== state.currentWordId;
@@ -220,7 +220,7 @@ export default function quiz(state = defaultState, action) {
       filteredWordIds: filteredWordIds
     };
 
-  case types.MARK_WRONG_PENDING:
+  case types.MARK_WRONG:
 
     const inRecentWrong = (state.recentWrongIds.indexOf(state.currentWordId) !== -1);
     let recentWrongs = state.recentWrongIds;
@@ -273,8 +273,7 @@ export default function quiz(state = defaultState, action) {
   case types.QUIZ_EDIT_WORD:
     return {
       ...state,
-      quizState: state.nextQuizState,
-      // currentWord: action.payload.word
+      quizState: state.nextQuizState
     };
 
 

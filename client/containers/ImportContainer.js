@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchWords, bulkAddWords} from '../actions/words';
+import {fetchWords, bulkAddWords} from 'store/words/actions';
 
 import Import from '../components/Words/Import';
 

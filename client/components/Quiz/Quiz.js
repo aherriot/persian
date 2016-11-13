@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import classnames from 'classnames';
 
 import quizStates from '../../constants/quizStates';
-import * as constants from '../../constants/constants';
+import constants from '../../constants/constants';
 
 import QuizPrompt from './QuizPrompt';
 import SelfEvaluationResponse from './SelfEvaluationResponse';
@@ -19,18 +19,24 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    if(this.props.words.status === constants.INIT) {
-      this.props.actions.fetchWords();
-    }
+    if(this.props.auth.role) {
 
-    if(this.props.words.status === constants.SUCCESS) {
-      this.props.actions.selectWord();
+      if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
+        this.props.actions.fetchWords();
+      }
+
+      if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
+        this.props.actions.fetchScores();
+      }
     }
   }
 
   componentWillReceiveProps(newProps) {
-    if(!this.props.quiz.currentWord) {
-      if(this.props.words.status !== constants.SUCCESS && newProps.words.status === constants.SUCCESS) {
+    const {words: {status: wordsStatus}, scores: {status: scoresStatus}} = this.props;
+    const {words: {status: newWordsStatus}, scores: {status: newScoresStatus}} = newProps;
+
+    if(wordsStatus !== constants.SUCCESS || scoresStatus !== constants.SUCCESS) {
+      if(newWordsStatus === constants.SUCCESS && newScoresStatus === constants.SUCCESS) {
         this.props.actions.selectWord();
       }
     }
@@ -72,7 +78,13 @@ class Quiz extends Component {
       undoMarkWrong
     } = this.props.actions;
 
-    const currentWord = this.props.words.byIds[currentWordId];
+    const currentWord = this.props.words.byId[currentWordId];
+
+    if(!this.props.auth.role) {
+      return (
+        <p>Please login or create an account to use the quiz</p>
+      )
+    }
 
     switch (quizState) {
 
@@ -152,6 +164,7 @@ class Quiz extends Component {
             currentBucket={currentBucket}
             setQuizOptions={setQuizOptions}
             revertQuizOptions={revertQuizOptions}
+            words={this.props.words}
           />
         )
 
@@ -195,14 +208,17 @@ class Quiz extends Component {
               Options
             </a>
 
-            <a
-              className={classnames(
-                [styles.actionLink],
-                {[styles.activeActionLink]: quizState === quizStates.EDITING}
-              )}
-              href="#" onClick={this.startEditingWord}>
-              Edit Word
-            </a>
+            {this.props.auth.role === 'admin' &&
+              <a
+                className={classnames(
+                  [styles.actionLink],
+                  {[styles.activeActionLink]: quizState === quizStates.EDITING}
+                )}
+                href="#" onClick={this.startEditingWord}>
+                Edit Word
+              </a>
+            }
+
           </div>
         </div>
         <div className={styles.quizBody}>

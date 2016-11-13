@@ -1,21 +1,22 @@
 .col {
-  flex: 1;
-  width: 15%;
+  flex: 1 1 100px;
+
   padding: 0 10px;
 }
 
-.persian-col {
-  display: inline-block;
-  width: 15%;
-  padding: 0 10px;
-  font-size: 1.1rem;
+.persianCol {
+  font-size: 1.2em;
   direction: rtl;
+}
+
+.scoresCol {
+  flex-basis: 200px;
 }
 
 .row {
   width: 100%;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
 }
 
 .row:nth-child(odd) {

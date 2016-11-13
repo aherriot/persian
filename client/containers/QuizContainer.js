@@ -2,47 +2,23 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Quiz from '../components/Quiz/Quiz';
-import {fetchWords} from '../actions/words';
-import {
-  selectWord,
-  selfEvaluate,
-  checkWord,
-  markCorrect,
-  markWrong,
-  undoMarkWrong,
-  showQuizOptions,
-  setQuizOptions,
-  revertQuizOptions,
-  startEditingWord,
-  revertEditWord,
-  quizEditWord
-} from '../actions/quiz';
+import {fetchWords} from 'store/words/actions';
+import * as scoreActions from 'store/scores/actions';
+import * as quizActions from 'store/quiz/actions';
 
 
 function mapStateToProps(state) {
   return {
     words: state.words,
-    quiz: state.quiz
+    scores: state.scores,
+    quiz: state.quiz,
+    auth: state.auth
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({
-      quizEditWord,
-      fetchWords,
-      selectWord,
-      selfEvaluate,
-      checkWord,
-      markCorrect,
-      markWrong,
-      undoMarkWrong,
-      showQuizOptions,
-      setQuizOptions,
-      revertQuizOptions,
-      startEditingWord,
-      revertEditWord
-    }, dispatch)
+    actions: bindActionCreators({...quizActions, ...scoreActions, fetchWords}, dispatch)
   };
 }
 
