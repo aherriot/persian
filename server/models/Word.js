@@ -6,8 +6,6 @@ module.exports = mongoose.model('Word', new Schema({
   persian: {type: String, required: true},
   phonetic: {type: String, required: true},
   tags: {type: [String], required: true},
-  scores: {type: [Number], default: [0,0,0,0,0,0]},
   createdAt: {type: Date, default: Date.now},
-  updatedAt: {type: Date, default: Date.now},
-  quizzedAt: {type: Date, default: null},
+  updatedAt: {type: Date, default: Date.now}
 }));
