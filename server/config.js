@@ -5,6 +5,6 @@ module.exports = {
   // JSON web token secret key
   JWT_SECRET: 'hard-to-guess-secret-key',
 
-  JWT_EXPIRY: 86400 //seconds
+  JWT_EXPIRY: 86400 * 7 // 7 days
 
 };
