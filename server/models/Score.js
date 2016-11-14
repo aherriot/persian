@@ -15,22 +15,3 @@ var scoreSchema = new Schema({
 scoreSchema.index({userId: 1, wordId: 1}, {unique: true});
 
 module.exports = mongoose.model('Score', scoreSchema);
-
-// db.users.find().forEach(user => {
-//   if(user.username === 'aherriot') {
-//     db.words.find().forEach(word => {
-//       if(word.quizzedAt) {
-//         print(word.english, 'adding')
-//         db.scores.insert({
-//           userId: user._id,
-//           wordId: word._id,
-//           quizzedAt: word.quizzedAt,
-//           scores: word.scores,
-//           __v: 0
-//         });
-//       } else {
-//         print(word.english, 'skipping')
-//       }
-//     });
-//   }
-// });
