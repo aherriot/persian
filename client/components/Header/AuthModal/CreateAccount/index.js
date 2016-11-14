@@ -44,7 +44,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
         {error}
       </div>
     }
-    
+
     <div>
       <input {...input} placeholder={label} type={type}/>
     </div>
@@ -67,6 +67,9 @@ class CreateAccount extends Component {
 
         case 'duplicateUsername':
           throw new SubmissionError({username: 'Username already exists'})
+
+        case 'duplicateEmail':
+          throw new SubmissionError({email: 'Email already exists'})
 
         default:
           throw new SubmissionError({_error: 'Error creating account'})
@@ -92,7 +95,7 @@ class CreateAccount extends Component {
 
         <div className={styles.body}>
           <Field name="username" type="text" component={renderField} label="Username"/>
-          <Field name="email" type="text" component={renderField} label="Email"/>
+          <Field name="email" type="email" component={renderField} label="Email"/>
           <Field name="password" type="password" component={renderField} label="Password"/>
           <Field name="password2" type="password" component={renderField} label="Repeat Password"/>
 

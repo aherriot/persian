@@ -8,7 +8,9 @@ import Header from '../components/Header';
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    routing: state.routing
+    routing: state.routing,
+    words: state.words,
+    scores: state.scores
   };
 }
 

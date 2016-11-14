@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import styles from './Login.css'
+import constants from '../../../../constants/constants'
 
 const validate = values => {
 
@@ -31,9 +32,16 @@ class Login extends Component {
 
     return this.props.actions.login(values.username, values.password)
       .then(() => {
-        this.props.actions.fetchScores();
+        if(this.props.words.status === constants.INIT || this.props.words.status === constants.ERROR) {
+          this.props.actions.fetchWords();
+        }
+
+        if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
+          this.props.actions.fetchScores();
+        }
       })
       .catch(error => {
+        debugger
         throw new SubmissionError({_error: 'Incorrect username or password!'})
       })
   }
@@ -59,8 +67,16 @@ class Login extends Component {
             Or you can: <a href="#" onClick={this.onGoToCreateAccount}>Create Account</a>
           </p>
 
-          <Field name="username" type="text" component={renderField} label="Username"/>
-          <Field name="password" type="password" component={renderField} label="Password"/>
+          <Field
+            name="username"
+            type="text"
+            component={renderField}
+            label="Username" />
+          <Field
+            name="password"
+            type="password"
+            component={renderField}
+            label="Password" />
 
           {error && <strong>{error}</strong>}
         </div>

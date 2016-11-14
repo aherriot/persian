@@ -130,8 +130,6 @@ export default function quiz(state = defaultState, action) {
             return true;
           });
 
-          // console.log('exclude prev and recentWrong. remaining: ', words.length);
-
           // word = selectLeitner(
           //   words,
           //   action.payload.seed,

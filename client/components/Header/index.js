@@ -63,7 +63,11 @@ export default class Header extends Component {
         </div>
 
         {this.getAuthSection()}
-        <AuthModal auth={this.props.auth} actions={this.props.actions} />
+        <AuthModal
+          auth={this.props.auth}
+          words={this.props.words}
+          scores={this.props.scores}
+          actions={this.props.actions} />
       </div>
     )
   }

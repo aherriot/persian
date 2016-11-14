@@ -32,11 +32,10 @@ class Quiz extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const {words: {status: wordsStatus}, scores: {status: scoresStatus}} = this.props;
-    const {words: {status: newWordsStatus}, scores: {status: newScoresStatus}} = newProps;
-
-    if(wordsStatus !== constants.SUCCESS || scoresStatus !== constants.SUCCESS) {
-      if(newWordsStatus === constants.SUCCESS && newScoresStatus === constants.SUCCESS) {
+    const {words: {status: wordsStatus}, scores: {status: scoresStatus}, auth: {role}} = this.props;
+    const {words: {status: newWordsStatus}, scores: {status: newScoresStatus}, auth: {role: newRole}} = newProps;
+    if(wordsStatus !== constants.SUCCESS || scoresStatus !== constants.SUCCESS || role !== newRole) {
+      if(newWordsStatus === constants.SUCCESS && newScoresStatus === constants.SUCCESS && newRole) {
         this.props.actions.selectWord();
       }
     }

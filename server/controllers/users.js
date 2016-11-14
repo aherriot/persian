@@ -28,7 +28,7 @@ router.post('/login', function(req, res) {
     return res.status(400).json({code: 'missingUsername', message: 'Username missing from body'});
   } else {
 
-    User.findOne({username: req.body.username}, function(err, user) {
+    User.findOne({username: { $regex :  new RegExp(req.body.username, "i") }}, function(err, user) {
 
       if(err) {
         return res.status(500).json({error: err});
@@ -78,16 +78,20 @@ router.post('/', function(req, res) {
     return res.status(400).json({code: 'invalidEmail', message: 'Email is not valid'});
   }
 
-  User.findOne({$or: [{username: req.body.username}, {email: req.body.email}]}, function(err, user) {
+  User.findOne({$or: [
+      {username: { $regex :  new RegExp(req.body.username, "i") }},
+      {email: req.body.email}
+    ]}, function(err, user) {
+
     if(err) {
       return res.status(500).json({errror: err});
     }
 
     if(user) {
-      if(user.username === req.body.username) {
+      if(user.username.toLowerCase() === req.body.username.toLowerCase()) {
         res.status(400).json({code: 'duplicateUsername', message: 'Username already in use'});
       } else {
-        res.status(400).json({code: 'duplicatePassword', message: 'email already in use'});
+        res.status(400).json({code: 'duplicateEmail', message: 'email already in use'});
       }
     } else {
       var newUser = new User({
