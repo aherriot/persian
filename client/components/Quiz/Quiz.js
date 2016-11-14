@@ -28,6 +28,10 @@ class Quiz extends Component {
       if(this.props.scores.status === constants.INIT || this.props.scores.status === constants.ERROR) {
         this.props.actions.fetchScores();
       }
+
+      if(this.props.words.status === constants.SUCCESS && this.props.scores.status === constants.SUCCESS) {
+        this.props.actions.selectWord();
+      }
     }
   }
 
