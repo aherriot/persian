@@ -133,6 +133,7 @@ class QuizOptions extends Component {
           </label>
 
           <br />
+          <br />
           <label><strong>Back of flashcard</strong></label>
           <br />
 
@@ -165,19 +166,19 @@ class QuizOptions extends Component {
               />
             Persian
           </label>
-
           <br/>
-          <label>Filter:</label>
-          <br />
+          <br/>
+          <label><strong>Filter</strong></label>
           <select onChange={this.onFilterChanged} defaultValue={this.props.options.filter}>
-            <option value=''>No filter</option>
+            <option value=''>All Words</option>
             {this.tags.map(tag =>
               <option key={tag} value={tag}>{tag}</option>
             )}
           </select>
-          <br/>
+          <br />
+          <br />
 
-          <label htmlFor="algorithmChangeSelect">Word Selection Algorithm</label>
+          <label htmlFor="algorithmChangeSelect"><strong>Word Selection Algorithm</strong></label>
           <select id="algorithmChangeSelect" onChange={this.onAlgorithmChanged} value={this.state.selectionAlgorithm}>
             <option value={constants.LEITNER}>Least Known</option>
             <option value={constants.LEAST_RECENT}>Least Recent</option>
@@ -185,22 +186,25 @@ class QuizOptions extends Component {
           </select>
 
           <br/>
+          <br/>
           <input
             type="checkbox"
             id="typeResponseCheckbox"
             checked={this.state.typeResponse}
             onChange={this.onTypeResponseChanged}>
           </input>
-          <label htmlFor="typeResponseCheckbox">Type Response</label>
+          <label htmlFor="typeResponseCheckbox"><strong>Type Response</strong></label>
+          <br />
+          <br />
 
-          <br/>
-          <label htmlFor="currentBucketSelect">Current Bucket</label>
+          <label htmlFor="currentBucketSelect"><strong>Current Bucket</strong></label>
           <select id="currentBucketSelect" onChange={this.onCurrentBucketChanged} value={this.state.currentBucket}>
             {this.bucketNumbers.map(i =>
               <option key={i} value={i}>{i}</option>
             )}
           </select>
 
+          <br/>
           <br/>
           <button onClick={this.onSave}>Save</button>
           <button onClick={this.onRevert}>Revert</button>
