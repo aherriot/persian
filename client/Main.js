@@ -18,7 +18,9 @@ export default () => (
             <Route path="export" component={require('./containers/ExportContainer').default} />
           </Route>
           <Route path="/quiz" component={require('./containers/QuizContainer').default} />
-          
+          <Route path="/leaderboard" component={require('./containers/LeaderboardContainer').default} />
+
+
           <Route path="*" component={require('./components/NoMatch').default}/>
         </Route>
       </Router>

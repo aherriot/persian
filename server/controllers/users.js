@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 
 var User = require('../models/User');
+var Score = require('../models/Score');
 var config = require('../config');
 
 var auth = require('../middlewares/auth');
@@ -12,7 +13,7 @@ var router = express.Router();
 
 router.get('/', auth, admin, function(req, res) {
 
-  User.find({}, function(err, users) {
+  User.find({}, {username: 1, email: 1, role: 1, createdAt: 1}, function(err, users) {
     if(err) {
       return res.status(500).json({ error: err });
     }
@@ -186,6 +187,45 @@ router.delete('/:username', auth, admin, function(req, res) {
   //
   // });
 
+});
+
+router.get('/leaderboard', auth, admin, function(req, res) {
+  User.find({})
+    .then(users => {
+      let respObj = []
+      let refCount = 0
+      users.forEach(user => {
+        Score.find({userId: user._id})
+          .then(scores => {
+
+            refCount++;
+
+            let sum = 0
+            let mostRecent = null
+            scores.forEach(score => {
+
+              if (!mostRecent || score.quizzedAt > mostRecent) {
+                mostRecent = score.quizzedAt
+              }
+
+              score.scores.forEach(scoreElem => sum += scoreElem)
+            })
+
+            respObj.push({
+              username: user.username,
+              quizzedWords: scores.length,
+              mostRecent: mostRecent,
+              score: sum
+            })
+
+            if(refCount === users.length) {
+              return res.json(respObj)
+            }
+          })
+          .catch(error => res.status(500).json({error: err}))
+      })
+    })
+    .catch(error => res.status(500).json({error: err}))
 });
 
 module.exports = router;
