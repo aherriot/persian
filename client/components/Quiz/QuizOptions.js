@@ -24,11 +24,15 @@ class QuizOptions extends Component {
     Object.keys(this.props.words.byId).forEach(key => {
       const word = this.props.words.byId[key]
       word.tags.forEach(tag => {
-        tags[tag] = true
+        if(tags[tag]) {
+          tags[tag]++
+        } else {
+          tags[tag] = 1
+        }
       })
     })
 
-    this.tags = Object.keys(tags).sort()
+    this.tags = Object.keys(tags).sort().map(key => ({name: key, count: tags[key]}))
 
   }
 
@@ -168,17 +172,17 @@ class QuizOptions extends Component {
           </label>
           <br/>
           <br/>
-          <label><strong>Filter</strong></label>
+          <label><strong>Filter by Tag </strong></label>
           <select onChange={this.onFilterChanged} defaultValue={this.props.options.filter}>
-            <option value=''>All Words</option>
+            <option value=''>*All Words*</option>
             {this.tags.map(tag =>
-              <option key={tag} value={tag}>{tag}</option>
+              <option key={tag.name} value={tag.name}>{tag.name} ({tag.count} words)</option>
             )}
           </select>
           <br />
           <br />
 
-          <label htmlFor="algorithmChangeSelect"><strong>Word Selection Algorithm</strong></label>
+          <label htmlFor="algorithmChangeSelect"><strong>Word Selection Algorithm </strong></label>
           <select id="algorithmChangeSelect" onChange={this.onAlgorithmChanged} value={this.state.selectionAlgorithm}>
             <option value={constants.LEITNER}>Least Known</option>
             <option value={constants.LEAST_RECENT}>Least Recent</option>
@@ -193,11 +197,11 @@ class QuizOptions extends Component {
             checked={this.state.typeResponse}
             onChange={this.onTypeResponseChanged}>
           </input>
-          <label htmlFor="typeResponseCheckbox"><strong>Type Response</strong></label>
+          <label htmlFor="typeResponseCheckbox"><strong> Type Response</strong></label>
           <br />
           <br />
 
-          <label htmlFor="currentBucketSelect"><strong>Current Bucket</strong></label>
+          <label htmlFor="currentBucketSelect"><strong>Current Bucket </strong></label>
           <select id="currentBucketSelect" onChange={this.onCurrentBucketChanged} value={this.state.currentBucket}>
             {this.bucketNumbers.map(i =>
               <option key={i} value={i}>{i}</option>
