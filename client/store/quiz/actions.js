@@ -96,6 +96,7 @@ export function undoMarkWrong() {
     const scoreIndex = getScoreIndex(options.fromLang, options.toLang);
     const newScore = Math.min(scores[currentWordId].scores[scoreIndex] + 1, constants.MAX_BUCKET);
 
+    dispatch({type: types.MARK_CORRECT});
     dispatch(setScore(currentWordId, scoreIndex, newScore));
     dispatch(selectWord());
   }
