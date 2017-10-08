@@ -1,93 +1,42 @@
 {
   "name": "persian",
-  "version": "0.3.0",
-  "description": "",
-  "main": "server/server.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aherriot/persian"
+  "description":
+    "A Persian flashcard app written with React, Express, and MongoDB",
+  "version": "0.4.0",
+  "author": {
+    "name": "Andrew Herriot"
   },
-  "keywords": [
-    "express",
-    "webpack",
-    "node",
-    "react",
-    "redux"
-  ],
-  "author": "Andrew Herriot",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/aherriot/persian/issues"
-  },
-  "homepage": "http://persian.aherriot.com",
-  "scripts": {
-    "start": "NODE_ENV=development  node server/devServer",
-    "build": "NODE_ENV=production rimraf dist && webpack -p --config ./webpack.build.config.js --progress --profile --colors",
-    "lint": "eslint --ext=jsx --ext=js ./client",
-    "lint:fix": "eslint --ext=jsx --ext=js --fix ./client",
-    "test": "NODE_ENV=test mocha --opts ./mocha.opts ./client/**/*.spec.js",
-    "test:watch": "NODE_ENV=test mocha --watch --opts ./mocha.opts ./client/**/*.spec.js"
-  },
+  "private": true,
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.14.2",
-    "classnames": "^2.2.3",
-    "express": "^4.13.3",
-    "jsonwebtoken": "^7.1.9",
-    "jwt-decode": "^2.1.0",
-    "mongoose": "^4.4.7",
-    "morgan": "^1.7.0",
-    "react": "15.3.0",
-    "react-dom": "15.3.0",
-    "react-modal": "^1.4.0",
-    "react-redux": "^4.0.5",
-    "react-router": "^2.7.0",
-    "react-router-redux": "^4.0.5",
-    "redux": "^3.5.2",
-    "redux-form": "^6.0.5",
-    "redux-thunk": "^1.0.3",
-    "whatwg-fetch": "1.0.0"
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1",
+    "jsonwebtoken": "^8.0.1",
+    "mongoose": "^4.12.0",
+    "morgan": "^1.9.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-scripts": "1.0.14"
+  },
+  "scripts": {
+    "start:client": "react-scripts start",
+    "start:server":
+      "NODE_ENV=development nodemon --ignore '*.test.js' --watch server server/index.js",
+    "build": "react-scripts build",
+    "test:client": "react-scripts test --env=jsdom",
+    "test:server": "mocha 'server/**/*.test.js'",
+    "eject": "react-scripts eject"
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:3001"
+    }
   },
   "devDependencies": {
-    "autoprefixer": "^6.0.3",
-    "babel-core": "^6.0.0",
-    "babel-eslint": "^4.1.3",
-    "babel-loader": "^6.0.0",
-    "babel-plugin-react-transform": "^2.0.0",
-    "babel-preset-es2015": "^6.0.0",
-    "babel-preset-react": "^6.0.0",
-    "babel-preset-stage-0": "^6.0.0",
-    "chai": "3.5.0",
-    "css-loader": "^0.19.0",
-    "enzyme": "2.4.1",
-    "eslint": "^3.0.0",
-    "eslint-config-standard": "5.3.5",
-    "eslint-config-standard-react": "3.0.0",
-    "eslint-loader": "1.5.0",
-    "eslint-plugin-babel": "3.3.0",
-    "eslint-plugin-import": "1.12.0",
-    "eslint-plugin-promise": "2.0.1",
-    "eslint-plugin-react": "5.2.2",
-    "eslint-plugin-standard": "2.0.0",
-    "expect": "^1.20.2",
-    "exports-loader": "^0.6.3",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "html-webpack-plugin": "^1.6.1",
-    "imports-loader": "^0.6.5",
-    "jsdom": "9.4.1",
-    "json-loader": "^0.5.3",
-    "mocha": "2.5.3",
-    "postcss-loader": "^0.6.0",
-    "react-addons-test-utils": "15.3.0",
-    "react-transform-hmr": "^1.0.0",
-    "redbox-react": "^1.3.1",
-    "rimraf": "^2.4.3",
-    "style-loader": "^0.12.4",
-    "webpack": "^1.13.2",
-    "webpack-dev-middleware": "^1.8.3",
-    "webpack-hot-middleware": "^2.12.2"
-  },
-  "optionalDependencies": {
-    "fsevents": "*"
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "superagent": "^3.6.3"
   }
 }

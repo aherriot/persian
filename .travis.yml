@@ -1,5 +1,15 @@
 language: node_js
-node_js:
-  - "6"
+node_js: "8"
+services: mongodb
+
 install:
-  npm install --no-optional
+  yarn install
+
+cache: 
+  yarn
+
+before_script:
+  - sleep 10
+
+script:
+  yarn run start:server && yarn run test:server
