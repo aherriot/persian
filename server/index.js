@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const compression = require('compression')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -8,6 +9,10 @@ const config = require('./config')
 
 // Instantiate server
 const app = express()
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(compression())
+}
 
 // Setup request logger
 if (process.env.NODE_ENV !== 'test') {

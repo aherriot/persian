@@ -1,7 +1,6 @@
 {
   "name": "persian",
-  "description":
-    "A Persian flashcard app written with React, Express, and MongoDB",
+  "description": "A Persian flashcard app written with React, Express, and MongoDB",
   "version": "0.4.0",
   "author": {
     "name": "Andrew Herriot"
@@ -11,18 +10,23 @@
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
     "express": "^4.16.1",
     "jsonwebtoken": "^8.0.1",
     "mongoose": "^4.12.0",
     "morgan": "^1.9.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14"
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start:client": "react-scripts start",
-    "start:server":
-      "nodemon --ignore '*.test.js' --watch server server/index.js",
+    "start:server": "nodemon --ignore '*.test.js' --watch server server/index.js",
     "build": "react-scripts build",
     "test:client": "react-scripts test --env=jsdom",
     "test:server": "mocha 'server/**/*.test.js'",

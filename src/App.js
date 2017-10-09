@@ -1,18 +1,35 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { Link, Route, Switch } from 'react-router-dom'
+import './common.css'
+
+import Home from './views/Home'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Persian!</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul>
+          <li>
+            <Link to="/">Home!</Link>
+          </li>
+          <li>
+            <Link to="/words">words</Link>
+          </li>
+          <li>
+            <Link to="/words/import">import</Link>
+          </li>
+          <li>
+            <Link to="/quiz">quiz</Link>
+          </li>
+        </ul>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/about" exact render={() => <div>about</div>} />
+          <Route path="/words" exact render={() => <div>Words</div>} />
+          <Route path="/words/import" exact render={() => <div>import</div>} />
+          <Route path="/words/export" exact render={() => <div>export</div>} />
+          <Route path="/quiz" exact render={() => <div>Quiz</div>} />
+        </Switch>
       </div>
     )
   }

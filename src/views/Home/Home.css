@@ -1,0 +1,15 @@
+section {
+  height: 300px;
+}
+
+section.top {
+  background-color: green;
+}
+
+section.middle {
+  background-color: red;
+}
+
+section.bottom {
+  background-color: brown;
+}
