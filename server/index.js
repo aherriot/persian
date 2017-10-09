@@ -10,18 +10,25 @@ const config = require('./config')
 const app = express()
 
 // Setup request logger
-app.use(
-  morgan(
-    ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'
+if (process.env.NODE_ENV !== 'test') {
+  app.use(
+    morgan(
+      ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'
+    )
   )
-)
+}
 
 // Set up promise library to use with Mongoose
 mongoose.Promise = global.Promise
 
+const connectionString =
+  process.env.NODE_ENV === 'test'
+    ? 'mongodb://localhost/persianTest'
+    : config.CONNECTION_STRING
+
 // Connect to DB
 mongoose
-  .connect(config.CONNECTION_STRING, { useMongoClient: true })
+  .connect(connectionString, { useMongoClient: true })
   .then(() => {
     console.log('Successfully connected to MongoDB.')
   })

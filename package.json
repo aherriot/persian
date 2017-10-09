@@ -22,7 +22,7 @@
   "scripts": {
     "start:client": "react-scripts start",
     "start:server":
-      "NODE_ENV=development nodemon --ignore '*.test.js' --watch server server/index.js",
+      "nodemon --ignore '*.test.js' --watch server server/index.js",
     "build": "react-scripts build",
     "test:client": "react-scripts test --env=jsdom",
     "test:server": "mocha 'server/**/*.test.js'",
