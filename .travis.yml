@@ -9,9 +9,9 @@ cache:
   yarn
 
 before_script:
-  - sleep 10
+  - sleep 2
 
 script:
-  - yarn run start:server
-  - sleep 5  
+  - yarn run start:server &
+  - sleep 2
   - yarn run test:server
