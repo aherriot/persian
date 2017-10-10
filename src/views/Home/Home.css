@@ -1,15 +1,40 @@
-section {
-  height: 300px;
+.Home section {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
 }
 
-section.top {
-  background-color: green;
+.Home .logo {
+  font-size: 36px;
+  font-weight: 800;
+  border: 1px solid white;
+  border-radius: 3px;
+  padding: 0px 5px;
 }
 
-section.middle {
-  background-color: red;
+.Home h1 {
+  font-weight: 200;
+  margin: 0;
 }
 
-section.bottom {
-  background-color: brown;
+.Home h2 {
+  font-weight: 400;
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.Home section.top {
+  color: white;
+  background-color: #087f23;
+}
+
+.Home section.middle {
+  background-color: #eee;
+}
+
+.Home section.bottom {
+  background-color: #ccc;
 }

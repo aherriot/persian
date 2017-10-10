@@ -1,0 +1,7 @@
+.Words {
+  padding-top: 50px;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
