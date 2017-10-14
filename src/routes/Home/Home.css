@@ -1,0 +1,61 @@
+.Home section {
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Home .logo {
+  font-size: 3.6rem;
+  font-weight: 800;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  padding: 0 0.5rem;
+}
+
+.Home h1 {
+  font-weight: 200;
+  margin: 0;
+}
+
+.Home h2 {
+  font-weight: 400;
+  font-size: 1.6rem;
+  margin: 0.5rem 0;
+}
+
+.Home a {
+  color: black;
+  text-decoration: none;
+}
+
+.Home section.top {
+  color: white;
+  background-color: #087f23;
+  padding: 0 2rem;
+}
+
+.Home section.middle {
+  background-color: #eee;
+  display: flex;
+  flex-direction: row;
+}
+
+.Home .words {
+  height: 100%;
+  background-color: #bbb;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.Home .quiz {
+  height: 100%;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.Home .Home section.bottom {
+  padding: 0 2rem;
+  background-color: #ccc;
+}

@@ -17,21 +17,15 @@ export default function() {
         </div>
       </section>
       <section className="middle">
-        <p>With this app, you can:</p>
-        <ul>
-          <li>
-            Browse the dictionary of <Link to="/words">words</Link>
-          </li>
-          <li>Study words using spaced repetition</li>
-          <li>other thing</li>
-        </ul>
+        <Link to="/words" className="words">
+          <div>Words</div>
+        </Link>
+        <Link to="/quiz" className="quiz">
+          <div>Quiz</div>
+        </Link>
       </section>
 
       <section className="bottom">
-        <div>
-          <button type="button">Sign in</button>
-          <button type="button">Create Account</button>
-        </div>
         This is a free personal project by{' '}
         <a href="http://www.aherriot.com">Andrew Herriot</a>
       </section>

@@ -1,11 +1,25 @@
 const actions = {
-  'words/FETCH_PENDING': (state, action) => {
-    return state
+  'words/FETCH_SUCCESS': (state, action) => {
+    const byId = action.payload.response.reduce((acc, word, index) => {
+      acc[word._id] = word
+      return acc
+    }, {})
+    return {
+      ...state,
+      fetchStatus: 'SUCCESS',
+      fetchTime: Date.now(),
+      byId: byId,
+      error: null
+    }
   }
 }
 
 const defaultState = {
-  test: true
+  fetchStatus: 'INIT',
+  fetchTime: null,
+  modifyStatus: 'INIT',
+  byId: {},
+  error: null
 }
 
 export default function(state = defaultState, action) {

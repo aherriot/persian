@@ -1,0 +1,28 @@
+.List {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.List .row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  overflow: hidden;
+}
+
+.List .odd {
+  background-color: #eff6ec;
+}
+
+/* .List .row:hover {
+  background-color: #d6f3c9;
+} */
+
+.List .row > div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+}

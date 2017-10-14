@@ -1,12 +1,12 @@
 .Logo {
-  font-size: 24px;
-  font-weight: 800;
-  border: 2px solid white;
-  border-radius: 2px;
+  font-size: 2.4rem;
+  font-weight: 400;
+  border: 0.2rem solid white;
+  border-radius: 0.2rem;
 }
 
 .Logo > * {
-  margin: 2px 7px 0 7px;
+  margin: 0.2rem 0.7rem 0 0.7rem;
 }
 
 .Logo a {

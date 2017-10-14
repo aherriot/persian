@@ -1,0 +1,61 @@
+html,
+body,
+#root,
+.Routes {
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Helvetica Neue', Arial, sans-serif;
+
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: black;
+}
+
+button {
+  background-color: rgb(41, 174, 66);
+  color: white;
+  /* border: 0.1rem solid white; */
+  border: none;
+  border-radius: 0.2rem;
+  padding: 1rem;
+  font-size: 2rem;
+  font-weight: 300;
+  margin: 0.5rem;
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+}
+/* colors */
+
+/* primary: #4caf50
+primaryLight: #80e27e
+primaryDark: #087f23
+
+secondary: #ffea00
+secondaryLight: #ffff56
+secondaryDark: #c7b800 */

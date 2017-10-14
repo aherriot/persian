@@ -3,14 +3,23 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 5rem;
   color: white;
   background-color: green;
-  box-shadow: 0px 0px 5px 2px #ccc;
+  box-shadow: 0 0 0.5rem 0.2rem #ccc;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 0px 10px;
+  padding: 0 1rem;
+}
+
+.Header .left {
+  display: flex;
+  align-items: center;
+}
+
+.Header .title {
+  margin-left: 1rem;
 }

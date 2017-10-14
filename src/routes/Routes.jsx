@@ -2,24 +2,25 @@ import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import './common.css'
 
-import Home from './views/Home'
-import Words from './views/Words'
+import Home from './Home'
+import Words from './Words/redux/container'
+import Quiz from './Quiz/redux/container'
 
-class App extends Component {
+class Routes extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="Routes">
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/about" exact render={() => <div>about</div>} />
           <Route path="/words" exact component={Words} />
           <Route path="/words/import" exact render={() => <div>import</div>} />
           <Route path="/words/export" exact render={() => <div>export</div>} />
-          <Route path="/quiz" exact render={() => <div>Quiz</div>} />
+          <Route path="/quiz" exact component={Quiz} />
         </Switch>
       </div>
     )
   }
 }
 
-export default App
+export default Routes
