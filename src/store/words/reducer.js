@@ -1,4 +1,4 @@
-const actions = {
+const actionHandlers = {
   'words/FETCH_SUCCESS': (state, action) => {
     const byId = action.payload.response.reduce((acc, word, index) => {
       acc[word._id] = word
@@ -23,7 +23,7 @@ const defaultState = {
 }
 
 export default function(state = defaultState, action) {
-  const actionHandler = actions[action.type]
+  const actionHandler = actionHandlers[action.type]
   if (actionHandler) {
     return actionHandler(state, action)
   } else {

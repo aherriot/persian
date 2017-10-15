@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Header from 'components/Header'
 
-import './Quiz.css'
+import './Study.css'
 
-export default class Quiz extends Component {
+export default class Study extends Component {
   componentDidMount() {
     this.props.actions.fetchWords()
   }
@@ -16,8 +16,9 @@ export default class Quiz extends Component {
     }
 
     return (
-      <div className="Quiz">
-        <Header title="Quiz" />
+      <div className="Study">
+        <Header title="Study" />
+        <div>Study</div>
       </div>
     )
   }

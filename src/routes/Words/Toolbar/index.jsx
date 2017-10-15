@@ -7,14 +7,14 @@ import filterUrl from './filter.svg'
 import plusUrl from './plus.svg'
 import studyUrl from './study.svg'
 
-export default function() {
+export default function Toolbar({ actions }) {
   return (
     <div className="Toolbar">
-      <div role="button" onClick={() => alert('filter')}>
+      <div role="button" onClick={actions.openFilterModal}>
         <img className="icon" src={filterUrl} alt="filter" />
         Filter
       </div>
-      <div role="button" onClick={() => alert('add')}>
+      <div role="button" onClick={actions.openAddModal}>
         <img className="icon" src={plusUrl} alt="add word" />
         Add
       </div>

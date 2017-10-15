@@ -11,7 +11,8 @@ export default class List extends Component {
       <div
         key={key}
         style={style}
-        className={classnames('row', { odd: index % 2 === 0 })}>
+        className={classnames('row', { odd: index % 2 === 0 })}
+        onClick={() => this.props.actions.selectWord(word._id)}>
         <div>{word.english}</div>
         <div className="rtl">{word.persian}</div>
       </div>

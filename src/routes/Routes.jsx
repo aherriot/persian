@@ -4,7 +4,7 @@ import './common.css'
 
 import Home from './Home'
 import Words from './Words/redux/container'
-import Quiz from './Quiz/redux/container'
+import Study from './Study/redux/container'
 
 class Routes extends Component {
   render() {
@@ -16,7 +16,7 @@ class Routes extends Component {
           <Route path="/words" exact component={Words} />
           <Route path="/words/import" exact render={() => <div>import</div>} />
           <Route path="/words/export" exact render={() => <div>export</div>} />
-          <Route path="/quiz" exact component={Quiz} />
+          <Route path="/quiz" exact component={Study} />
         </Switch>
       </div>
     )

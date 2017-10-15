@@ -21,7 +21,7 @@ export default function() {
           <div>Words</div>
         </Link>
         <Link to="/quiz" className="quiz">
-          <div>Quiz</div>
+          <div>Study</div>
         </Link>
       </section>
 
