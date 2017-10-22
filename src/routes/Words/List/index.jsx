@@ -19,17 +19,34 @@ export default class List extends Component {
     )
   }
 
+  noRowsRenderer = () => {
+    const { status } = this.props
+    if (status === 'PENDING') {
+      return <div className="noRows">Loading...</div>
+    } else {
+      return <div className="noRows">No rows match filter</div>
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.props.sortBy !== newProps.sortBy) {
+      this.list.forceUpdateGrid()
+    }
+  }
+
   render() {
     return (
       <div className="List">
         <ReactVirtualizedAutoSizer>
           {({ width, height }) => (
             <ReactVirtualizedList
+              ref={ref => (this.list = ref)}
               width={width}
               height={height}
               rowCount={this.props.words.length}
               rowHeight={25}
               rowRenderer={this.rowRenderer}
+              noRowsRenderer={this.noRowsRenderer}
             />
           )}
         </ReactVirtualizedAutoSizer>

@@ -26,3 +26,8 @@
   min-width: 0;
   overflow: hidden;
 }
+
+.List .noRows {
+  margin-top: 8rem;
+  text-align: center;
+}

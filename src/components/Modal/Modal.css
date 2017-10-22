@@ -1,11 +1,14 @@
 .Modal {
   position: fixed;
-  top: 10rem;
-  right: 2rem;
-  left: 2rem;
+  top: 12rem;
+  right: 0;
+  left: 0;
   border-radius: 0.4rem;
   border: 1px solid black;
   background-color: white;
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 40rem;
   z-index: 2;
 }
 

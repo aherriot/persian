@@ -45,8 +45,7 @@ async function request(url, method = 'GET', data) {
 export default request
 
 const requestPending = type => ({
-  type: type + '_PENDING',
-  payload: {}
+  type: type + '_PENDING'
 })
 
 const requestSuccess = (type, response) => ({
@@ -61,13 +60,13 @@ const requestError = (type, error) => ({
   error: error
 })
 
-export function authRequest(type, url, method = 'GET', data) {
+export function authRequest(actionType, url, method = 'GET', data) {
   return (dispatch, getState) => {
-    dispatch(requestPending(type))
+    dispatch(requestPending(actionType))
 
-    request(url, method, data)
+    return request(url, method, data)
       .then(response => {
-        dispatch(requestSuccess(type, response))
+        dispatch(requestSuccess(actionType, response))
         return response
       })
       .catch(error => {
@@ -78,10 +77,10 @@ export function authRequest(type, url, method = 'GET', data) {
             'missingAuthToken'
           ].includes(error.code)
         ) {
-          dispatch({ type: 'AUTH_ERROR', error: error })
+          dispatch({ actionType: 'AUTH_ERROR', error: error })
         } else {
-          dispatch(requestError(type, error))
-          return error
+          dispatch(requestError(actionType, error))
+          return Promise.reject(error)
         }
       })
   }

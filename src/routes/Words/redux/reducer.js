@@ -22,6 +22,12 @@ const actionHandlers = {
   },
   'words/CANCEL_EDIT_WORD': (state, action) => {
     return { ...state, editingWord: false }
+  },
+  'words/SET_SEARCH_TEXT': (state, action) => {
+    return { ...state, searchText: action.payload.searchText }
+  },
+  'words/SET_SORT_BY': (state, action) => {
+    return { ...state, sortBy: action.payload.sortBy }
   }
 }
 
@@ -29,7 +35,9 @@ const defaultState = {
   filterModalOpen: false,
   addModalOpen: false,
   selectedWordId: null,
-  editingWord: false
+  editingWord: false,
+  searchText: '',
+  sortBy: 'english'
 }
 
 export default function(state = defaultState, action) {

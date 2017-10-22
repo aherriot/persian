@@ -1,4 +1,7 @@
 const actionHandlers = {
+  'words/FETCH_PENDING': (state, action) => {
+    return { ...state, fetchStatus: 'PENDING' }
+  },
   'words/FETCH_SUCCESS': (state, action) => {
     const byId = action.payload.response.reduce((acc, word, index) => {
       acc[word._id] = word

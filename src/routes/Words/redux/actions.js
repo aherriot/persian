@@ -46,3 +46,21 @@ export function cancelEditWord() {
     type: 'words/CANCEL_EDIT_WORD'
   }
 }
+
+export function setSearchText(text = '') {
+  return {
+    type: 'words/SET_SEARCH_TEXT',
+    payload: {
+      searchText: text
+    }
+  }
+}
+
+export function setSortBy(sortBy) {
+  return {
+    type: 'words/SET_SORT_BY',
+    payload: {
+      sortBy: sortBy
+    }
+  }
+}
