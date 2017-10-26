@@ -215,6 +215,8 @@ describe('User API', function() {
 
   describe('Edit user', function() {})
 
+  describe('Refresh token', function() {})
+
   describe('Get list of users', function() {})
 })
 

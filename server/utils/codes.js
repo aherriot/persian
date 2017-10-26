@@ -40,12 +40,26 @@ const codes = {
 
   userWrong: {
     status: 401,
-    message: 'Cannot perform operations on other users.'
+    message: 'Cannot perform operations on other users'
   },
 
   unauthorized: {
     status: 401,
     message: 'Not authorized to perform this action'
+  },
+
+  // score
+  directionInvalid: {
+    status: 400,
+    message: 'direction field must be "fromPersian" or "fromEnglish"'
+  },
+  scoreInvalid: {
+    status: 400,
+    message: 'score field must be a number between 0 and 5'
+  },
+  wordNotFound: {
+    status: 404,
+    message: 'Word does not exist with this id'
   }
 }
 

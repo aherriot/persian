@@ -7,8 +7,8 @@
     {
       "type": "chrome",
       "request": "attach",
-      "name": "Persian web",
-      "port": 9222,
+      "name": "Launch Chrome",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceRoot}/src"
     },
     {

@@ -62,6 +62,21 @@ router.post('/login', async function(req, res) {
   }
 })
 
+// given a valid token, respond with a new token with the same information
+// but updated expiry date.
+router.get('/refresh-token', auth, async function(req, res) {
+  // We trust the information coming from the request authentication token,
+  // because it is signed with the server's secret. See the 'auth' middleware.
+  const token = jwt.sign(
+    { _id: req.user._id, username: req.user.username, role: req.user.role },
+    config.JWT_SECRET,
+    {
+      expiresIn: config.JWT_EXPIRY
+    }
+  )
+  return res.json({ token: token })
+})
+
 router.post('/', async function(req, res) {
   if (!req.body.username) {
     return respondWithError(res, 'usernameMissing')
