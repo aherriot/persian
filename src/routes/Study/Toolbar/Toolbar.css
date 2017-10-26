@@ -1,0 +1,39 @@
+.Toolbar {
+  height: 4rem;
+  border-bottom: 0.1rem solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
+}
+
+.Toolbar > * {
+  font-size: 1.2rem;
+  height: 100%;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+}
+
+.Toolbar > *:hover,
+.Toolbar > *:active {
+  cursor: pointer;
+  background-color: #eff6ec;
+}
+
+.Toolbar > *:not(:last-child) {
+  border-right: 0.1rem solid #aaa;
+}
+
+.Toolbar > *:last-child {
+  border-right: 0.1rem solid #aaa;
+}
+
+.Toolbar > *:first-child {
+  border-left: 0.1rem solid #aaa;
+}
+
+.Toolbar .icon {
+  margin-right: 0.6rem;
+}

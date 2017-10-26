@@ -3,24 +3,24 @@ import { Link } from 'react-router-dom'
 
 import './Toolbar.css'
 
-import Filter from 'icons/Filter'
-import Plus from 'icons/Plus'
-import Study from 'icons/Study'
+import Cogs from 'icons/Cogs'
+import Pencil from 'icons/Pencil'
+import List from 'icons/List'
 
 export default function Toolbar({ actions }) {
   return (
     <div className="Toolbar">
       <div role="button" onClick={actions.openFilterModal}>
-        <Filter />
-        Filter
+        <Cogs />
+        Options
       </div>
       <div role="button" onClick={actions.openAddModal}>
-        <Plus />
-        Add
+        <Pencil />
+        Edit
       </div>
-      <Link to="/quiz" role="button">
-        <Study />
-        Study
+      <Link to="/words" role="button">
+        <List />
+        Words
       </Link>
     </div>
   )

@@ -68,6 +68,7 @@ const AuthForm = withFormik({
       .login(values.username, values.password)
       .then(resp => {
         setSubmitting(false)
+        props.actions.closeAuthDialog()
       })
       .catch(error => {
         setErrors({ password: error.message })

@@ -77,7 +77,7 @@ export function authRequest(actionType, url, method = 'GET', data) {
             'missingAuthToken'
           ].includes(error.code)
         ) {
-          dispatch({ actionType: 'AUTH_ERROR', error: error })
+          dispatch({ type: 'AUTH_ERROR', error: error })
         } else {
           dispatch(requestError(actionType, error))
           return Promise.reject(error)

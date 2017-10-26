@@ -16,7 +16,7 @@ const actionHandlers = {
     return {
       ...state,
       status: 'SUCCESS',
-      token: action.payload.token,
+      token: action.payload.response.token,
       username: decoded.username,
       role: decoded.role,
       expiresAt: decoded.exp,
@@ -27,6 +27,17 @@ const actionHandlers = {
     return {
       ...state,
       status: 'ERROR'
+    }
+  },
+  'auth/LOGOUT': (state, action) => {
+    localStorage.removeItem('token')
+
+    return {
+      ...state,
+      token: null,
+      username: null,
+      role: null,
+      expiresAt: null
     }
   }
 }

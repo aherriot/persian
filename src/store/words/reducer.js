@@ -3,7 +3,18 @@ const actionHandlers = {
     return { ...state, fetchStatus: 'PENDING' }
   },
   'words/FETCH_SUCCESS': (state, action) => {
+    const byTag = {}
+    // normalize the words by id, for fast lookup with a word id.
     const byId = action.payload.response.reduce((acc, word, index) => {
+      // Also category the words by tags for fast lookup later
+      word.tags.forEach(function(tag) {
+        if (byTag[tag]) {
+          byTag[tag].push(word._id)
+        } else {
+          byTag[tag] = [word._id]
+        }
+      })
+
       acc[word._id] = word
       return acc
     }, {})
@@ -12,6 +23,7 @@ const actionHandlers = {
       fetchStatus: 'SUCCESS',
       fetchTime: Date.now(),
       byId: byId,
+      byTag: byTag,
       error: null
     }
   }
@@ -22,6 +34,7 @@ const defaultState = {
   fetchTime: null,
   modifyStatus: 'INIT',
   byId: {},
+  byTag: {},
   error: null
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import * as authActions from 'store/auth/actions'
 
@@ -18,7 +19,9 @@ function Header({ title, auth, actions }) {
       </div>
       <div className="right">
         {auth.username ? (
-          auth.username
+          <Link role="button" type="button" to="/profile">
+            {auth.username}
+          </Link>
         ) : (
           <button type="button" onClick={actions.openAuthDialog}>
             Login
