@@ -20,3 +20,7 @@ export function login(username, password) {
 export function logout() {
   return { type: 'auth/LOGOUT' }
 }
+
+export function refreshToken() {
+  return authRequest('auth/REFRESH_TOKEN', '/api/users/refresh-token')
+}

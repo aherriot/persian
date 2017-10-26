@@ -1,5 +1,7 @@
+import { updateScore } from 'store/scores/actions'
+
 export function selectWord() {
-  return (dispatch, getState) => {
+  return function(dispatch, getState) {
     let state = getState()
     dispatch({
       type: 'study/SELECT_WORD',
@@ -18,15 +20,22 @@ export function revealAnswer() {
   }
 }
 
-export function markCorrect() {
-  return {
-    type: 'study/MARK_CORRECT'
+export function markCorrect(wordId, direction, score) {
+  return function(dispatch, getState) {
+    dispatch(updateScore(wordId, direction, score))
+
+    dispatch({
+      type: 'study/MARK_CORRECT'
+    })
   }
 }
 
-export function markWrong() {
-  return {
-    type: 'study/MARK_WRONG'
+export function markWrong(wordId, direction) {
+  return function(dispatch, getState) {
+    dispatch(updateScore(wordId, direction, 0))
+    return {
+      type: 'study/MARK_WRONG'
+    }
   }
 }
 

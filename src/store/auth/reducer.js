@@ -39,6 +39,21 @@ const actionHandlers = {
       role: null,
       expiresAt: null
     }
+  },
+  'auth/REFRESH_TOKEN_SUCCESS': (state, action) => {
+    localStorage.setItem('token', action.payload.response.token)
+    return { ...state, token: action.payload.response.token }
+  },
+  'auth/REFRESH_TOKEN_ERROR': (state, action) => {
+    localStorage.removeItem('token')
+
+    return {
+      ...state,
+      token: null,
+      username: null,
+      role: null,
+      expiresAt: null
+    }
   }
 }
 

@@ -25,7 +25,7 @@ router.get('/', auth, function(req, res) {
 
 router.put('/:wordId', auth, async function(req, res) {
   if (
-    req.body.direction !== 'fromEnglish' ||
+    req.body.direction !== 'fromEnglish' &&
     req.body.direction !== 'fromPersian'
   ) {
     return respondWithError(res, 'directionInvalid')
@@ -81,7 +81,7 @@ router.put('/:wordId', auth, async function(req, res) {
     }
 
     var newScore = new Score({
-      [direction]: {
+      [req.body.direction]: {
         score: req.body.score,
         quizzedAt: Date.now()
       },
@@ -91,7 +91,7 @@ router.put('/:wordId', auth, async function(req, res) {
 
     try {
       await newScore.save()
-      return res.json(score)
+      return res.json(newScore)
     } catch (err) {
       return respondWithError(res, err)
     }

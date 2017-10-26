@@ -5,12 +5,12 @@ const scoreSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
   wordId: { type: Schema.Types.ObjectId, ref: 'Word' },
   fromEnglish: {
-    score: { type: Number, default: 0 },
-    quizzedAt: { type: Date, default: null }
+    score: { type: Number },
+    quizzedAt: { type: Date }
   },
   fromPersian: {
-    score: { type: Number, default: 0 },
-    quizzedAt: { type: Date, default: null }
+    score: { type: Number },
+    quizzedAt: { type: Date }
   }
 })
 
