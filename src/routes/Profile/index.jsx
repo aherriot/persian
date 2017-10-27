@@ -8,14 +8,20 @@ export default function({ actions, auth }) {
     <div className="Profile">
       <Header title="Profile" />
       {auth.token && (
-        <div>
+        <div className="content">
+          <h1>{auth.username}</h1>
           <div>Welcome to your profile</div>
-          <button onClick={actions.logout}>Logout</button>
+          <div>Change password</div>
+          <div>Change username or email</div>
+          <div>Delete account</div>
+          <div className="buttonRow">
+            <button onClick={actions.logout}>Logout</button>
+          </div>
         </div>
       )}
 
       {!auth.token && (
-        <div>
+        <div className="content">
           <div>You are not logged in.</div>
         </div>
       )}

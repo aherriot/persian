@@ -3,8 +3,9 @@ import checkAnswer from 'utils/checkAnswer'
 
 export default class TextEvaluation extends Component {
   onSubmit = e => {
+    const { actions, words, scores, study } = this.props
+
     if (this.input.value.length > 0) {
-      const { words, scores, study } = this.props
       const word = words.byId[study.selectedWordId]
       const answer = word[study.options.answerSide]
       const direction =
@@ -19,14 +20,10 @@ export default class TextEvaluation extends Component {
           newScore = score[direction].score + 1
         }
 
-        this.props.actions.markCorrect(
-          study.selectedWordId,
-          direction,
-          newScore
-        )
+        actions.markCorrect(study.selectedWordId, direction, newScore)
       } else {
         // else mark it as wrong, so the score is reset to 0
-        this.props.actions.markWrong(study.selectedWordId, direction)
+        actions.markWrong(study.selectedWordId, direction)
       }
     }
   }

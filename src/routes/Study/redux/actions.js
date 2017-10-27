@@ -33,9 +33,9 @@ export function markCorrect(wordId, direction, score) {
 export function markWrong(wordId, direction) {
   return function(dispatch, getState) {
     dispatch(updateScore(wordId, direction, 0))
-    return {
+    dispatch({
       type: 'study/MARK_WRONG'
-    }
+    })
   }
 }
 

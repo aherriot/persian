@@ -7,6 +7,12 @@ const actionHandlers = {
   'auth/CLOSE_DIALOG': (state, action) => {
     return { ...state, open: false }
   },
+  'auth/SHOW_LOGIN': (state, action) => {
+    return { ...state, showingCreateAccount: false }
+  },
+  'auth/SHOW_CREATE_ACCOUNT': (state, action) => {
+    return { ...state, showingCreateAccount: true }
+  },
   'auth/LOGIN_PENDING': (state, action) => {
     return { ...state, status: 'PENDING' }
   },

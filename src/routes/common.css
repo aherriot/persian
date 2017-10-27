@@ -20,6 +20,7 @@ html {
 
 body {
   font-size: 1.6rem;
+  color: rgba(0, 0, 0, 0.85);
 }
 
 a {
@@ -31,21 +32,61 @@ a:visited {
   color: black;
 }
 
+/* Forms */
+
+form h1 {
+  margin-bottom: 2rem;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+div.error {
+  font-size: 1.2rem;
+  color: red;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
 input[type='text'],
 input[type='password'] {
-  padding: 0.6rem;
+  width: 100%;
+  padding: 0.5rem;
   font-size: 1.6rem;
-  border: 0.1rem solid grey;
+  font-weight: 300;
+  border: 0.1rem solid #d9d9d9;
   border-radius: 0.3rem;
 }
 
-input:focus {
+input[type='text']:hover,
+input[type='text']:focus,
+input[type='password']:hover,
+input[type='password']:focus {
   outline: none;
+  border-color: #49a9ee;
+}
+
+input.error,
+input.error:hover,
+input.error:focus {
+  border-color: red;
 }
 
 select {
   padding: 0.6rem;
-  border: 1px solid grey;
+  border: 1px solid #d9d9d9;
   color: grey;
   border-radius: 0.3rem;
   font-size: 1.6rem;
@@ -54,19 +95,40 @@ select {
 }
 
 button {
-  background-color: rgb(41, 174, 66);
+  background-color: hsl(213, 62%, 42%);
+  border: 0.1rem solid hsl(212, 63%, 31%);
   color: white;
-  /* border: 0.1rem solid white; */
-  border: none;
-  border-radius: 0.2rem;
-  padding: 1rem;
-  font-size: 2rem;
+  border-radius: 0.3rem;
+  padding: 0.6rem 1rem;
+  font-size: 1.4rem;
   font-weight: 300;
-  margin: 0.5rem;
+  margin: 0;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover,
+button:active,
+button:focus {
+  background-color: hsl(213, 82%, 52%);
+  border-color: hsl(212, 63%, 31%);
+}
+
+button.affirmative {
+  background-color: green;
+  border-color: green;
+}
+
+button.negative {
+  background-color: red;
+  border-color: red;
 }
 
 button[disabled] {
-  background-color: grey;
+  background-color: #bbb;
+  border-color: #999;
 }
 
 .rtl {
@@ -76,6 +138,49 @@ button[disabled] {
 .icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+/* React Modal */
+/* .ReactModal { */
+/* position: absolute; */
+/* top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  background-color: papayawhip; */
+/* } */
+
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.ReactModal__Content {
+  box-shadow: 0 0 0.5rem 0.2rem #999;
+  background-color: white;
+  border: 0;
+  border-radius: 0;
+  padding: 2rem;
+
+  min-height: 10rem;
+  min-width: 25rem;
+  max-width: 25rem;
+
+  top: 50%;
+  bottom: auto;
+  left: 50%;
+  right: auto;
+
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+.ReactModal__Content:focus {
+  outline: none;
 }
 /* colors */
 
