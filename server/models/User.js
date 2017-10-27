@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const Score = require('./Score')
 const bcrypt = require('bcrypt')
 
 const config = require('../config')
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
   username: { type: String, required: true, index: { unique: true } },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -13,7 +14,7 @@ const UserSchema = new Schema({
 })
 
 // generate password hash if it has changed
-UserSchema.pre('save', function(next) {
+userSchema.pre('save', function(next) {
   const user = this
 
   // only hash the password if it has been modified (or is new)
@@ -34,8 +35,13 @@ UserSchema.pre('save', function(next) {
   })
 })
 
+userSchema.pre('remove', function(next) {
+  Scores.remove({ userId: this._id }).exec()
+  next()
+})
+
 // Check if password is valid
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) {
       return cb(err)
@@ -44,4 +50,4 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   })
 }
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', userSchema)

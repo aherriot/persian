@@ -19,19 +19,6 @@ before(function(done) {
 })
 
 describe('User API', function() {
-  it('success on admin login', function(done) {
-    request
-      .post(USERS_URL + 'login')
-      .send({ username: 'admin', password: PASSWORD })
-      .end((err, resp) => {
-        expect(err).to.be.null
-        expect(resp.status).to.equal(200)
-        expect(resp.body.token).to.exist
-        global.adminToken = resp.body.token
-        done()
-      })
-  })
-
   describe('Create new user', function() {
     it('error on missing username', function(done) {
       request
@@ -206,6 +193,19 @@ describe('User API', function() {
           expect(resp.body.token).to.exist
           global.testUserToken = resp.body.token
           global.testUserId = jwt.decode(resp.body.token)._id
+          done()
+        })
+    })
+
+    it('success on admin login', function(done) {
+      request
+        .post(USERS_URL + 'login')
+        .send({ username: 'admin', password: PASSWORD })
+        .end((err, resp) => {
+          expect(err).to.be.null
+          expect(resp.status).to.equal(200)
+          expect(resp.body.token).to.exist
+          global.adminToken = resp.body.token
           done()
         })
     })

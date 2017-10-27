@@ -48,18 +48,35 @@ const codes = {
     message: 'Not authorized to perform this action'
   },
 
-  // score
+  // words
+  wordInvalid: {
+    status: 400,
+    message:
+      'word must contain valid fields "english", "persian", "phonetic", and "tags"'
+  },
+
+  wordArrayInvalid: {
+    status: 400,
+    message:
+      'Array of words must contain valid fields "english", "persian", "phonetic", and "tags"'
+  },
+
+  // scores
   directionInvalid: {
     status: 400,
-    message: 'direction field must be "fromPersian" or "fromEnglish"'
+    message: 'The "direction" field must be "fromPersian" or "fromEnglish"'
   },
   scoreInvalid: {
     status: 400,
-    message: 'score field must be a number between 0 and 5'
+    message: 'The "score" field must be a number between 0 and 5'
   },
   wordNotFound: {
     status: 404,
     message: 'Word does not exist with this id'
+  },
+  wordIdInvalid: {
+    status: 400,
+    message: 'Word ID is not valid'
   }
 }
 

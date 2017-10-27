@@ -54,7 +54,10 @@ app.get('*', (req, res) => {
 })
 
 app.listen(config.PORT, () => {
-  console.log(`Server listening on port ${config.PORT}!`)
+  console.log(
+    `Server listening on port ${config.PORT} with NODE_ENV=${process.env
+      .NODE_ENV}`
+  )
 })
 
 module.exports = app

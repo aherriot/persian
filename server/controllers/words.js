@@ -1,11 +1,41 @@
-var express = require('express')
-var mongoose = require('mongoose')
-var router = express.Router()
+const express = require('express')
+const mongoose = require('mongoose')
+const router = express.Router()
 
-var Word = require('../models/Word')
-var auth = require('../middlewares/auth')
+const Word = require('../models/Word')
+const auth = require('../middlewares/auth')
+const admin = require('../middlewares/admin')
 
 const respondWithError = require('../utils/respondWithError')
+
+function isValidWord(word) {
+  // english must be a non-empty string
+  if (typeof word.english !== 'string' || word.english.length === 0) {
+    return false
+  }
+
+  // persian must be a non-empty string
+  if (typeof word.persian !== 'string' || word.persian.length === 0) {
+    return false
+  }
+
+  // phonetic must be a non-empty string
+  if (typeof word.phonetic !== 'string' || word.phonetic.length === 0) {
+    return false
+  }
+
+  // tags must be an array
+  if (!Array.isArray(word.tags)) {
+    return false
+  }
+
+  // tags array must contain only non-empty strings
+  if (word.tags.some(tag => typeof tag !== 'string' || tag.length === 0)) {
+    return false
+  }
+
+  return true
+}
 
 router.get('/', async function(req, res) {
   try {
@@ -19,21 +49,24 @@ router.get('/', async function(req, res) {
   }
 })
 
-router.get('/:word_id', function(req, res) {
-  Word.findById(
-    req.params.word_id,
-    '_id createdAt english persian phonetic tags',
-    function(err, word) {
-      if (err) {
-        respondWithError(res, err)
-      }
-      return res.json(word)
-    }
-  )
+router.get('/:word_id', async function(req, res) {
+  try {
+    const word = await Word.findById(
+      req.params.word_id,
+      '_id createdAt english persian phonetic tags'
+    )
+    return res.json(word)
+  } catch (err) {
+    return respondWithError(res, err)
+  }
 })
 
-router.post('/', auth, function(req, res) {
+router.post('/', auth, admin, function(req, res) {
   if (Array.isArray(req.body)) {
+    if (req.body.some(word => !isValidWord(word))) {
+      return respondWithError(res, 'wordArrayInvalid')
+    }
+
     Word.insertMany(req.body)
       .then(function(words) {
         return res.status(201).json(words)
@@ -42,6 +75,10 @@ router.post('/', auth, function(req, res) {
         respondWithError(res, err)
       })
   } else {
+    if (!isValidWord(req.body)) {
+      return respondWithError(res, 'wordInvalid')
+    }
+
     var word = new Word(req.body)
 
     word
@@ -55,63 +92,53 @@ router.post('/', auth, function(req, res) {
   }
 })
 
-router.put('/:word_id', auth, function(req, res) {
+router.put('/:word_id', auth, admin, async function(req, res) {
   var editedWord = {
     updatedAt: Date.now()
   }
 
-  if (req.body.word.english) {
-    editedWord.english = req.body.word.english
+  if (req.body.english) {
+    editedWord.english = req.body.english
   }
 
-  if (req.body.word.persian) {
-    editedWord.persian = req.body.word.persian
+  if (req.body.persian) {
+    editedWord.persian = req.body.persian
   }
 
-  if (req.body.word.phonetic) {
-    editedWord.phonetic = req.body.word.phonetic
+  if (req.body.phonetic) {
+    editedWord.phonetic = req.body.phonetic
   }
 
-  if (req.body.word.tags) {
-    editedWord.tags = req.body.word.tags
+  if (req.body.tags) {
+    editedWord.tags = req.body.tags
   }
 
-  // if(req.body.word.scores) {
-  //   editedWord.scores = req.body.word.scores;
-  // }
-
-  Word.findByIdAndUpdate(
-    req.params.word_id,
-    editedWord,
-    { new: true },
-    function(err, word) {
-      if (err) {
-        respondWithError(res, err)
-      }
-
-      if (word) {
-        return res.json(word)
-      } else {
-        res
-          .status(404)
-          .json({ code: 'notFound', message: 'resource not found' })
-      }
+  try {
+    const word = await Word.findByIdAndUpdate(req.params.word_id, editedWord, {
+      new: true
+    })
+    if (word) {
+      return res.json(word)
+    } else {
+      return respondWithError(res, 'wordNotFound')
     }
-  )
+  } catch (err) {
+    return respondWithError(res, err)
+  }
 })
 
-router.delete('/:word_id', auth, function(req, res) {
-  Word.findByIdAndRemove(req.params.word_id, function(err, word) {
-    if (err) {
-      respondWithError(res, err)
-    }
+router.delete('/:word_id', auth, admin, async function(req, res) {
+  try {
+    const word = await Word.findByIdAndRemove(req.params.word_id)
 
     if (word) {
       return res.json(word)
     } else {
-      res.status(404).json({ code: 'notFound', message: 'resource not found' })
+      return respondWithError(res, 'wordNotFoun')
     }
-  })
+  } catch (err) {
+    return respondWithError(res, err)
+  }
 })
 
 module.exports = router

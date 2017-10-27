@@ -2,6 +2,10 @@ const request = require('superagent')
 const expect = require('chai').expect
 const config = require('./config')
 
+require('./controllers/users.test.js')
+require('./controllers/words.test.js')
+require('./controllers/scores.test.js')
+
 const SERVER_URL = `localhost:${config.PORT}/`
 
 describe('General server responses', function() {

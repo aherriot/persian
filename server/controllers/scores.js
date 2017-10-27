@@ -44,6 +44,9 @@ router.put('/:wordId', auth, async function(req, res) {
       wordId: req.params.wordId
     })
   } catch (err) {
+    if (err.name === 'CastError') {
+      return respondWithError(res, 'wordIdInvalid')
+    }
     return respondWithError(res, err)
   }
 

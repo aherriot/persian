@@ -37,8 +37,7 @@
     "start:server:test": "NODE_ENV=test node server/index.js",
     "build": "react-scripts build",
     "test:client": "react-scripts test --env=jsdom",
-    "test:server":
-      "./before_test.sh && mocha 'server/**/*.test.js' && ./after_test.sh",
+    "test:server": "./before_test.sh && mocha 'server/server.test.js'",
     "eject": "react-scripts eject"
   },
   "proxy": {
