@@ -28,6 +28,9 @@ const actionHandlers = {
   },
   'words/SET_SORT_BY': (state, action) => {
     return { ...state, sortBy: action.payload.sortBy }
+  },
+  'words/SET_TAG_FILTER': (state, action) => {
+    return { ...state, tagFilter: action.payload.tagFilter }
   }
 }
 
@@ -36,7 +39,9 @@ const defaultState = {
   addModalOpen: false,
   selectedWordId: null,
   editingWord: false,
+
   searchText: '',
+  tagFilter: '',
   sortBy: 'english'
 }
 

@@ -56,6 +56,15 @@ export function setSearchText(text = '') {
   }
 }
 
+export function setTagFilter(tagFilter = '') {
+  return {
+    type: 'words/SET_TAG_FILTER',
+    payload: {
+      tagFilter: tagFilter
+    }
+  }
+}
+
 export function setSortBy(sortBy) {
   return {
     type: 'words/SET_SORT_BY',

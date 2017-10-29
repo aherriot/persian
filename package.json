@@ -19,6 +19,8 @@
     "jwt-decode": "^2.2.0",
     "mongoose": "^4.12.0",
     "morgan": "^1.9.0",
+    "postcss-cli": "^4.1.1",
+    "postcss-custom-properties": "^6.2.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-modal": "^3.0.4",
@@ -36,6 +38,8 @@
       "nodemon --ignore '*.test.js' --watch server server/index.js",
     "start:server:test": "NODE_ENV=test node server/index.js",
     "build": "react-scripts build",
+    "postbuild":
+      "postcss --use postcss-custom-properties --replace build/**/*.css",
     "test:client": "react-scripts test --env=jsdom",
     "test:server": "./before_test.sh && mocha 'server/server.test.js'",
     "eject": "react-scripts eject"

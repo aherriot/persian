@@ -13,7 +13,7 @@
 }
 
 .List .odd {
-  background-color: #eff6ec;
+  background-color: var(--persian-yellow-light);
 }
 
 /* .List .row:hover {

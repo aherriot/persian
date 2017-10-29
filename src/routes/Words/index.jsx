@@ -14,18 +14,29 @@ export default class Words extends Component {
 
   render() {
     const { actions, words, wordsRoute } = this.props
-    const wordArray = []
-    for (let wordId in words.byId) {
-      const word = words.byId[wordId]
+    const wordsToShow = []
+
+    // The words are pre sorted by tags and hashmap by id
+    // so if we have specified a tag, we don't have to look
+    // as every word, we can directly look at the words for that filter
+    let wordsList
+    if (wordsRoute.tagFilter) {
+      wordsList = words.byTag[wordsRoute.tagFilter]
+    } else {
+      wordsList = Object.keys(words.byId)
+    }
+
+    for (let i = 0; i < wordsList.length; i++) {
+      const word = words.byId[wordsList[i]]
 
       if (!wordsRoute.searchText) {
-        wordArray.push(word)
+        wordsToShow.push(word)
       } else if (word.english.includes(wordsRoute.searchText)) {
-        wordArray.push(word)
+        wordsToShow.push(word)
       }
     }
 
-    wordArray.sort((wordA, wordB) => {
+    wordsToShow.sort((wordA, wordB) => {
       return wordA[wordsRoute.sortBy].localeCompare(wordB[wordsRoute.sortBy])
     })
 
@@ -34,7 +45,7 @@ export default class Words extends Component {
         <Header title="Words" />
         <Toolbar actions={actions} />
         <List
-          words={wordArray}
+          words={wordsToShow}
           status={words.fetchStatus}
           actions={actions}
           sortBy={wordsRoute.sortBy}
@@ -42,7 +53,9 @@ export default class Words extends Component {
         <FilterModal
           open={wordsRoute.filterModalOpen}
           actions={actions}
+          words={words}
           searchText={wordsRoute.searchText}
+          tagFilter={wordsRoute.tagFilter}
           sortBy={wordsRoute.sortBy}
         />
         {/* <Modal open={wordsRoute.addModalOpen} onClose={actions.closeAddModal}>

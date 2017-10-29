@@ -1,18 +1,34 @@
 /***********************************
- * Base style
+ * Colours
  **********************************/
 
 :root {
-  --main-bg-color: #a2b;
+  /* base colour defintions */
+  --persian-grey-dark: hsl(220, 26%, 28%);
+  --persian-black: hsl(220, 26%, 14%);
+  --persian-white: hsl(220, 26%, 95%);
+
+  --persian-blue: hsl(196, 100%, 33%);
+  --persian-blue-light: hsl(196, 100%, 40%);
+  --persian-blue-dark: hsl(196, 100%, 26%);
+
+  --persian-teal: hsl(176, 59%, 30%);
+  --persian-teal-light: hsl(176, 59%, 37%);
+  --persian-teal-dark: hsl(176, 59%, 23%);
+
+  --pesian-green: hsl(154, 28%, 57%);
+
+  --persian-yellow: hsl(57, 45%, 76%);
+  --persian-yellow-light: hsl(57, 45%, 86%);
+
+  --persian-red: hsl(5, 63%, 51%);
+  --persian-red-light: hsl(5, 63%, 58%);
+  --persian-red-dark: hsl(5, 63%, 44%);
+
+  /* element definitions */
+  --text-color: var(--persian-white);
+  --background-color: #eee;
 }
-
-/* primary: #4caf50
-primaryLight: #80e27e
-primaryDark: #087f23
-
-secondary: #ffea00
-secondaryLight: #ffff56
-secondaryDark: #c7b800 */
 
 /***********************************
  * Base style
@@ -40,7 +56,7 @@ html {
 
 body {
   font-size: 1.6rem;
-  color: rgba(0, 0, 0, 0.85);
+  color: var(--persian-black);
 }
 
 a {
@@ -49,7 +65,7 @@ a {
 
 a:hover,
 a:visited {
-  color: black;
+  color: var(--persian-black);
 }
 
 label {
@@ -60,7 +76,7 @@ label {
 
 div.error {
   font-size: 1.2rem;
-  color: red;
+  color: var(--persian-red);
 }
 
 .buttonRow {
@@ -84,13 +100,13 @@ input[type='text']:focus,
 input[type='password']:hover,
 input[type='password']:focus {
   outline: none;
-  border-color: #49a9ee;
+  border-color: var(--persian-blue);
 }
 
 input.error,
 input.error:hover,
 input.error:focus {
-  border-color: red;
+  border-color: var(--persian-red);
 }
 
 select {
@@ -100,16 +116,16 @@ select {
   border-radius: 0.3rem;
   font-size: 1.6rem;
   height: 3.5rem;
-  background-color: white;
+  background-color: var(--persian-white);
 }
 
 /***********************************
  * Button
  **********************************/
 button.button {
-  background-color: hsl(213, 62%, 42%);
-  border: 0.1rem solid hsl(212, 63%, 31%);
-  color: white;
+  background-color: var(--persian-blue);
+  border: 0.1rem solid var(--persian-blue-dark);
+  color: var(--persian-white);
   border-radius: 0.3rem;
   padding: 0.6rem 1rem;
   font-size: 1.4rem;
@@ -124,18 +140,18 @@ button :focus {
 button.button:hover,
 button.button:active,
 button.button:focus {
-  background-color: hsl(213, 82%, 52%);
-  border-color: hsl(212, 63%, 31%);
+  background-color: var(--persian-blue-light);
+  border-color: var(--persian-blue);
 }
 
 button.button.affirmative {
-  background-color: green;
-  border-color: green;
+  background-color: var(--persian-teal);
+  border-color: var(--persian-teal-dark);
 }
 
 button.button.negative {
-  background-color: red;
-  border-color: red;
+  background-color: var(--persian-red);
+  border-color: var(--persian-red);
 }
 
 button.button[disabled] {
@@ -148,7 +164,7 @@ button.button[disabled] {
 button.link {
   border: none;
   background-color: rgba(0, 0, 0, 0);
-  color: blue;
+  color: var(--persian-blue-light);
   font-size: 1.4rem;
 }
 

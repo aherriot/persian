@@ -20,8 +20,10 @@
 
 .Modal__window {
   box-shadow: 0 0 0.5rem 0.2rem #999;
-  background-color: white;
   border: 0;
+  border-top: 0.6rem solid var(--persian-teal);
+
+  background-color: var(--persian-white);
   border-radius: 0;
 
   /* min-height: 10rem; */
