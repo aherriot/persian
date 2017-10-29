@@ -4,7 +4,18 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
+
+  transition: opacity 200ms ease-out;
+  opacity: 0.01;
+}
+
+.Modal__overlay--after-open {
+  opacity: 1;
+}
+
+.Modal__overlay--before-close {
+  opacity: 0.01;
 }
 
 .Modal__window {
@@ -25,11 +36,24 @@
   right: auto;
 
   position: absolute;
-  transform: translate(-50%, -30%);
+  transform: translate(-50%, -50%);
   overflow: hidden;
 
   display: flex;
   flex-direction: column;
+
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  opacity: 0.01;
+}
+
+.Modal__window--after-open {
+  opacity: 1;
+  transform: translate(-50%, -30%);
+}
+
+.Modal__window--before-close {
+  opacity: 0.01;
+  transform: translate(-50%, -50%);
 }
 
 .Modal__window:focus {

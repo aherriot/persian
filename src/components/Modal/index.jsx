@@ -21,6 +21,7 @@ export default function Modal({ open, onClose, title, children }) {
     <ReactModal
       isOpen={open}
       onRequestClose={onClose}
+      closeTimeoutMS={200}
       className={windowClassNames}
       overlayClassName={overlayClassNames}>
       <h1>{title}</h1>
