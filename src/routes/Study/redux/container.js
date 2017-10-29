@@ -7,6 +7,7 @@ import Study from '../'
 
 function mapStateToProps(state) {
   return {
+    auth: state.data.auth,
     words: state.data.words,
     scores: state.data.scores,
     study: state.routes.study

@@ -23,7 +23,10 @@ function Header({ title, auth, actions }) {
             {auth.username}
           </Link>
         ) : (
-          <button type="button" onClick={actions.openAuthDialog}>
+          <button
+            type="button"
+            className="button"
+            onClick={actions.openAuthDialog}>
             Login
           </button>
         )}

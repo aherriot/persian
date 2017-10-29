@@ -15,7 +15,9 @@ export default function({ actions, auth }) {
           <div>Change username or email</div>
           <div>Delete account</div>
           <div className="buttonRow">
-            <button onClick={actions.logout}>Logout</button>
+            <button className="button" onClick={actions.logout}>
+              Logout
+            </button>
           </div>
         </div>
       )}

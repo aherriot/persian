@@ -33,7 +33,10 @@ export default function FilterModal({ open, actions, searchText, sortBy }) {
         </div>
 
         <div>
-          <button type="button" onClick={actions.closeFilterModal}>
+          <button
+            type="button"
+            className="button"
+            onClick={actions.closeFilterModal}>
             Ok
           </button>
         </div>

@@ -19,44 +19,51 @@ const InnerLoginForm = ({
   const usernameError = touched.username && errors.username
   const passwordError = touched.password && errors.password
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Login</h1>
-      <div className="formGroup">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          className={classnames({ error: usernameError })}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.username}
-          autoFocus
-        />
-        {usernameError && <div className="error">{errors.username}</div>}
+    <form className="form" onSubmit={handleSubmit}>
+      <div className="form__body">
+        <div className="form__group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            className={classnames({ error: usernameError })}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.username}
+            autoFocus
+          />
+          {usernameError && <div className="error">{errors.username}</div>}
+        </div>
+        <div className="form__group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className={classnames({ error: passwordError })}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+          />
+          {passwordError && <div className="error">{errors.password}</div>}
+        </div>
+        <div>
+          or{' '}
+          <button
+            type="button"
+            className="link"
+            onClick={actions.showCreateAccount}>
+            Create Account
+          </button>
+        </div>
       </div>
-      <div className="formGroup">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          className={classnames({ error: passwordError })}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.password}
-        />
-        {passwordError && <div className="error">{errors.password}</div>}
-      </div>
-      or{' '}
-      <button
-        type="button"
-        className="link"
-        onClick={actions.showCreateAccount}>
-        Create Account
-      </button>
-      <div className="buttonRow">
-        <button type="submit" disabled={!isValid || isSubmitting}>
+
+      <div className="form__button-row">
+        <button
+          type="submit"
+          className="button"
+          disabled={!isValid || isSubmitting}>
           Submit
         </button>
       </div>

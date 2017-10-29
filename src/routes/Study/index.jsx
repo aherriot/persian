@@ -4,6 +4,7 @@ import Header from 'components/Header'
 import Toolbar from './Toolbar'
 import Question from './Question'
 import Answer from './Answer'
+import Unauthorized from './Unauthorized'
 
 import './Study.css'
 
@@ -27,17 +28,38 @@ export default class Study extends Component {
     }
   }
 
+  getContent() {
+    const { actions, study, auth } = this.props
+    if (auth.token) {
+      if (study.isEvaluating) {
+        return [
+          <Toolbar key="toolbar" actions={actions} />,
+          <div className="content">
+            <Answer key="answer" {...this.props} />
+          </div>
+        ]
+      } else {
+        return [
+          <Toolbar key="toolbar" actions={actions} />,
+          <div className="content">
+            <Question key="question" {...this.props} />
+          </div>
+        ]
+      }
+    } else {
+      return (
+        <div className="content">
+          <Unauthorized />
+        </div>
+      )
+    }
+  }
+
   render() {
-    const { actions, study } = this.props
     return (
       <div className="Study">
         <Header title="Study" />
-        <Toolbar actions={actions} />
-        {study.isEvaluating ? (
-          <Answer {...this.props} />
-        ) : (
-          <Question {...this.props} />
-        )}
+        {this.getContent()}
       </div>
     )
   }

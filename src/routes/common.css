@@ -1,3 +1,23 @@
+/***********************************
+ * Base style
+ **********************************/
+
+:root {
+  --main-bg-color: #a2b;
+}
+
+/* primary: #4caf50
+primaryLight: #80e27e
+primaryDark: #087f23
+
+secondary: #ffea00
+secondaryLight: #ffff56
+secondaryDark: #c7b800 */
+
+/***********************************
+ * Base style
+ **********************************/
+
 html,
 body,
 #root,
@@ -32,18 +52,6 @@ a:visited {
   color: black;
 }
 
-/* Forms */
-
-form h1 {
-  margin-bottom: 2rem;
-  font-weight: 400;
-  font-size: 2rem;
-}
-
-.formGroup {
-  margin-bottom: 1rem;
-}
-
 label {
   display: block;
   font-size: 1.2rem;
@@ -58,6 +66,7 @@ div.error {
 .buttonRow {
   display: flex;
   justify-content: flex-end;
+  flex-shrink: 0;
 }
 
 input[type='text'],
@@ -94,7 +103,10 @@ select {
   background-color: white;
 }
 
-button {
+/***********************************
+ * Button
+ **********************************/
+button.button {
   background-color: hsl(213, 62%, 42%);
   border: 0.1rem solid hsl(212, 63%, 31%);
   color: white;
@@ -105,30 +117,39 @@ button {
   margin: 0;
 }
 
-button:focus {
+button :focus {
   outline: none;
 }
 
-button:hover,
-button:active,
-button:focus {
+button.button:hover,
+button.button:active,
+button.button:focus {
   background-color: hsl(213, 82%, 52%);
   border-color: hsl(212, 63%, 31%);
 }
 
-button.affirmative {
+button.button.affirmative {
   background-color: green;
   border-color: green;
 }
 
-button.negative {
+button.button.negative {
   background-color: red;
   border-color: red;
 }
 
-button[disabled] {
+button.button[disabled] {
   background-color: #bbb;
   border-color: #999;
+}
+
+/* button as link */
+
+button.link {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: blue;
+  font-size: 1.4rem;
 }
 
 .rtl {
@@ -140,54 +161,36 @@ button[disabled] {
   height: 1.5rem;
 }
 
-/* React Modal */
-/* .ReactModal { */
-/* position: absolute; */
-/* top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
-  background-color: papayawhip; */
-/* } */
+/***********************************
+ * Form
+ **********************************/
 
-.ReactModal__Overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+.form {
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.ReactModal__Content {
-  box-shadow: 0 0 0.5rem 0.2rem #999;
-  background-color: white;
-  border: 0;
-  border-radius: 0;
-  padding: 2rem;
-
-  min-height: 10rem;
-  min-width: 25rem;
-  max-width: 25rem;
-
-  top: 50%;
-  bottom: auto;
-  left: 50%;
-  right: auto;
-
-  position: fixed;
-  transform: translate(-50%, -50%);
+.form__body {
+  padding: 1rem 2rem;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  /* border-top: 1px solid #ddd; */
+  /* border-bottom: 1px solid #ddd; */
 }
 
-.ReactModal__Content:focus {
-  outline: none;
+.form__button-row {
+  margin: 1rem 2rem 2rem 2rem;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
 }
-/* colors */
 
-/* primary: #4caf50
-primaryLight: #80e27e
-primaryDark: #087f23
+.form__group {
+  margin-bottom: 1rem;
+}
 
-secondary: #ffea00
-secondaryLight: #ffff56
-secondaryDark: #c7b800 */
+.form__body p {
+  margin: 2rem 0;
+  text-align: justify;
+}

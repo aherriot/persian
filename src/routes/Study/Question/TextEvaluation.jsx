@@ -47,7 +47,7 @@ export default class TextEvaluation extends Component {
           ref={input => (this.input = input)}
           onKeyDown={this.onKeyDown}
         />
-        <button type="button" onClick={this.onSubmit}>
+        <button type="button" className="button" onClick={this.onSubmit}>
           Check
         </button>
       </div>

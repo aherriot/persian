@@ -21,13 +21,17 @@ export default class Answer extends Component {
 
         <button
           type="button"
+          className="button"
           ref={button => {
             this.continueButton = button
           }}
           onClick={this.onContinue}>
           Continue
         </button>
-        <button type="button" onClick={actions.undoMarkWrong}>
+        <button
+          className="button"
+          type="button"
+          onClick={actions.undoMarkWrong}>
           Undo Mark Wrong
         </button>
       </div>

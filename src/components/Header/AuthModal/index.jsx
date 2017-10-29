@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Modal from 'react-modal'
 
+import Modal from 'components/Modal'
 import LoginForm from './LoginForm'
 import CreateAccountForm from './CreateAccountForm'
 
@@ -8,18 +8,17 @@ class AuthModal extends Component {
   render() {
     const { auth, actions } = this.props
 
-    const form = auth.showingCreateAccount ? (
-      <CreateAccountForm auth={auth} actions={actions} />
-    ) : (
-      <LoginForm auth={auth} actions={actions} />
-    )
+    let title, form
+    if (auth.showingCreateAccount) {
+      title = 'Create Account'
+      form = <CreateAccountForm auth={auth} actions={actions} />
+    } else {
+      title = 'Login'
+      form = <LoginForm auth={auth} actions={actions} />
+    }
 
     return (
-      <Modal
-        isOpen={auth.open}
-        onRequestClose={actions.closeAuthDialog}
-        className="ReactModal__Content"
-        overlayClassName="ReactModal__Overlay">
+      <Modal open={auth.open} onClose={actions.closeAuthDialog} title={title}>
         {form}
       </Modal>
     )

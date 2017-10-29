@@ -13,59 +13,86 @@ const InnerCreateAccountForm = ({
   handleSubmit,
   isValid,
   isSubmitting,
-  auth
+  auth,
+  actions
 }) => {
   const usernameError = touched.username && errors.username
   const emailError = touched.email && errors.email
   const passwordError = touched.password && errors.password
+  const password2Error = touched.password2 && errors.password2
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Create Account</h1>
-      <div className="formGroup">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          className={classnames({ error: usernameError })}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.username}
-          autoFocus
-        />
-        {usernameError && <div className="error">{errors.username}</div>}
-      </div>
+    <form className="form" onSubmit={handleSubmit}>
+      <div className="form__body">
+        <div className="form__group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            className={classnames({ error: usernameError })}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.username}
+            autoFocus
+          />
+          {usernameError && <div className="error">{errors.username}</div>}
+        </div>
 
-      <div className="formGroup">
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          className={classnames({ error: emailError })}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.email}
-        />
-        {emailError && <div className="error">{errors.email}</div>}
-      </div>
+        <div className="form__group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            className={classnames({ error: emailError })}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+          />
+          {emailError && <div className="error">{errors.email}</div>}
+        </div>
 
-      <div className="formGroup">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          className={classnames({ error: passwordError })}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.password}
-        />
-        {passwordError && <div className="error">{errors.password}</div>}
+        <div className="form__group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className={classnames({ error: passwordError })}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+          />
+          {passwordError && <div className="error">{errors.password}</div>}
+        </div>
+
+        <div className="form__group">
+          <label htmlFor="password2">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            className={classnames({ error: password2Error })}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password2}
+          />
+          {password2Error && <div className="error">{errors.password2}</div>}
+        </div>
+
+        <div>
+          or{' '}
+          <button type="button" className="link" onClick={actions.showLogin}>
+            Login
+          </button>
+        </div>
       </div>
-      <div className="buttonRow">
-        <button type="submit" disabled={!isValid || isSubmitting}>
+      <div className="form__button-row">
+        <button
+          type="submit"
+          className="button"
+          disabled={!isValid || isSubmitting}>
           Submit
         </button>
       </div>
@@ -76,7 +103,12 @@ const InnerCreateAccountForm = ({
 // Wrap our form with the using withFormik HoC
 const CreateAccountForm = withFormik({
   // Transform outer props into form values
-  mapPropsToValues: props => ({ username: '', password: '' }),
+  mapPropsToValues: props => ({
+    username: '',
+    email: '',
+    password: '',
+    password2: ''
+  }),
 
   validate: (values, props) => {
     let errors = {}
@@ -87,10 +119,22 @@ const CreateAccountForm = withFormik({
 
     if (!values.email) {
       errors.email = 'Email is required'
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i.test(values.email)
+    ) {
+      errors.email = 'Email is not valid'
     }
 
     if (!values.password) {
       errors.password = 'Password is required'
+    }
+
+    if (!values.password2) {
+      errors.password2 = 'Password is required'
+    }
+
+    if (values.password !== values.password2) {
+      errors.password2 = 'Passwords do not match'
     }
 
     return errors
@@ -105,7 +149,6 @@ const CreateAccountForm = withFormik({
       })
       .catch(error => {
         setErrors({ password: error.message })
-        console.log(error)
         setSubmitting(false)
       })
   }
