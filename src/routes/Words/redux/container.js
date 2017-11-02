@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux'
 import * as wordActions from 'store/words/actions'
 import { fetchScores } from 'store/scores/actions'
 import * as wordsRouteActions from './actions'
+import { showAlert } from 'store/app/actions'
+
 import Words from '../'
 
 function mapStateToProps(state) {
@@ -16,7 +18,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...wordActions, ...wordsRouteActions, fetchScores },
+      { ...wordActions, ...wordsRouteActions, fetchScores, showAlert },
       dispatch
     )
   }

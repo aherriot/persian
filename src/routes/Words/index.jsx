@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Header from 'components/Header'
+import Alert from 'components/Alert'
 
 import Toolbar from './Toolbar'
 import List from './List'
@@ -71,6 +72,7 @@ export default class Words extends Component {
           confirmingDelete={wordsRoute.confirmingDelete}
         />
         <AddWordModal open={wordsRoute.addModalOpen} actions={actions} />
+        <Alert />
       </div>
     )
   }
