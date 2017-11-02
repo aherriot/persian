@@ -1,5 +1,8 @@
 module.exports = {
-  CONNECTION_STRING: 'mongodb://localhost/persian',
+  // MongoDB connection strings
+  PRODUCTION_CONNECTION: '',
+  DEVELOPMENT_CONNECTION: 'mongodb://localhost/persian',
+  TEST_CONNECTION: 'mongodb://localhost/persianTest',
 
   // What port should the webserver listen on
   PORT: 3001,

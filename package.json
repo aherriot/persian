@@ -8,6 +8,9 @@
   },
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=8.x"
+  },
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
@@ -33,10 +36,11 @@
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
+    "start": "NODE_ENV=production node server/server.js",
     "start:client": "react-scripts start",
     "start:server":
-      "nodemon --ignore '*.test.js' --watch server server/index.js",
-    "start:server:test": "NODE_ENV=test node server/index.js",
+      "nodemon --ignore '*.test.js' --watch server server/server.js",
+    "start:server:test": "NODE_ENV=test node server/server.js",
     "build": "react-scripts build",
     "postbuild":
       "postcss --use postcss-custom-properties --replace build/**/*.css",
