@@ -1,0 +1,22 @@
+.MultpleChoice {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.MultpleChoice__choice {
+  color: var(--persian-white);
+  background-color: var(--persian-blue);
+
+  width: 50%;
+  height: 10rem;
+
+  border: 1px solid var(--persian-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.MultpleChoice__choice:hover,
+.MultpleChoice__choice:active {
+  background-color: var(--persian-blue-light);
+}

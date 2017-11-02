@@ -47,6 +47,18 @@ export function cancelEditWord() {
   }
 }
 
+export function confirmDeleteWord() {
+  return {
+    type: 'words/CONFIRM_DELETE_WORD'
+  }
+}
+
+export function dismissDeleteWord() {
+  return {
+    type: 'words/DISMISS_DELETE_WORD'
+  }
+}
+
 export function setSearchText(text = '') {
   return {
     type: 'words/SET_SEARCH_TEXT',

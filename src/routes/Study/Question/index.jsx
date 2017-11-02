@@ -1,5 +1,8 @@
 import React from 'react'
+
 import TextEvaluation from './TextEvaluation'
+import SelfEvaluation from './SelfEvaluation'
+import MultipleChoiceEvaluation from './MultipleChoiceEvaluation'
 
 export default function Question(props) {
   const { study, words } = props
@@ -9,9 +12,14 @@ export default function Question(props) {
     return (
       <div>
         <div> {word && word[study.options.questionSide]}</div>
+
         {study.options.evaluation === 'TYPING' && <TextEvaluation {...props} />}
-        {study.options.evaluation === 'SELF' && <TextEvaluation {...props} />}
-        {study.options.evaluation === 'CHOICE' && <TextEvaluation {...props} />}
+
+        {study.options.evaluation === 'SELF' && <SelfEvaluation {...props} />}
+
+        {study.options.evaluation === 'MULTIPLE' && (
+          <MultipleChoiceEvaluation {...props} />
+        )}
       </div>
     )
   } else {

@@ -4,16 +4,19 @@ import Header from 'components/Header'
 import Toolbar from './Toolbar'
 import List from './List'
 import FilterModal from './FilterModal'
+import WordModal from './WordModal'
+import AddWordModal from './AddWordModal'
 
 import './Words.css'
 
 export default class Words extends Component {
   componentDidMount() {
     this.props.actions.fetchWords()
+    this.props.actions.fetchScores()
   }
 
   render() {
-    const { actions, words, wordsRoute } = this.props
+    const { actions, words, scores, wordsRoute } = this.props
     const wordsToShow = []
 
     // The words are pre sorted by tags and hashmap by id
@@ -58,24 +61,16 @@ export default class Words extends Component {
           tagFilter={wordsRoute.tagFilter}
           sortBy={wordsRoute.sortBy}
         />
-        {/* <Modal open={wordsRoute.addModalOpen} onClose={actions.closeAddModal}>
-          <div>Add Word dialog</div>
-        </Modal>
-
-        <Modal
+        <WordModal
           open={!!wordsRoute.selectedWordId}
-          onClose={actions.deselectWord}>
-          {wordsRoute.selectedWordId && (
-            <div>
-              <div>{words.byId[wordsRoute.selectedWordId].english}</div>
-              <div className="rtl">
-                {words.byId[wordsRoute.selectedWordId].persian}
-              </div>
-              <div>{words.byId[wordsRoute.selectedWordId].phonetic}</div>
-              <div>{words.byId[wordsRoute.selectedWordId].tags.join(', ')}</div>
-            </div>
-          )}
-        </Modal> */}
+          actions={actions}
+          words={words}
+          scores={scores}
+          selectedWordId={wordsRoute.selectedWordId}
+          editingWord={wordsRoute.editingWord}
+          confirmingDelete={wordsRoute.confirmingDelete}
+        />
+        <AddWordModal open={wordsRoute.addModalOpen} actions={actions} />
       </div>
     )
   }

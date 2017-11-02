@@ -6,7 +6,7 @@ const actionHandlers = {
     const byTag = {}
     // normalize the words by id, for fast lookup with a word id.
     const byId = action.payload.response.reduce((acc, word, index) => {
-      // Also category the words by tags for fast lookup later
+      // Also category the words by tags for fast lookup by category tag
       word.tags.forEach(function(tag) {
         if (byTag[tag]) {
           byTag[tag].push(word._id)
@@ -26,6 +26,81 @@ const actionHandlers = {
       byTag: byTag,
       error: null
     }
+  },
+  'words/FETCH_ERROR': (state, action) => {
+    return { ...state, fetchStatus: 'ERROR', error: action.error }
+  },
+  'words/ADD_PENDING': (state, action) => {
+    return { ...state, modifyStatus: 'PENDING' }
+  },
+  'words/ADD_SUCCESS': (state, action) => {
+    return { ...state, modifyStatus: 'SUCCESS' }
+  },
+  'words/ADD_ERROR': (state, action) => {
+    return { ...state, modifyStatus: 'ERROR', error: action.error }
+  },
+  'words/UPDATE_PENDING': (state, action) => {
+    return { ...state, modifyStatus: 'PENDING' }
+  },
+  'words/UPDATE_SUCCESS': (state, action) => {
+    const updatedWord = action.payload.response
+    const originalWord = state.byId[updatedWord._id]
+
+    // Object containing tag to word mappings that have changed
+    const updatedTags = {}
+    const emptyTags = []
+
+    // Find tags to remove
+    originalWord.tags.forEach(originalTag => {
+      // Uf a tag was removed
+      if (!updatedWord.tags.includes(originalTag)) {
+        updatedTags[originalTag] = state.byTag[originalTag].filter(
+          wordId => wordId !== updatedWord._id
+        )
+
+        // if no words have this tag now, then clear the tag key
+        if (updatedTags[originalTag].length === 0) {
+          emptyTags.push(originalTag)
+        }
+      }
+    })
+
+    // find tags to add
+    updatedWord.tags.forEach(updatedTag => {
+      // if a tag was added
+      if (!originalWord.tags.includes(updatedTag)) {
+        updatedTags[updatedTag] = state.byId[updatedTag]
+          ? [...state.byId[updatedTag], updatedWord._id]
+          : [updatedWord._id]
+      }
+    })
+
+    // Finally, we clear out the tags that no longer have words
+    // We do this separately because object-spread notation does not
+    // let us exclude tags.
+    const byTag = { ...state.byTag, ...updatedTags }
+    emptyTags.forEach(emptyTag => {
+      delete byTag[emptyTag]
+    })
+
+    return {
+      ...state,
+      modifyStatus: 'SUCCESS',
+      byId: { ...state.byId, [updatedWord._id]: updatedWord },
+      byTag: byTag
+    }
+  },
+  'words/UPDATE_ERROR': (state, action) => {
+    return { ...state, modifyStatus: 'ERROR', error: action.error }
+  },
+  'words/DELETE_PENDING': (state, action) => {
+    return { ...state, modifyStatus: 'PENDING' }
+  },
+  'words/DELETE_SUCCESS': (state, action) => {
+    return { ...state, modifyStatus: 'PENDING' }
+  },
+  'words/DELETE_ERROR': (state, action) => {
+    return { ...state, modifyStatus: 'ERROR', error: action.error }
   }
 }
 

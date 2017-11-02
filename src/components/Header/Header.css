@@ -6,7 +6,7 @@
   height: 5rem;
   color: white;
   background-color: var(--persian-teal-dark);
-  box-shadow: 0 0 0.5rem 0.2rem #ccc;
+  box-shadow: 0 0 0.5rem 0.2rem var(--box-shadow);
 
   display: flex;
   justify-content: space-between;

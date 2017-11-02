@@ -4,9 +4,10 @@
 
 :root {
   /* base colour defintions */
+  --persian-grey: hsl(220, 26%, 50%);
   --persian-grey-dark: hsl(220, 26%, 28%);
   --persian-black: hsl(220, 26%, 14%);
-  --persian-white: hsl(220, 26%, 95%);
+  --persian-white: hsl(220, 26%, 97%);
 
   --persian-blue: hsl(196, 100%, 33%);
   --persian-blue-light: hsl(196, 100%, 40%);
@@ -19,13 +20,20 @@
   --pesian-green: hsl(154, 28%, 57%);
 
   --persian-yellow: hsl(57, 45%, 76%);
-  --persian-yellow-light: hsl(57, 45%, 86%);
+  --persian-yellow-light: hsl(57, 45%, 93%);
+  /* --persian-yellow-light: hsl(57, 45%, 86%); */
 
   --persian-red: hsl(5, 63%, 51%);
   --persian-red-light: hsl(5, 63%, 58%);
   --persian-red-dark: hsl(5, 63%, 44%);
 
+  /* media query screen sizes */
+  --small-screen: 10px;
+  --medium-screen: 10px;
+  --large-screen: 10px;
+
   /* element definitions */
+  --box-shadow: rgba(0, 0, 0, 0.4);
   --text-color: var(--persian-white);
   --background-color: #eee;
 }
@@ -111,12 +119,19 @@ input.error:focus {
 
 select {
   padding: 0.6rem;
+  background-color: white;
   border: 1px solid #d9d9d9;
-  color: grey;
+  color: var(--persian-black);
   border-radius: 0.3rem;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   height: 3.5rem;
-  background-color: var(--persian-white);
+  width: 100%;
+}
+
+select:hover,
+select:focus {
+  border-color: var(--persian-blue);
+  outline: none;
 }
 
 /***********************************
@@ -133,7 +148,7 @@ button.button {
   margin: 0;
 }
 
-button :focus {
+button:focus {
   outline: none;
 }
 
@@ -191,8 +206,10 @@ button.link {
   padding: 1rem 2rem;
   flex: 1 1 auto;
   overflow-y: auto;
-  /* border-top: 1px solid #ddd; */
-  /* border-bottom: 1px solid #ddd; */
+}
+
+.form__text {
+  margin-bottom: 1.5rem;
 }
 
 .form__button-row {

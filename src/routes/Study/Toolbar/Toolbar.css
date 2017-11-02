@@ -19,7 +19,8 @@
 .Toolbar > *:hover,
 .Toolbar > *:active {
   cursor: pointer;
-  background-color: #eff6ec;
+  color: white;
+  background-color: var(--persian-blue);
 }
 
 .Toolbar > *:not(:last-child) {

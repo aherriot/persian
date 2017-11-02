@@ -10,11 +10,11 @@ import List from 'icons/List'
 export default function Toolbar({ actions }) {
   return (
     <div className="Toolbar">
-      <div role="button" onClick={actions.openFilterModal}>
+      <div role="button" onClick={actions.openOptionsModal}>
         <Cogs />
         Options
       </div>
-      <div role="button" onClick={actions.openAddModal}>
+      <div role="button" onClick={actions.openEditWordModal}>
         <Pencil />
         Edit
       </div>

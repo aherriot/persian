@@ -20,6 +20,7 @@ export default function FilterModal({
               type="text"
               value={searchText}
               onChange={e => actions.setSearchText(e.target.value)}
+              autoFocus
             />
           </div>
           <div className="form__group">
@@ -33,11 +34,6 @@ export default function FilterModal({
               <option value="phonetic">Phonetic</option>
             </select>
           </div>
-          <div className="form__group">
-            <input type="checkbox" id="phonetic" />
-            <label htmlFor="phonetic">Show Phonetic</label>
-          </div>
-
           <div className="form__group">
             <label htmlFor="tag">Filter by Tag</label>
             <select
@@ -55,6 +51,11 @@ export default function FilterModal({
                   )
                 })}
             </select>
+          </div>
+
+          <div className="form__group">
+            <input type="checkbox" id="phonetic" />
+            <label htmlFor="phonetic">Show Phonetic</label>
           </div>
         </div>
 

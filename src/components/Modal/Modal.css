@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--box-shadow);
 
   transition: opacity 200ms ease-out;
   opacity: 0.01;
@@ -19,7 +19,7 @@
 }
 
 .Modal__window {
-  box-shadow: 0 0 0.5rem 0.2rem #999;
+  box-shadow: 0 0 0.5rem 0.2rem var(--box-shadow);
   border: 0;
   border-top: 0.6rem solid var(--persian-teal);
 

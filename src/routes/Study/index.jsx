@@ -6,6 +6,8 @@ import Question from './Question'
 import Answer from './Answer'
 import Unauthorized from './Unauthorized'
 
+import OptionsModal from './OptionsModal'
+
 import './Study.css'
 
 export default class Study extends Component {
@@ -34,15 +36,15 @@ export default class Study extends Component {
       if (study.isEvaluating) {
         return [
           <Toolbar key="toolbar" actions={actions} />,
-          <div className="content">
-            <Answer key="answer" {...this.props} />
+          <div key="answer" className="content">
+            <Answer {...this.props} />
           </div>
         ]
       } else {
         return [
           <Toolbar key="toolbar" actions={actions} />,
-          <div className="content">
-            <Question key="question" {...this.props} />
+          <div key="question" className="content">
+            <Question {...this.props} />
           </div>
         ]
       }
@@ -60,6 +62,7 @@ export default class Study extends Component {
       <div className="Study">
         <Header title="Study" />
         {this.getContent()}
+        <OptionsModal {...this.props} />
       </div>
     )
   }

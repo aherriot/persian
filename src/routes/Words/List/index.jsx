@@ -29,7 +29,7 @@ export default class List extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.sortBy !== newProps.sortBy) {
+    if (this.props.words !== newProps.words) {
       this.list.forceUpdateGrid()
     }
   }

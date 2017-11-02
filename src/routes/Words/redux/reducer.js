@@ -15,13 +15,24 @@ const actionHandlers = {
     return { ...state, selectedWordId: action.payload.wordId }
   },
   'words/DESELECT_WORD': (state, action) => {
-    return { ...state, selectedWordId: null, editingWord: false }
+    return {
+      ...state,
+      selectedWordId: null,
+      editingWord: false,
+      confirmingDelete: false
+    }
   },
   'words/EDIT_WORD': (state, action) => {
     return { ...state, editingWord: true }
   },
   'words/CANCEL_EDIT_WORD': (state, action) => {
-    return { ...state, editingWord: false }
+    return { ...state, editingWord: false, confirmingDelete: false }
+  },
+  'words/CONFIRM_DELETE_WORD': (state, action) => {
+    return { ...state, confirmingDelete: true }
+  },
+  'words/DISMISS_DELETE_WORD': (state, action) => {
+    return { ...state, confirmingDelete: false }
   },
   'words/SET_SEARCH_TEXT': (state, action) => {
     return { ...state, searchText: action.payload.searchText }
@@ -39,6 +50,7 @@ const defaultState = {
   addModalOpen: false,
   selectedWordId: null,
   editingWord: false,
+  confirmingDelete: false,
 
   searchText: '',
   tagFilter: '',

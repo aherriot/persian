@@ -42,7 +42,8 @@ const defaultState = {
   options: {
     questionSide: 'persian', // question side
     answerSide: 'english', // answer side
-    evaluation: 'TYPING', // do they have to type response,
+    tagFilter: '', // only quiz words that have this tag.
+    evaluation: 'MULTIPLE', // do they have to type response,
     algorithm: 'SPACED_REPETITION' // how the next word is selected
   }
 }
