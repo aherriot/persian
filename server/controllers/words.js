@@ -63,7 +63,9 @@ router.get('/:word_id', async function(req, res) {
 
 router.post('/', auth, admin, function(req, res) {
   if (Array.isArray(req.body)) {
-    if (req.body.some(word => !isValidWord(word))) {
+    if (req.body.length === 0) {
+      return respondWithError(res, 'wordArrayInvalid')
+    } else if (req.body.some(word => !isValidWord(word))) {
       return respondWithError(res, 'wordArrayInvalid')
     }
 

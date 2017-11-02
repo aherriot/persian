@@ -3,7 +3,7 @@ import Header from 'components/Header'
 
 import './Profile.css'
 
-export default function({ actions, auth }) {
+export default function Profile({ actions, auth }) {
   return (
     <div className="Profile">
       <Header title="Profile" />

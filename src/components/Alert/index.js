@@ -22,7 +22,7 @@ class Alert extends Component {
 
     this.timerRef = window.setTimeout(() => {
       this.props.actions.hideAlert()
-    }, 300)
+    }, 400)
   }
 
   componentWillUnmount() {

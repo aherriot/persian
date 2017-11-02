@@ -70,17 +70,23 @@ export default class WordModal extends Component {
   }
 
   getConfirmDelete() {
-    const { actions } = this.props
+    const { actions, words, selectedWordId } = this.props
+    const word = words.byId[selectedWordId]
+
+    if (!word) return null
+
     return (
       <div className="form">
         <div className="form__body">
-          <p>Are you sure you want to delete this word?</p>
+          <p>
+            Are you sure you want to delete {word.english} / {word.persian}?
+          </p>
         </div>
         <div className="form__button-row">
           <button className="button" onClick={actions.dismissDeleteWord}>
             No
           </button>
-          <button className="button" onClick={actions.removeWord}>
+          <button className="button" onClick={() => actions.deleteWord(word)}>
             Yes
           </button>
         </div>

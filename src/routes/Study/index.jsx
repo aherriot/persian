@@ -7,6 +7,7 @@ import Answer from './Answer'
 import Unauthorized from './Unauthorized'
 
 import OptionsModal from './OptionsModal'
+import EditWordModal from './EditWordModal'
 
 import './Study.css'
 
@@ -14,10 +15,6 @@ export default class Study extends Component {
   componentDidMount() {
     this.props.actions.fetchWords()
     this.props.actions.fetchScores()
-
-    // if (!this.props.study.selectWordId) {
-    //   this.props.actions.selectWord()
-    // }
   }
 
   componentWillReceiveProps(newProps) {
@@ -63,6 +60,7 @@ export default class Study extends Component {
         <Header title="Study" />
         {this.getContent()}
         <OptionsModal {...this.props} />
+        <EditWordModal {...this.props} />
       </div>
     )
   }

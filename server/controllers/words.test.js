@@ -60,7 +60,7 @@ describe('Word API', function() {
         })
     })
 
-    it('error on empty word', function(done) {
+    it('error on empty body', function(done) {
       request
         .post(WORDS_URL)
         .set('Authorization', 'Bearer ' + global.adminToken)
@@ -169,6 +169,18 @@ describe('Word API', function() {
           expect(resp.body).to.have.property('persian')
           expect(resp.body).to.have.property('phonetic')
           global.deletedTestWordId = resp.body._id
+          done()
+        })
+    })
+
+    it('error on empty array of words', function(done) {
+      request
+        .post(WORDS_URL)
+        .set('Authorization', 'Bearer ' + global.adminToken)
+        .send([])
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('wordArrayInvalid')
           done()
         })
     })

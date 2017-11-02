@@ -34,7 +34,26 @@ const actionHandlers = {
     return { ...state, modifyStatus: 'PENDING' }
   },
   'words/ADD_SUCCESS': (state, action) => {
-    return { ...state, modifyStatus: 'SUCCESS' }
+    const newWord = action.payload.response
+
+    const updatedTags = {}
+
+    // find tags to add
+    newWord.tags.forEach(updatedTag => {
+      updatedTags[updatedTag] = state.byId[updatedTag]
+        ? [...state.byId[updatedTag], newWord._id]
+        : [newWord._id]
+    })
+
+    return {
+      ...state,
+      modifyStatus: 'SUCCESS',
+      byId: {
+        ...state.byId,
+        [newWord._id]: newWord
+      },
+      byTag: { ...state.byTag, ...updatedTags }
+    }
   },
   'words/ADD_ERROR': (state, action) => {
     return { ...state, modifyStatus: 'ERROR', error: action.error }
@@ -52,7 +71,7 @@ const actionHandlers = {
 
     // Find tags to remove
     originalWord.tags.forEach(originalTag => {
-      // Uf a tag was removed
+      // if a tag was removed
       if (!updatedWord.tags.includes(originalTag)) {
         updatedTags[originalTag] = state.byTag[originalTag].filter(
           wordId => wordId !== updatedWord._id
@@ -97,7 +116,40 @@ const actionHandlers = {
     return { ...state, modifyStatus: 'PENDING' }
   },
   'words/DELETE_SUCCESS': (state, action) => {
-    return { ...state, modifyStatus: 'PENDING' }
+    const deletedWord = action.payload.response
+
+    // Object containing tag to word mappings that have changed
+    const updatedTags = {}
+    const emptyTags = []
+
+    // Find tags to remove
+    deletedWord.tags.forEach(deletedTag => {
+      updatedTags[deletedTag] = state.byTag[deletedTag].filter(
+        wordId => wordId !== deletedWord._id
+      )
+
+      // if no words have this tag now, then clear the tag key
+      if (updatedTags[deletedTag].length === 0) {
+        emptyTags.push(deletedTag)
+      }
+    })
+
+    // Finally, we clear out the tags that no longer have words
+    // We do this separately because object-spread notation does not
+    // let us exclude tags.
+    const byTag = { ...state.byTag, ...updatedTags }
+    emptyTags.forEach(emptyTag => {
+      delete byTag[emptyTag]
+    })
+
+    const { [deletedWord._id]: _, ...remainingIds } = state.byId
+
+    return {
+      ...state,
+      modifyStatus: 'PENDING',
+      byId: remainingIds,
+      byTag: byTag
+    }
   },
   'words/DELETE_ERROR': (state, action) => {
     return { ...state, modifyStatus: 'ERROR', error: action.error }

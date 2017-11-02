@@ -129,9 +129,14 @@ select {
 }
 
 select:hover,
-select:focus {
+select:focus,
+textarea {
   border-color: var(--persian-blue);
   outline: none;
+}
+
+textarea {
+  border-radius: 0.5rem;
 }
 
 /***********************************
