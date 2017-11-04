@@ -1,7 +1,6 @@
 const path = require('path')
 const express = require('express')
 const compression = require('compression')
-const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const api = require('./api')
@@ -14,14 +13,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(compression())
 }
 
-// Setup request logger
-if (process.env.NODE_ENV !== 'test') {
-  app.use(
-    morgan(
-      ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'
-    )
-  )
-}
+// Now that we are using Google App Engine,
+// there is no need for request logging,
+// since that comes automatically
 
 // add API routes
 app.use('/api', api)

@@ -1,7 +1,6 @@
 {
   "name": "persian",
-  "description":
-    "A Persian flashcard app written with React, Express, and MongoDB",
+  "description": "A Persian flashcard app written with React, Express, and MongoDB",
   "version": "0.4.0",
   "author": {
     "name": "Andrew Herriot"
@@ -21,7 +20,6 @@
     "jsonwebtoken": "^8.0.1",
     "jwt-decode": "^2.2.0",
     "mongoose": "^4.12.0",
-    "morgan": "^1.9.0",
     "postcss-cli": "^4.1.1",
     "postcss-custom-properties": "^6.2.0",
     "react": "^16.0.0",
@@ -38,12 +36,10 @@
   "scripts": {
     "start": "NODE_ENV=production node server/server.js",
     "start:client": "react-scripts start",
-    "start:server":
-      "nodemon --ignore '*.test.js' --watch server server/server.js",
+    "start:server": "nodemon --ignore '*.test.js' --watch server server/server.js",
     "start:server:test": "NODE_ENV=test node server/server.js",
     "build": "react-scripts build",
-    "postbuild":
-      "postcss --use postcss-custom-properties --replace build/**/*.css",
+    "postbuild": "postcss --use postcss-custom-properties --replace build/**/*.css",
     "test:client": "react-scripts test --env=jsdom",
     "test:server": "./before_test.sh && mocha 'server/server.test.js'",
     "eject": "react-scripts eject"
