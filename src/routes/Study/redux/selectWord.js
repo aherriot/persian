@@ -173,7 +173,76 @@ function spacedRepetition(state, action) {
 
 // LEAST RECENT
 function leastRecent(state, action) {
-  return random(state, action)
+  const { seed, words, scores, currentTime } = action.payload
+
+  // track which word is the oldest
+  let oldestTime = currentTime
+  let selectedWordId
+
+  const untestedWords = []
+  let wordList
+
+  // If a specify tag category has been choose
+  // only choose words from that category
+  if (state.options.tagFilter) {
+    // When the words are first fetched from the server
+    // we store the words in a hashmap by category
+    // to make this filtering more efficient.
+    // This is in addition to the hashmap 'byId'.
+    wordList = words.byTag[state.options.tagFilter]
+  } else {
+    // otherwise, we choose from the pool of all words
+    wordList = Object.keys(words.byId)
+  }
+
+  for (let i = 0; i < wordList.length; i++) {
+    const word = words.byId[wordList[i]]
+
+    // Find a score bucket assigned to word
+    const scoreForWord = scores.byWordId[word._id]
+
+    let lastQuizzedDate
+    // if this user has a score object associated with this word
+    // meaning that they have previously encountered this word.
+    if (scoreForWord) {
+      // if they are quizzing from english, because we separately track
+      // scores for english->persian and persian->english.
+      if (state.options.questionSide === 'english') {
+        // Check if this key exists
+        if (scoreForWord.fromEnglish) {
+          lastQuizzedDate = new Date(scoreForWord.fromEnglish.quizzedAt)
+        }
+        // quizzing from persian
+      } else {
+        // Check if this key exists
+        if (scoreForWord.fromPersian) {
+          lastQuizzedDate = new Date(scoreForWord.fromPersian.quizzedAt)
+        }
+      }
+    }
+
+    // if it doesn't have a lastQuizzedDate,
+    // this word hasn't been tested yet
+    if (!lastQuizzedDate) {
+      untestedWords.push(word._id)
+
+      // otherwise, see if it is the oldest word
+    } else if (lastQuizzedDate < oldestTime) {
+      oldestTime = lastQuizzedDate
+      selectedWordId = word._id
+    }
+  }
+
+  // after we have looked at all the words,
+  // if any are untested, select one of those at random
+  // otherwise, we will just use the oldest one found through
+  // iterating over all the words.
+  if (untestedWords.length > 0) {
+    const randIndex = Math.floor(untestedWords.length * seed)
+    selectedWordId = untestedWords[randIndex]
+  }
+
+  return { ...state, isEvaluating: false, selectedWordId: selectedWordId }
 }
 
 // RANDOM

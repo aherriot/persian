@@ -1,2 +1,9 @@
 .Question {
+  padding: 0 1rem;
+}
+
+.Question__prompt {
+  font-size: 3rem;
+  text-align: center;
+  padding: 1rem 1rem;
 }

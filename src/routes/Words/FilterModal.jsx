@@ -56,7 +56,7 @@ export default function FilterModal({
                 .map(function(tag) {
                   return (
                     <option key={tag} value={tag}>
-                      {tag}
+                      {tag} ({words.byTag[tag].length})
                     </option>
                   )
                 })}

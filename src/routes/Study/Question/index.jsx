@@ -4,14 +4,18 @@ import TextEvaluation from './TextEvaluation'
 import SelfEvaluation from './SelfEvaluation'
 import MultipleChoiceEvaluation from './MultipleChoiceEvaluation'
 
+import './Question.css'
+
 export default function Question(props) {
   const { study, words } = props
 
   if (study.selectedWordId) {
     const word = words.byId[study.selectedWordId]
     return (
-      <div>
-        <div> {word && word[study.options.questionSide]}</div>
+      <div className="Question">
+        <div className="Question__prompt">
+          {word && word[study.options.questionSide]}
+        </div>
 
         {study.options.evaluation === 'TYPING' && <TextEvaluation {...props} />}
 
@@ -23,6 +27,6 @@ export default function Question(props) {
       </div>
     )
   } else {
-    return <div>No word</div>
+    return <div className="Question">No word</div>
   }
 }

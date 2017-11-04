@@ -14,18 +14,20 @@ export default function OptionsModal({ actions, words, study }) {
             <select
               id="tag"
               value={study.options.tagFilter}
-              onChange={e =>
+              onChange={e => {
                 actions.setOptions({
                   ...study.options,
                   tagFilter: e.target.value
-                })}>
+                })
+                actions.selectWord()
+              }}>
               <option value="">*All Words*</option>
               {Object.keys(words.byTag)
                 .sort()
                 .map(function(tag) {
                   return (
                     <option key={tag} value={tag}>
-                      {tag}
+                      {tag} ({words.byTag[tag].length})
                     </option>
                   )
                 })}
@@ -85,11 +87,13 @@ export default function OptionsModal({ actions, words, study }) {
             <select
               id="algorithm"
               value={study.options.algorithm}
-              onChange={e =>
+              onChange={e => {
                 actions.setOptions({
                   ...study.options,
                   algorithm: e.target.value
-                })}>
+                })
+                actions.selectWord()
+              }}>
               <option value="SPACED_REPETITION">Spaced Repetition</option>
               <option value="LEAST_RECENT">Least Recent</option>
               <option value="RANDOM">Random</option>
