@@ -37,7 +37,7 @@ export default class MultipleChoiceEvaluation extends Component {
           // only add it if it hasn;t been used yet
           if (!usedWords[choiceId]) {
             choices.push({ wordId: choiceId, correct: false })
-            usedWords[wordIds[i]] = true
+            usedWords[choiceId] = true
           }
         }
 
@@ -49,7 +49,7 @@ export default class MultipleChoiceEvaluation extends Component {
           // only add it if it hasn;t been used yet
           if (!usedWords[choiceId]) {
             choices.push({ wordId: choiceId, correct: false })
-            usedWords[wordIds[i]] = true
+            usedWords[choiceId] = true
           }
         }
       }
@@ -74,7 +74,7 @@ export default class MultipleChoiceEvaluation extends Component {
           // only add it if it hasn;t been used yet
           if (!usedWords[choiceId]) {
             choices.push({ wordId: choiceId, correct: false })
-            usedWords[wordIds[i]] = true
+            usedWords[choiceId] = true
           }
         }
       }
