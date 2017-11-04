@@ -35,7 +35,7 @@ const actionHandlers = {
     return { ...state, confirmingDelete: false }
   },
   'words/SET_SEARCH_TEXT': (state, action) => {
-    return { ...state, searchText: action.payload.searchText }
+    return { ...state, searchText: action.payload.searchText.toLowerCase() }
   },
   'words/SET_SORT_BY': (state, action) => {
     return { ...state, sortBy: action.payload.sortBy }

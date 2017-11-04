@@ -28,9 +28,9 @@
   --persian-red-dark: hsl(5, 63%, 44%);
 
   /* media query screen sizes */
-  --small-screen: 10px;
-  --medium-screen: 10px;
-  --large-screen: 10px;
+  --small-screen: 460px;
+  --medium-screen: 700px;
+  --large-screen: 1000px;
 
   /* element definitions */
   --box-shadow: rgba(0, 0, 0, 0.4);
@@ -137,6 +137,40 @@ textarea {
 
 textarea {
   border-radius: 0.5rem;
+}
+
+/***********************************
+ * Media queries
+ **********************************/
+
+.medium {
+  display: none;
+}
+
+.large {
+  display: none;
+}
+
+.x-large {
+  display: none;
+}
+
+@media screen and (min-width: 460px) {
+  .medium {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .large {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .x-large {
+    display: block;
+  }
 }
 
 /***********************************

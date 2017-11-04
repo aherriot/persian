@@ -8,8 +8,8 @@ export default class WordModal extends Component {
   getReadOnly() {
     const { actions, words, scores, selectedWordId } = this.props
 
-    let fromEnglishScore = 'Not studied'
-    let fromPersianScore = 'Not studied'
+    let fromEnglishScore = '-'
+    let fromPersianScore = '-'
 
     const word = words.byId[selectedWordId]
     if (word) {

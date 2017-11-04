@@ -18,41 +18,16 @@ export default class Words extends Component {
 
   render() {
     const { actions, words, scores, wordsRoute } = this.props
-    const wordsToShow = []
-
-    // The words are pre sorted by tags and hashmap by id
-    // so if we have specified a tag, we don't have to look
-    // as every word, we can directly look at the words for that filter
-    let wordsList
-    if (wordsRoute.tagFilter) {
-      wordsList = words.byTag[wordsRoute.tagFilter]
-    } else {
-      wordsList = Object.keys(words.byId)
-    }
-
-    for (let i = 0; i < wordsList.length; i++) {
-      const word = words.byId[wordsList[i]]
-
-      if (!wordsRoute.searchText) {
-        wordsToShow.push(word)
-      } else if (word.english.includes(wordsRoute.searchText)) {
-        wordsToShow.push(word)
-      }
-    }
-
-    wordsToShow.sort((wordA, wordB) => {
-      return wordA[wordsRoute.sortBy].localeCompare(wordB[wordsRoute.sortBy])
-    })
 
     return (
       <div className="Words">
         <Header title="Words" />
         <Toolbar actions={actions} />
         <List
-          words={wordsToShow}
-          status={words.fetchStatus}
+          words={words}
+          scores={scores}
           actions={actions}
-          sortBy={wordsRoute.sortBy}
+          wordsRoute={wordsRoute}
         />
         <FilterModal
           open={wordsRoute.filterModalOpen}

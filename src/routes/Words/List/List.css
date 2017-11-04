@@ -1,26 +1,53 @@
 .List {
   flex-grow: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.List .row {
+.List__header {
+  font-weight: 600;
+  height: 2.5rem;
+  border-bottom: 1px solid #ccc;
+  cursor: none;
+}
+
+.list__header:hover {
+  background-color: white;
+}
+
+/* .List__header > div {
+  flex: 0 0 50%;
+} */
+
+.List__row:hover {
+  background-color: var(--persian-yellow);
+}
+
+.List__table--wrapper {
+  flex-grow: 1;
+  outline: none;
+}
+
+.List__row {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
   padding: 0 1.5rem;
   overflow: hidden;
+  cursor: pointer;
 }
 
-.List .odd {
+.List__row--odd {
   background-color: var(--persian-yellow-light);
 }
 
-/* .List .row:hover {
-  background-color: #d6f3c9;
-} */
+.List__row:hover {
+  background-color: var(--persian-yellow);
+}
 
-.List .row > div {
+.List__row > div {
+  flex: 0 0 50%;
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
@@ -30,4 +57,26 @@
 .List .noRows {
   margin-top: 8rem;
   text-align: center;
+}
+
+.ReactVirtualized__Grid {
+  outline: none;
+}
+
+@media screen and (min-width: 460px) {
+  .List__row > div {
+    flex: 0 0 33%;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .List__row > div {
+    flex: 0 0 25%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .List__row > div {
+    flex: 0 0 20%;
+  }
 }
