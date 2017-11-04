@@ -7,6 +7,7 @@ export function selectWord() {
       type: 'study/SELECT_WORD',
       payload: {
         seed: Math.random(),
+        currentTime: Date.now(),
         words: state.data.words,
         scores: state.data.scores
       }

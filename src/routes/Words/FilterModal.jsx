@@ -1,6 +1,11 @@
 import React from 'react'
 import Modal from 'components/Modal'
 
+// function onSubmit(e) {
+//   e.preventDefault()
+//   actions.closeFilterModal()
+// }
+
 export default function FilterModal({
   open,
   actions,
@@ -11,7 +16,12 @@ export default function FilterModal({
 }) {
   return (
     <Modal open={open} onClose={actions.closeFilterModal} title="Filter">
-      <form className="form">
+      <form
+        className="form"
+        onSubmit={e => {
+          e.preventDefault()
+          actions.closeFilterModal()
+        }}>
         <div className="form__body">
           <div className="form__group">
             <label htmlFor="search">Search</label>

@@ -25,7 +25,7 @@ export default function selectWord(state, action) {
 // In addition to this, we do not want to overwhelm the user
 // with too many words that have never been tested.
 // We assign these words as bucket -1 to indicate they are new and untested.
-// Only if there are less than five words in bucket 0, do we then start to
+// Only if there are less than four words in bucket 0, do we then start to
 // introduce new, untested words, to prevent the user from being overwhelmed.
 
 // Also, if all words in the category have been tested correctly and the
@@ -34,17 +34,17 @@ export default function selectWord(state, action) {
 // words will be chosen at random, even if it is too early.
 
 // TODO: These calculation don't need to be done every time a word is selected
-// so in the future, we can cache the list of candidateWords,
+// so in the future, we can cache the list of candidate words,
 // when words are answered correctly, we remove it from the list,
 // when words are answered incorrectly, we keep it in the list
 // Then every 10 minutes or so, we can recalculate if other words
 // are now ready to be tested and can be included in the candidateWords
 
 function spacedRepetition(state, action) {
-  const { seed, words, scores } = action.payload
+  const { seed, words, scores, currentTime } = action.payload
 
-  const now = new Date()
-  const wordsToTest = []
+  const untestedWords = []
+  const candidateWords = []
 
   let wordList
 
@@ -60,6 +60,10 @@ function spacedRepetition(state, action) {
     // otherwise, we choose from the pool of all words
     wordList = Object.keys(words.byId)
   }
+
+  // used to track wether we should introduce new words
+  // or focus on the incorrectly answer words.
+  let wordsWithZeroScoreCount = 0
 
   // Iterate over all the potential words
   // to remove the ones that are not ready to be tested
@@ -95,54 +99,79 @@ function spacedRepetition(state, action) {
 
     // We include the word as a candidate to test based on the score bucket
     // and the time since last quizzed
-    let timeSinceQuizzed = now - lastedQuizzedDate
+    let timeSinceQuizzed = currentTime - lastedQuizzedDate
 
-    if (score === 0) {
-      wordsToTest.push(word._id)
+    if (score === -1) {
+      // this word has never been seen by this user
+      untestedWords.push(word._id)
+    } else if (score === 0) {
+      // This word was most recently answered incorrectly
+      candidateWords.push(word._id)
+      wordsWithZeroScoreCount++
     } else if (score === 1) {
       // if it has been at least 1 hour
       // 60 * 60 * 1000
       if (timeSinceQuizzed > 3600000) {
-        wordsToTest.push(word._id)
+        candidateWords.push(word._id)
       }
     } else if (score === 2) {
       // if it has been at least 1 day
       // 24 * 60 * 60 * 1000
       if (timeSinceQuizzed > 86400000) {
-        wordsToTest.push(word._id)
+        candidateWords.push(word._id)
       }
     } else if (score === 3) {
       // if it has been at least 2 days
       // 2 * 24 * 60 * 60 * 1000
       if (timeSinceQuizzed > 172800000) {
-        wordsToTest.push(word._id)
+        candidateWords.push(word._id)
       }
     } else if (score === 4) {
       // if it has been at least 1 week
       // 7 * 24 * 60 * 60 * 1000
       if (timeSinceQuizzed > 604800000) {
-        wordsToTest.push(word._id)
+        candidateWords.push(word._id)
       }
     } else if (score === 5) {
       // if it has been at least 1 month
       // 30 * 24 * 60 * 60 * 1000
       if (timeSinceQuizzed > 2592000000) {
-        wordsToTest.push(word._id)
+        candidateWords.push(word._id)
       }
     }
   }
-  let wordId = wordsToTest[Math.floor(seed * wordsToTest.length)]
 
-  if (!wordId) {
-    console.log('not found!')
-    const wordIds = Object.keys(action.payload.words.byId)
-    wordId = wordIds[Math.floor(seed * wordIds.length)]
+  // If we have less than four words with a score of 0
+  // it is time to start introducing new words to the user
+  // This is done to not overwhelm the user with too many
+  // new words while they still are incorrectly answering
+  for (let i = 4; i > wordsWithZeroScoreCount; i--) {
+    if (untestedWords.length > 0) {
+      // we pseudorandomly choose an untested word to add to candidate choices
+      const randIndex = Math.floor(untestedWords.length * randomFromSeed(seed))
+      const word = untestedWords.splice(randIndex, 1)
+      candidateWords.push(word)
+    } else {
+      // no more untested words to add.
+      break
+    }
   }
-  return { ...state, isEvaluating: false, selectedWordId: wordId }
+
+  let selectedWordId
+
+  if (candidateWords.length > 0) {
+    selectedWordId = candidateWords[Math.floor(seed * candidateWords.length)]
+  } else {
+    console.log(
+      'No more words to test. Selecting a random one from the category.'
+    )
+    selectedWordId = wordList[Math.floor(seed * wordList.length)]
+  }
+
+  return { ...state, isEvaluating: false, selectedWordId: selectedWordId }
 }
 
 // LEAST RECENT
-
 function leastRecent(state, action) {
   return random(state, action)
 }
@@ -168,4 +197,16 @@ function random(state, action) {
   const wordId = wordList[Math.floor(action.payload.seed * wordList.length)]
 
   return { ...state, isEvaluating: false, selectedWordId: wordId }
+}
+
+// This isn't really random, but good enough for our purpose
+// of deriving a random number from another random number deterministically
+// https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
+function randomFromSeed(seed) {
+  return Number(
+    '0.' +
+      Math.sin(seed)
+        .toString()
+        .substr(6)
+  )
 }
