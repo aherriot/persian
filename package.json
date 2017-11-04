@@ -31,7 +31,8 @@
     "react-virtualized": "^9.10.1",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "yes-https": "^0.0.4"
   },
   "scripts": {
     "start": "NODE_ENV=production node server/server.js",

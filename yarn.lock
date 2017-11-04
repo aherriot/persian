@@ -7465,3 +7465,7 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+yes-https@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/yes-https/-/yes-https-0.0.4.tgz#c392f7bd9ed59a33c2a8a91a842c1cfdede55eac"

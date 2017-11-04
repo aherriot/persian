@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const yesHttps = require('yes-https')
 const compression = require('compression')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -8,6 +9,10 @@ const config = require('./config')
 
 // Instantiate server
 const app = express()
+
+// Force redirect http to https
+// (only in production)
+app.use(yesHttps())
 
 if (process.env.NODE_ENV === 'production') {
   app.use(compression())
