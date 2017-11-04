@@ -16,7 +16,7 @@
       "request": "launch",
       "name": "Persian server",
       "env": { "NODE_ENV": "test" },
-      "program": "${workspaceFolder}/server/index.js"
+      "program": "${workspaceFolder}/server/server.js"
     }
   ]
 }

@@ -168,7 +168,7 @@ describe('Word API', function() {
           expect(resp.body).to.have.property('english')
           expect(resp.body).to.have.property('persian')
           expect(resp.body).to.have.property('phonetic')
-          global.deletedTestWordId = resp.body._id
+          global.testWordId = resp.body._id
           done()
         })
     })
@@ -212,7 +212,6 @@ describe('Word API', function() {
         .end((err, resp) => {
           expect(err).to.be.null
           expect(resp.body).to.have.lengthOf(3)
-          global.testWordId = resp.body[0]._id
           done()
         })
     })
@@ -221,7 +220,7 @@ describe('Word API', function() {
   describe('Update existing word', function() {
     it('error without authentication', function(done) {
       request
-        .put(WORDS_URL + global.deletedTestWordId)
+        .put(WORDS_URL + global.testWordId)
         .send({
           english: 'test'
         })
@@ -234,7 +233,7 @@ describe('Word API', function() {
 
     it('error on non-admin user token', function(done) {
       request
-        .put(WORDS_URL + global.deletedTestWordId)
+        .put(WORDS_URL + global.testWordId)
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({
           english: 'test'
@@ -248,7 +247,7 @@ describe('Word API', function() {
 
     it('success on modify word', function(done) {
       request
-        .put(WORDS_URL + global.deletedTestWordId)
+        .put(WORDS_URL + global.testWordId)
         .set('Authorization', 'Bearer ' + global.adminToken)
         .send({
           english: 'test'
@@ -263,7 +262,7 @@ describe('Word API', function() {
 
   describe('Delete word', function() {
     it('error without authentication', function(done) {
-      request.delete(WORDS_URL + global.deletedTestWordId).end((err, resp) => {
+      request.delete(WORDS_URL + global.testWordId).end((err, resp) => {
         expect(err).to.not.be.null
         expect(err.response.body.code).to.equal('missingAuthToken')
         done()
@@ -272,21 +271,11 @@ describe('Word API', function() {
 
     it('error on non-admin user token', function(done) {
       request
-        .delete(WORDS_URL + global.deletedTestWordId)
+        .delete(WORDS_URL + global.testWordId)
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .end((err, resp) => {
           expect(err).to.not.be.null
           expect(err.response.body.code).to.equal('adminOnly')
-          done()
-        })
-    })
-
-    it('success on delete word', function(done) {
-      request
-        .delete(WORDS_URL + global.deletedTestWordId)
-        .set('Authorization', 'Bearer ' + global.adminToken)
-        .end((err, resp) => {
-          expect(err).to.be.null
           done()
         })
     })
@@ -296,7 +285,7 @@ describe('Word API', function() {
     it('success without authentication', function(done) {
       request.get(WORDS_URL).end((err, resp) => {
         expect(err).to.be.null
-        expect(resp.body).to.have.lengthOf(3)
+        expect(resp.body).to.have.lengthOf(4)
         done()
       })
     })
@@ -307,7 +296,7 @@ describe('Word API', function() {
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .end((err, resp) => {
           expect(err).to.be.null
-          expect(resp.body).to.have.lengthOf(3)
+          expect(resp.body).to.have.lengthOf(4)
           done()
         })
     })

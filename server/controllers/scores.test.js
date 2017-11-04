@@ -82,21 +82,6 @@ describe('Score API', function() {
         })
     })
 
-    it('error on score for deleted word', function(done) {
-      request
-        .put(SCORES_URL + global.deletedTestWordId)
-        .set('Authorization', 'Bearer ' + global.testUserToken)
-        .send({
-          direction: 'fromEnglish',
-          score: 1
-        })
-        .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordNotFound')
-          done()
-        })
-    })
-
     it('success on updated score fromEnglish', function(done) {
       request
         .put(SCORES_URL + global.testWordId)

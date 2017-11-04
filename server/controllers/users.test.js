@@ -10,14 +10,6 @@ const USERNAME = 'test_user'
 const PASSWORD = 'password'
 const EMAIL = 'test@test.com'
 
-before(function(done) {
-  // it('responds to / with the index.html', function(done) {
-  request.get(`localhost:${config.PORT}`).end((err, resp) => {
-    done()
-  })
-  // })
-})
-
 describe('User API', function() {
   describe('Create new user', function() {
     it('error on missing username', function(done) {

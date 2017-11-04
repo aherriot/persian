@@ -134,6 +134,7 @@ router.delete('/:word_id', auth, admin, async function(req, res) {
     const word = await Word.findByIdAndRemove(req.params.word_id)
 
     if (word) {
+      word.remove()
       return res.json(word)
     } else {
       return respondWithError(res, 'wordNotFoun')

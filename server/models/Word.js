@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Scores = require('./Score')
+const Score = require('./Score')
 
 const Schema = mongoose.Schema
 
@@ -13,7 +13,7 @@ const wordSchema = new Schema({
 })
 
 wordSchema.pre('remove', function(next) {
-  Scores.remove({ wordId: this._id }).exec()
+  Score.remove({ wordId: this._id }).exec()
   next()
 })
 

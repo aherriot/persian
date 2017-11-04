@@ -36,7 +36,7 @@ userSchema.pre('save', function(next) {
 })
 
 userSchema.pre('remove', function(next) {
-  Scores.remove({ userId: this._id }).exec()
+  Score.remove({ userId: this._id }).exec()
   next()
 })
 
