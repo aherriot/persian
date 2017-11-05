@@ -1,0 +1,24 @@
+.Logo {
+  font-size: 2.4rem;
+  font-weight: 400;
+  border: 0.2rem solid white;
+  border-radius: 0.2rem;
+}
+
+.Logo > * {
+  margin: 0.2rem 0.7rem 0 0.7rem;
+}
+
+.Logo a {
+  text-decoration: none;
+}
+
+.Logo a:visited {
+  color: white;
+}
+
+.Logo a:hover,
+.Logo a:active {
+  color: white;
+  background-color: blue;
+}

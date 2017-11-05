@@ -1,0 +1,268 @@
+/***********************************
+ * Colours
+ **********************************/
+
+:root {
+  /* base colour defintions */
+  --persian-grey: hsl(220, 26%, 50%);
+  --persian-grey-dark: hsl(220, 26%, 28%);
+  --persian-black: hsl(220, 26%, 14%);
+  --persian-white: hsl(220, 26%, 97%);
+
+  --persian-blue: hsl(196, 100%, 33%);
+  --persian-blue-light: hsl(196, 100%, 40%);
+  --persian-blue-dark: hsl(196, 100%, 26%);
+
+  --persian-teal: hsl(176, 59%, 30%);
+  --persian-teal-light: hsl(176, 59%, 37%);
+  --persian-teal-dark: hsl(176, 59%, 23%);
+
+  --persian-green: hsl(154, 28%, 57%);
+
+  --persian-yellow: hsl(57, 45%, 76%);
+  --persian-yellow-light: hsl(57, 45%, 93%);
+  /* --persian-yellow-light: hsl(57, 45%, 86%); */
+
+  --persian-red: hsl(5, 63%, 51%);
+  --persian-red-light: hsl(5, 63%, 58%);
+  --persian-red-dark: hsl(5, 63%, 44%);
+
+  /* media query screen sizes */
+  --small-screen: 460px;
+  --medium-screen: 700px;
+  --large-screen: 1000px;
+
+  /* element definitions */
+  --box-shadow: rgba(0, 0, 0, 0.4);
+  --text-color: var(--persian-white);
+  --background-color: #eee;
+}
+
+/***********************************
+ * Base style
+ **********************************/
+
+html,
+body,
+#root,
+.Routes {
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Helvetica Neue', Arial, sans-serif;
+
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  color: var(--persian-black);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover,
+a:visited {
+  color: var(--persian-black);
+}
+
+label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+div.error {
+  font-size: 1.2rem;
+  color: var(--persian-red);
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+input[type='text'],
+input[type='password'] {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.6rem;
+  font-weight: 300;
+  border: 0.1rem solid #d9d9d9;
+  border-radius: 0.3rem;
+}
+
+input[type='text']:hover,
+input[type='text']:focus,
+input[type='password']:hover,
+input[type='password']:focus {
+  outline: none;
+  border-color: var(--persian-blue);
+}
+
+input.error,
+input.error:hover,
+input.error:focus {
+  border-color: var(--persian-red);
+}
+
+select {
+  padding: 0.6rem;
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  color: var(--persian-black);
+  border-radius: 0.3rem;
+  font-size: 1.4rem;
+  height: 3.5rem;
+  width: 100%;
+}
+
+select:hover,
+select:focus,
+textarea {
+  border-color: var(--persian-blue);
+  outline: none;
+}
+
+textarea {
+  border-radius: 0.5rem;
+}
+
+/***********************************
+ * Media queries
+ **********************************/
+
+.medium {
+  display: none;
+}
+
+.large {
+  display: none;
+}
+
+.x-large {
+  display: none;
+}
+
+@media screen and (min-width: 460px) {
+  .medium {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .large {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .x-large {
+    display: block;
+  }
+}
+
+/***********************************
+ * Button
+ **********************************/
+button.button {
+  background-color: var(--persian-blue);
+  border: 0.1rem solid var(--persian-blue-dark);
+  color: var(--persian-white);
+  border-radius: 0.3rem;
+  padding: 0.6rem 1rem;
+  font-size: 1.4rem;
+  font-weight: 300;
+  margin: 0;
+}
+
+button:focus {
+  outline: none;
+}
+
+button.button:hover,
+button.button:active,
+button.button:focus {
+  background-color: var(--persian-blue-light);
+  border-color: var(--persian-blue);
+}
+
+button.button.affirmative {
+  background-color: var(--persian-teal);
+  border-color: var(--persian-teal-dark);
+}
+
+button.button.negative {
+  background-color: var(--persian-red);
+  border-color: var(--persian-red);
+}
+
+button.button[disabled] {
+  background-color: #bbb;
+  border-color: #999;
+}
+
+/* button as link */
+
+button.link {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--persian-blue-light);
+  font-size: 1.4rem;
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/***********************************
+ * Form
+ **********************************/
+
+.form {
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form__body {
+  padding: 1rem 2rem;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.form__text {
+  margin-bottom: 1.5rem;
+}
+
+.form__button-row {
+  margin: 1rem 2rem 2rem 2rem;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form__group {
+  margin-bottom: 1rem;
+}
+
+.form__body p {
+  margin: 2rem 0;
+  text-align: justify;
+}

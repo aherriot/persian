@@ -1,231 +1,275 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var jwt = require('jsonwebtoken');
+const express = require('express')
+const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 
-var User = require('../models/User');
-var Score = require('../models/Score');
-var config = require('../config');
+const User = require('../models/User')
+const Score = require('../models/Score')
+const config = require('../config')
 
-var auth = require('../middlewares/auth');
-var admin = require('../middlewares/admin');
+const auth = require('../middlewares/auth')
+const admin = require('../middlewares/admin')
 
-var router = express.Router();
+const respondWithError = require('../utils/respondWithError')
 
-router.get('/', auth, admin, function(req, res) {
+const router = express.Router()
 
-  User.find({}, {username: 1, email: 1, role: 1, createdAt: 1}, function(err, users) {
-    if(err) {
-      return res.status(500).json({ error: err });
-    }
-    return res.json(users);
-  });
+router.get('/', auth, admin, async function(req, res) {
+  try {
+    const users = await User.find(
+      {},
+      { username: 1, email: 1, role: 1, createdAt: 1 }
+    )
+    return res.json(users)
+  } catch (err) {
+    return respondWithError(res, err)
+  }
 })
 
-router.post('/login', function(req, res) {
-
-  if(!req.body.password) {
-    return res.status(400).json({code: 'missingPassword', message: 'Password missing from body'});
-  } else if(!req.body.username) {
-    return res.status(400).json({code: 'missingUsername', message: 'Username missing from body'});
+router.post('/login', async function(req, res) {
+  if (!req.body.password) {
+    return respondWithError(res, 'passwordMissing')
+  } else if (!req.body.username) {
+    return respondWithError(res, 'usernameMissing')
   } else {
-
-    User.findOne({username: { $regex :  new RegExp(req.body.username, "i") }}, function(err, user) {
-
-      if(err) {
-        return res.status(500).json({error: err});
+    try {
+      const user = await User.findOne({ username: req.body.username })
+      if (!user) {
+        return respondWithError(res, 'invalidAuthentication')
       }
 
-      if(user) {
-        user.comparePassword(req.body.password, function(err, isMatch) {
-          if(err) {
-            return res.status(500).json({error: err});
+      user.comparePassword(req.body.password, function(err, isMatch) {
+        if (err) {
+          return respondWithError(res, err)
+        }
+
+        if (!isMatch) {
+          return respondWithError(res, 'invalidAuthentication')
+        }
+
+        const token = jwt.sign(
+          { _id: user._id, username: user.username, role: user.role },
+          config.JWT_SECRET,
+          {
+            expiresIn: config.JWT_EXPIRY
+          }
+        )
+
+        return res.json({ token: token })
+      })
+    } catch (err) {
+      return respondWithError(res, err)
+    }
+  }
+})
+
+// given a valid token, respond with a new token with the same information
+// but updated expiry date.
+router.get('/refresh-token', auth, async function(req, res) {
+  // We trust the information coming from the request authentication token,
+  // because it is signed with the server's secret. See the 'auth' middleware.
+  const token = jwt.sign(
+    { _id: req.user._id, username: req.user.username, role: req.user.role },
+    config.JWT_SECRET,
+    {
+      expiresIn: config.JWT_EXPIRY
+    }
+  )
+  return res.json({ token: token })
+})
+
+router.post('/', async function(req, res) {
+  if (!req.body.username) {
+    return respondWithError(res, 'usernameMissing')
+  } else if (req.body.username.length < 3 || req.body.username.length > 10) {
+    return respondWithError(res, 'usernameLength')
+  } else if (!req.body.password) {
+    return respondWithError(res, 'passwordMissing')
+  } else if (req.body.password.length < 6 || req.body.password.length > 30) {
+    return respondWithError(res, 'passwordLength')
+  } else if (!req.body.email) {
+    return respondWithError(res, 'emailMissing')
+  } else if (
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i.test(req.body.email)
+  ) {
+    return respondWithError(res, 'emailInvalid')
+  }
+
+  try {
+    const existingUser = await User.findOne({
+      $or: [
+        { username: req.body.username.toLowerCase() },
+        { email: req.body.email.toLowerCase() }
+      ]
+    })
+
+    if (existingUser) {
+      if (
+        existingUser.username.toLowerCase() === req.body.username.toLowerCase()
+      ) {
+        return respondWithError(res, 'usernameDuplicate')
+      } else {
+        return respondWithError(res, 'emailDuplicate')
+      }
+    }
+
+    const newUser = new User({
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email
+    })
+
+    try {
+      await newUser.save()
+
+      const token = jwt.sign(
+        { _id: newUser._id, username: newUser.newUsername, role: newUser.role },
+        config.JWT_SECRET,
+        {
+          expiresIn: config.JWT_EXPIRY
+        }
+      )
+
+      return res.json({ token: token })
+    } catch (err) {
+      return respondWithError(res, err)
+    }
+
+    return res.json({ user: newUser })
+  } catch (err) {
+    return respondWithError(res, err)
+  }
+})
+
+router.put('/:id', auth, async function(req, res) {
+  if (req.user._id !== req.params.id) {
+    return respondWithError(res, 'userWrong')
+  }
+
+  let isModified = false
+  try {
+    const user = await User.findById(req.params.id)
+
+    if (!user) {
+      return respondWithError(res, 'userNotFound')
+    }
+
+    if (req.body.email) {
+      isModified = true
+      user.email = req.body.email
+    }
+
+    if (isModified) {
+      try {
+        await user.save()
+      } catch (err) {
+        return respondWithError(res, err)
+      }
+    }
+
+    // if (req.body.username) {
+    //   user.username = req.body.username
+    // }
+
+    res.json({})
+  } catch (err) {
+    return respondWithError(res, err)
+  }
+})
+
+// Separate route just to change password. requires current password to be reauthenticated.
+router.put('/:id/password', auth, async function(req, res) {
+  if (req.user._id !== req.params.id) {
+    return respondWithError(res, 'userWrong')
+  } else if (!req.body.password) {
+    return respondWithError(res, 'passwordMissing')
+  } else if (!req.body.newPassword) {
+    return respondWithError(res, 'newPasswordMissing')
+  }
+
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return respondWithError(res, 'userNotFound')
+    }
+
+    user.comparePassword(req.body.password, function(err, isMatch) {
+      if (err) {
+        return respondWithError(res, err)
+      }
+
+      if (isMatch) {
+        user.password = req.body.newPassword
+
+        user.save(function(err, user) {
+          if (err) {
+            return respondWithError(res, err)
           }
 
-          if(isMatch) {
-            var token = jwt.sign({_id: user._id, username: user.username, role: user.role}, config.JWT_SECRET, {
-              expiresIn: config.JWT_EXPIRY
-            });
-
-            return res.json({token: token});
-
-          } else {
-            return res.status(401).json({code: 'incorrectPassword', message: 'Authentication failed. Incorrect username or password.'});
-          }
-
+          return res.json({ success: true })
         })
       } else {
-        return res.status(401).json({code: 'incorrectPassword', message: 'Authentication failed. Incorrect username.'});
+        return respondWithError(res, 'unauthorized')
       }
-
     })
+  } catch (err) {
+    return respondWithError(res, err)
   }
-});
-
-router.post('/', function(req, res) {
-
-  if(!req.body.username) {
-    return res.status(400).json({code: 'missingUsername', message: 'Username missing from body'});
-  } else if(req.body.username.length < 3 || req.body.username.length > 10) {
-    return res.status(400).json({code: 'usernameLength', message: 'Username must be between 3 and 10 characters'});
-
-  } else if(!req.body.password) {
-    return res.status(400).json({code: 'missingPassword', message: 'Password missing from body'});
-  } else if(req.body.password.length < 6 || req.body.password.length > 30) {
-    return res.status(400).json({code: 'passwordLength', message: 'Password must be between 6 and 30 characters'});
-
-  } else if(!req.body.email) {
-    return res.status(400).json({code: 'missingEmail', message: 'Email missing from body'});
-  } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i.test(req.body.email)) {
-    return res.status(400).json({code: 'invalidEmail', message: 'Email is not valid'});
-  }
-
-  User.findOne({$or: [
-      {username: { $regex :  new RegExp(req.body.username, "i") }},
-      {email: req.body.email}
-    ]}, function(err, user) {
-
-    if(err) {
-      return res.status(500).json({errror: err});
-    }
-
-    if(user) {
-      if(user.username.toLowerCase() === req.body.username.toLowerCase()) {
-        res.status(400).json({code: 'duplicateUsername', message: 'Username already in use'});
-      } else {
-        res.status(400).json({code: 'duplicateEmail', message: 'email already in use'});
-      }
-    } else {
-      var newUser = new User({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email
-      });
-
-      newUser.save(function(err, user) {
-        if(err) {
-          return res.status(500).json({error: err});
-        }
-
-        var token = jwt.sign({_id: user._id, username: user.username, role: user.role}, config.JWT_SECRET, {
-          expiresIn: config.JWT_EXPIRY
-        });
-
-        return res.json({token: token});
-      })
-    }
-  });
-});
-
-router.put('/:username', auth, function(req, res) {
-  if(req.user.username !== req.params.username) {
-    return res.status(400).json({code: 'wrongUser', message: 'Can only edit the currently authenticated user'});
-  }
-
-  if(req.body.email) {
-
-  }
-
-  if (req.body.username) {
-
-  }
-
-  res.json({})
 })
 
-// Separate route just to change password. requires current password to be reauthenicated.
-router.put('/:username/password', auth, function(req, res) {
-
-  if(req.user.username !== req.params.username) {
-    return res.status(400).json({code: 'wrongUser', message: 'Can only edit the currently authenticated user'});
-  } else if(!req.body.password) {
-    return res.status(400).json({code: 'missingPassword', message: 'Password missing from body'});
-  } else if(!req.body.newPassword) {
-    return res.status(400).json({code: 'missingNewPassword', message: 'New password missing from body'});
+router.delete('/:id', auth, async function(req, res) {
+  if (req.user.role !== 'admin' && req.user._id !== req.params.id) {
+    return respondWithError(res, 'userWrong')
   }
-
-  User.findOne({username: req.params.username}, function(err, user) {
-
-    if(err) {
-      return res.status(500).json({error: err});
+  try {
+    const user = await User.findByIdAndRemove(req.params.id)
+    if (user) {
+      user.remove()
     }
 
-    if(user) {
-      user.comparePassword(req.body.password, function(err, isMatch) {
-        if(err) {
-          return res.status(500).json({error: err});
+    res.json({ success: true })
+  } catch (err) {
+    respondWithError(res, err)
+  }
+})
+
+router.get('/leaderboard', auth, admin, async function(req, res) {
+  try {
+    const users = await User.find({})
+
+    let respObj = []
+    let refCount = 0
+    users.forEach(async function(user) {
+      try {
+        const scores = await Score.find({ userId: user._id })
+        refCount++
+
+        let sum = 0
+        let mostRecent = null
+        scores.forEach(score => {
+          if (!mostRecent || score.quizzedAt > mostRecent) {
+            mostRecent = score.quizzedAt
+          }
+
+          score.scores.forEach(scoreElem => (sum += scoreElem))
+        })
+
+        respObj.push({
+          username: user.username,
+          quizzedWords: scores.length,
+          mostRecent: mostRecent,
+          score: sum
+        })
+
+        if (refCount === users.length) {
+          return res.json(respObj)
         }
-
-        if(isMatch) {
-
-          user.password = req.body.newPassword;
-
-          user.save(function(err, user) {
-            if(err) {
-              return res.status(500).json({error: err});
-            }
-
-            return res.json({});
-
-          })
-
-        } else {
-          return res.status(401).json({code: 'incorrectPassword', message: 'Authentication failed. Incorrect username or password.'});
-        }
-      });
-    } else {
-      return res.status(401).json({code: 'incorrectPassword', message: 'Authentication failed. Incorrect username.'});
-    }
-
-  })
-
-});
-
-router.delete('/:username', auth, admin, function(req, res) {
-
-  // testUser.save(function(err) {
-  //   if (err) throw err;
-  //
-  // });
-
-});
-
-router.get('/leaderboard', auth, admin, function(req, res) {
-  User.find({})
-    .then(users => {
-      let respObj = []
-      let refCount = 0
-      users.forEach(user => {
-        Score.find({userId: user._id})
-          .then(scores => {
-
-            refCount++;
-
-            let sum = 0
-            let mostRecent = null
-            scores.forEach(score => {
-
-              if (!mostRecent || score.quizzedAt > mostRecent) {
-                mostRecent = score.quizzedAt
-              }
-
-              score.scores.forEach(scoreElem => sum += scoreElem)
-            })
-
-            respObj.push({
-              username: user.username,
-              quizzedWords: scores.length,
-              mostRecent: mostRecent,
-              score: sum
-            })
-
-            if(refCount === users.length) {
-              return res.json(respObj)
-            }
-          })
-          .catch(error => res.status(500).json({error: err}))
-      })
+      } catch (err) {
+        return respondWithError(res, err)
+      }
     })
-    .catch(error => res.status(500).json({error: err}))
-});
+  } catch (err) {
+    return respondWithError(res, err)
+  }
+})
 
-module.exports = router;
+module.exports = router

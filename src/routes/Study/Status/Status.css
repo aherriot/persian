@@ -1,0 +1,5 @@
+.Status {
+  text-align: center;
+  border: 1px solid var(--persian-black);
+  padding: 1rem;
+}

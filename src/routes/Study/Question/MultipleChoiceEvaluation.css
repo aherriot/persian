@@ -1,0 +1,29 @@
+.MultipleChoice {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.MultipleChoice__choice {
+  color: var(--persian-white);
+  background-color: var(--persian-blue);
+
+  flex: 1 0 50%;
+
+  border: 1px solid var(--persian-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.MultipleChoice__choice--persian {
+  font-size: 2rem;
+  font-weight: 400;
+  direction: rtl;
+}
+
+.MultipleChoice__choice:hover,
+.MultipleChoice__choice:active {
+  background-color: var(--persian-blue-light);
+}

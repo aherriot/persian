@@ -1,26 +1,21 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+const express = require('express')
+const bodyParser = require('body-parser')
 
-var usersController = require('./controllers/users');
-var wordsController = require('./controllers/words');
-var scoresController = require('./controllers/scores');
+const scores = require('./controllers/scores')
+const users = require('./controllers/users')
+const words = require('./controllers/words')
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+const api = express.Router()
 
-mongoose.connect('mongodb://localhost/persian');
+// parse JSON on incoming requests
+api.use(bodyParser.json())
 
-var api = express.Router();
-
-api.use(bodyParser.json());
-
-api.use('/users', usersController);
-api.use('/words', wordsController);
-api.use('/scores', scoresController);
+api.use('/scores', scores)
+api.use('/users', users)
+api.use('/words', words)
 
 api.all('*', function(req, res) {
-  res.status(404).json({error: 'path not found'});
-});
+  res.status(404).json({ code: 'notFound', message: 'path not found' })
+})
 
-module.exports = api;
+module.exports = api
