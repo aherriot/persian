@@ -14,10 +14,16 @@ import './Study.css'
 
 export default class Study extends Component {
   componentDidMount() {
-    this.props.actions.fetchWords()
-    this.props.actions.fetchScores()
+    const { actions, scores, words } = this.props
+    if (scores.fetchStatus === 'INIT' || scores.fetchStatus === 'ERROR') {
+      actions.fetchScores()
+    }
 
-    this.props.actions.selectWord()
+    if (words.fetchStatus === 'INIT' || words.fetchStatus === 'ERROR') {
+      actions.fetchWords()
+    }
+
+    actions.selectWord()
   }
 
   componentWillReceiveProps(newProps) {

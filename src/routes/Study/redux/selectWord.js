@@ -9,7 +9,7 @@ export default function selectWord(state, action) {
   return state
 }
 
-// SPACED REPETION
+// SPACED REPETITION
 // The core of the spaced repetition algorithm works
 // by assigning words into score buckets numbered 0 through 5
 // If the word is answered correctly, the word is moved up one bucket.
@@ -30,7 +30,7 @@ export default function selectWord(state, action) {
 
 // Also, if all words in the category have been tested correctly and the
 // time has not passed for them to be retested, a message will be displayed
-// prompting them to try a different category and if they still continue
+// prompting them to try a different category and if they still continue,
 // words will be chosen at random, even if it is too early.
 
 // TODO: These calculation don't need to be done every time a word is selected

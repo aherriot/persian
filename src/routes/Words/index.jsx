@@ -12,8 +12,15 @@ import './Words.css'
 
 export default class Words extends Component {
   componentDidMount() {
-    this.props.actions.fetchWords()
-    this.props.actions.fetchScores()
+    const { actions, words, scores } = this.props
+
+    if (scores.fetchStatus === 'INIT' || scores.fetchStatus === 'ERROR') {
+      actions.fetchScores()
+    }
+
+    if (words.fetchStatus === 'INIT' || words.fetchStatus === 'ERROR') {
+      actions.fetchWords()
+    }
   }
 
   render() {
