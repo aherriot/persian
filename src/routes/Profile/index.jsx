@@ -1,9 +1,9 @@
 import React from 'react'
 import Header from 'components/Header'
-
+import ChangePasswordModal from './ChangePasswordModal'
 import './Profile.css'
 
-export default function Profile({ actions, auth }) {
+export default function Profile({ actions, auth, profile }) {
   return (
     <div className="Profile">
       <Header title="Profile" />
@@ -11,7 +11,14 @@ export default function Profile({ actions, auth }) {
         <div className="content">
           <h1>{auth.username}</h1>
           <div>Welcome to your profile</div>
-          <div>Change password</div>
+          <div>
+            <button
+              type="button"
+              className="button"
+              onClick={actions.openChangePasswordModal}>
+              Change Password
+            </button>
+          </div>
           <div>Change username or email</div>
           <div>Delete account</div>
           <div className="buttonRow">
@@ -19,6 +26,11 @@ export default function Profile({ actions, auth }) {
               Logout
             </button>
           </div>
+          <ChangePasswordModal
+            open={profile.showChangePasswordModal}
+            actions={actions}
+            id={auth.id}
+          />
         </div>
       )}
 

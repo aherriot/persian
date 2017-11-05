@@ -221,7 +221,6 @@ router.delete('/:id', auth, async function(req, res) {
     return respondWithError(res, 'userWrong')
   }
   try {
-    // await Score.remove({ userId: req.params.id })
     const user = await User.findByIdAndRemove(req.params.id)
     if (user) {
       user.remove()

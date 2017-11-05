@@ -1,17 +1,23 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { logout } from 'store/auth/actions.js'
+import { changePassword, logout } from 'store/auth/actions'
+import * as actions from './actions'
+
 import Profile from '../'
 
 function mapStateToProps(state) {
   return {
-    auth: state.data.auth
+    auth: state.data.auth,
+    profile: state.routes.profile
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ logout }, dispatch)
+    actions: bindActionCreators(
+      { ...actions, changePassword, logout },
+      dispatch
+    )
   }
 }
 

@@ -33,6 +33,18 @@ export function createAccount(username, email, password) {
   })
 }
 
+export function changePassword(userId, password, newPassword) {
+  return authRequest(
+    'auth/CHANGE_PASSWORD',
+    `/api/users/${userId}/password`,
+    'PUT',
+    {
+      password,
+      newPassword
+    }
+  )
+}
+
 export function logout() {
   return { type: 'auth/LOGOUT' }
 }

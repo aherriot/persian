@@ -24,6 +24,7 @@ const actionHandlers = {
       status: 'SUCCESS',
       token: action.payload.response.token,
       username: decoded.username,
+      id: decoded._id,
       role: decoded.role,
       expiresAt: decoded.exp,
       error: null
@@ -42,6 +43,7 @@ const actionHandlers = {
       ...state,
       token: null,
       username: null,
+      id: null,
       role: null,
       expiresAt: null
     }
@@ -57,6 +59,7 @@ const actionHandlers = {
       ...state,
       token: null,
       username: null,
+      id: null,
       role: null,
       expiresAt: null
     }
@@ -77,6 +80,7 @@ const defaultState = {
   status: 'INIT',
   token: token,
   username: decoded ? decoded.username : null,
+  id: decoded ? decoded._id : null,
   role: decoded ? decoded.role : null,
   expiresAt: decoded ? decoded.exp : null,
   error: null
