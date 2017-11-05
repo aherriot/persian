@@ -149,6 +149,10 @@ router.put('/:id', auth, async function(req, res) {
   try {
     const user = await User.findById(req.params.id)
 
+    if (!user) {
+      return respondWithError(res, 'userNotFound')
+    }
+
     if (req.body.email) {
       isModified = true
       user.email = req.body.email
@@ -173,7 +177,7 @@ router.put('/:id', auth, async function(req, res) {
 })
 
 // Separate route just to change password. requires current password to be reauthenticated.
-router.put('/:id/password', auth, function(req, res) {
+router.put('/:id/password', auth, async function(req, res) {
   if (req.user._id !== req.params.id) {
     return respondWithError(res, 'userWrong')
   } else if (!req.body.password) {
@@ -182,35 +186,34 @@ router.put('/:id/password', auth, function(req, res) {
     return respondWithError(res, 'newPasswordMissing')
   }
 
-  User.findById(req.params._id, function(err, user) {
-    if (err) {
-      return respondWithError(res, err)
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return respondWithError(res, 'userNotFound')
     }
 
-    if (user) {
-      user.comparePassword(req.body.password, function(err, isMatch) {
-        if (err) {
-          return respondWithError(res, err)
-        }
+    user.comparePassword(req.body.password, function(err, isMatch) {
+      if (err) {
+        return respondWithError(res, err)
+      }
 
-        if (isMatch) {
-          user.password = req.body.newPassword
+      if (isMatch) {
+        user.password = req.body.newPassword
 
-          user.save(function(err, user) {
-            if (err) {
-              return respondWithError(res, err)
-            }
+        user.save(function(err, user) {
+          if (err) {
+            return respondWithError(res, err)
+          }
 
-            return res.json({})
-          })
-        } else {
-          return respondWithError(res, 'unauthorized')
-        }
-      })
-    } else {
-      return respondWithError(res, 'unauthorized')
-    }
-  })
+          return res.json({ success: true })
+        })
+      } else {
+        return respondWithError(res, 'unauthorized')
+      }
+    })
+  } catch (err) {
+    return respondWithError(res, err)
+  }
 })
 
 router.delete('/:id', auth, async function(req, res) {

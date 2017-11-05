@@ -43,6 +43,11 @@ const codes = {
     message: 'Cannot perform operations on other users'
   },
 
+  userNotFound: {
+    status: 404,
+    message: 'User not found'
+  },
+
   unauthorized: {
     status: 401,
     message: 'Not authorized to perform this action'

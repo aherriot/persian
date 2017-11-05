@@ -204,18 +204,70 @@ describe('User API', function() {
   })
 
   describe('Change password', function() {
-    //   it('error on wrong password', function(done) {
-    //     request
-    //       .put(USERS_URL + global.testUserId + '/password')
-    //       .set('Authorization', 'Bearer ' + global.testUserToken)
-    //       .send({ password: 'wrong', newPassword: 'temppassword' })
-    //       .end((err, resp) => {
-    //         expect(err).to.not.be.null
-    //         expect(err.response.body.code).to.equal('invalidAuthentication')
-    //         expect(err.response.body.message).to.have.lengthOf.above(0)
-    //         done()
-    //       })
-    //   })
+    it('error on wrong user', function(done) {
+      request
+        .put(USERS_URL + global.testUserId + '/password')
+        .set('Authorization', 'Bearer ' + global.adminToken)
+        .send({ password: 'password', newPassword: 'temppassword' })
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('userWrong')
+          expect(err.response.body.message).to.have.lengthOf.above(0)
+          done()
+        })
+    })
+
+    it('error on missing password field', function(done) {
+      request
+        .put(USERS_URL + global.testUserId + '/password')
+        .set('Authorization', 'Bearer ' + global.testUserToken)
+        .send({ newPassword: 'temppassword' })
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('passwordMissing')
+          expect(err.response.body.message).to.have.lengthOf.above(0)
+          done()
+        })
+    })
+
+    it('error on missing newPassword field', function(done) {
+      request
+        .put(USERS_URL + global.testUserId + '/password')
+        .set('Authorization', 'Bearer ' + global.testUserToken)
+        .send({ password: 'password' })
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('newPasswordMissing')
+          expect(err.response.body.message).to.have.lengthOf.above(0)
+          done()
+        })
+    })
+
+    it('error on wrong password', function(done) {
+      request
+        .put(USERS_URL + global.testUserId + '/password')
+        .set('Authorization', 'Bearer ' + global.testUserToken)
+        .send({ password: 'wrong', newPassword: 'temppassword' })
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('unauthorized')
+          expect(err.response.body.message).to.have.lengthOf.above(0)
+          done()
+        })
+    })
+
+    it('success on changing password', function(done) {
+      request
+        .put(USERS_URL + global.testUserId + '/password')
+        .set('Authorization', 'Bearer ' + global.testUserToken)
+        .send({ password: 'password', newPassword: 'temppassword' })
+        .end((err, resp) => {
+          expect(err).to.be.null
+          // expect(err.response.body.code).to.equal('unauthorized')
+          expect(resp.body.success).to.be.true
+          done()
+        })
+    })
   })
 
   describe('Edit user', function() {})
