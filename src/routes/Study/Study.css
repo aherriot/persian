@@ -4,9 +4,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.Study > .content {
-  max-width: 40rem;
-  min-width: 30rem;
-  margin: 0 auto;
-}

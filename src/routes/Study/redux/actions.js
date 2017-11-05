@@ -78,3 +78,12 @@ export function setOptions(options) {
     }
   }
 }
+
+export function setTagFilter(tagFilter = '') {
+  return {
+    type: 'study/SET_TAG_FILTER',
+    payload: {
+      tagFilter: tagFilter
+    }
+  }
+}

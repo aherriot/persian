@@ -27,7 +27,28 @@ const actionHandlers = {
     return { ...state, showEditWord: false }
   },
   'study/SET_OPTIONS': function(state, action) {
+    localStorage.setItem('studyOptions', JSON.stringify(action.payload.options))
     return { ...state, showEditWord: false, options: action.payload.options }
+  },
+  'study/SET_TAG_FILTER': function(state, action) {
+    const newOptions = { ...state.options, tagFilter: action.payload.tagFilter }
+    localStorage.setItem('studyOptions', JSON.stringify(newOptions))
+    return {
+      ...state,
+      options: newOptions
+    }
+  }
+}
+
+// retrive options from local storage
+let studyOptions = JSON.parse(localStorage.getItem('studyOptions'))
+if (!studyOptions) {
+  studyOptions = {
+    questionSide: 'persian', // question side
+    answerSide: 'english', // answer side
+    tagFilter: '', // only quiz words that have this tag.
+    evaluation: 'MULTIPLE', // do they have to type response,
+    algorithm: 'SPACED_REPETITION' // how the next word is selected
   }
 }
 
@@ -37,15 +58,15 @@ const defaultState = {
 
   isEvaluating: false, //ie: quizzing,
   wasCorrect: false, // was the question answered correctly?
+
+  // Extra message that the selection algorithm to indicate it
+  // has no more words to test for this category
+  // We will use this status to indicate other things in the future
+  status: null,
+
   selectedWordId: null,
 
-  options: {
-    questionSide: 'persian', // question side
-    answerSide: 'english', // answer side
-    tagFilter: '', // only quiz words that have this tag.
-    evaluation: 'MULTIPLE', // do they have to type response,
-    algorithm: 'SPACED_REPETITION' // how the next word is selected
-  }
+  options: studyOptions
 }
 
 export default function(state = defaultState, action) {

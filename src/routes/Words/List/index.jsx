@@ -15,7 +15,7 @@ export default class List extends Component {
     this.state = {
       filterSortedWords: this.filterAndSortWords(
         props.words,
-        props.wordsRoute.tagFilter,
+        props.tagFilter,
         props.wordsRoute.searchText,
         props.wordsRoute.sortBy
       )
@@ -23,6 +23,10 @@ export default class List extends Component {
   }
 
   filterAndSortWords = (words, tagFilter, searchText, sortBy) => {
+    if (words.fetchStatus !== 'SUCCESS') {
+      return []
+    }
+
     const filteredSortedWords = []
 
     // The words are pre sorted by tags or hashmap by id
@@ -103,14 +107,14 @@ export default class List extends Component {
   componentWillReceiveProps(newProps) {
     if (
       this.props.words !== newProps.words ||
-      this.props.wordsRoute.tagFilter !== newProps.wordsRoute.tagFilter ||
+      this.props.tagFilter !== newProps.tagFilter ||
       this.props.wordsRoute.searchText !== newProps.wordsRoute.searchText ||
       this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy
     ) {
       this.setState({
         filterSortedWords: this.filterAndSortWords(
           newProps.words,
-          newProps.wordsRoute.tagFilter,
+          newProps.tagFilter,
           newProps.wordsRoute.searchText,
           newProps.wordsRoute.sortBy
         )

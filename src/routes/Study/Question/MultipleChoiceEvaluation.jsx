@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import classnames from 'classnames'
 import './MultipleChoiceEvaluation.css'
 
 export default class MultipleChoiceEvaluation extends Component {
@@ -139,15 +139,17 @@ export default class MultipleChoiceEvaluation extends Component {
   }
 
   render() {
-    const { words, study } = this.props
+    const { words, study: { options: { answerSide } } } = this.props
     return (
-      <div className="MultpleChoice">
+      <div className="MultipleChoice">
         {this.state.choices.map((choice, index) => (
           <div
             key={index}
-            className="MultpleChoice__choice"
+            className={classnames('MultipleChoice__choice', {
+              'MultipleChoice__choice--persian': answerSide === 'persian'
+            })}
             onClick={choice.correct ? this.onCorrect : this.onWrong}>
-            {words.byId[choice.wordId][study.options.answerSide]}
+            {words.byId[choice.wordId][answerSide]}
           </div>
         ))}
       </div>

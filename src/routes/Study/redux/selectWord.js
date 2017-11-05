@@ -55,7 +55,7 @@ function spacedRepetition(state, action) {
     // we store the words in a hashmap by category
     // to make this filtering more efficient.
     // This is in addition to the hashmap 'byId'.
-    wordList = words.byTag[state.options.tagFilter]
+    wordList = words.byTag[state.options.tagFilter] || []
   } else {
     // otherwise, we choose from the pool of all words
     wordList = Object.keys(words.byId)
@@ -158,17 +158,21 @@ function spacedRepetition(state, action) {
   }
 
   let selectedWordId
+  let status = null
 
   if (candidateWords.length > 0) {
     selectedWordId = candidateWords[Math.floor(seed * candidateWords.length)]
   } else {
-    console.log(
-      'No more words to test. Selecting a random one from the category.'
-    )
+    status = 'categoryFinished'
     selectedWordId = wordList[Math.floor(seed * wordList.length)]
   }
 
-  return { ...state, isEvaluating: false, selectedWordId: selectedWordId }
+  return {
+    ...state,
+    isEvaluating: false,
+    selectedWordId: selectedWordId,
+    status: status
+  }
 }
 
 // LEAST RECENT
@@ -189,7 +193,7 @@ function leastRecent(state, action) {
     // we store the words in a hashmap by category
     // to make this filtering more efficient.
     // This is in addition to the hashmap 'byId'.
-    wordList = words.byTag[state.options.tagFilter]
+    wordList = words.byTag[state.options.tagFilter] || []
   } else {
     // otherwise, we choose from the pool of all words
     wordList = Object.keys(words.byId)
@@ -256,7 +260,7 @@ function random(state, action) {
     // we store the words in a hashmap by category
     // to make this filtering more efficient.
     // This is in addition to the hashmap 'byId'.
-    wordList = words.byTag[state.options.tagFilter]
+    wordList = words.byTag[state.options.tagFilter] || []
   } else {
     // otherwise, we choose from the pool of all words
     wordList = Object.keys(words.byId)

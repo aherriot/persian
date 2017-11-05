@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 
 import TextEvaluation from './TextEvaluation'
 import SelfEvaluation from './SelfEvaluation'
@@ -7,23 +8,27 @@ import MultipleChoiceEvaluation from './MultipleChoiceEvaluation'
 import './Question.css'
 
 export default function Question(props) {
-  const { study, words } = props
+  const {
+    study: { selectedWordId, options: { questionSide, evaluation } },
+    words
+  } = props
 
-  if (study.selectedWordId) {
-    const word = words.byId[study.selectedWordId]
+  if (selectedWordId) {
+    const word = words.byId[selectedWordId]
     return (
       <div className="Question">
-        <div className="Question__prompt">
-          {word && word[study.options.questionSide]}
+        <div
+          className={classnames('Question__prompt', {
+            'Question__prompt--persian': questionSide === 'persian'
+          })}>
+          {word && word[questionSide]}
         </div>
 
-        {study.options.evaluation === 'TYPING' && <TextEvaluation {...props} />}
+        {evaluation === 'TYPING' && <TextEvaluation {...props} />}
 
-        {study.options.evaluation === 'SELF' && <SelfEvaluation {...props} />}
+        {evaluation === 'SELF' && <SelfEvaluation {...props} />}
 
-        {study.options.evaluation === 'MULTIPLE' && (
-          <MultipleChoiceEvaluation {...props} />
-        )}
+        {evaluation === 'MULTIPLE' && <MultipleChoiceEvaluation {...props} />}
       </div>
     )
   } else {

@@ -8,6 +8,7 @@ import Unauthorized from './Unauthorized'
 
 import OptionsModal from './OptionsModal'
 import EditWordModal from './EditWordModal'
+import Status from './Status'
 
 import './Study.css'
 
@@ -15,6 +16,8 @@ export default class Study extends Component {
   componentDidMount() {
     this.props.actions.fetchWords()
     this.props.actions.fetchScores()
+
+    this.props.actions.selectWord()
   }
 
   componentWillReceiveProps(newProps) {
@@ -28,29 +31,15 @@ export default class Study extends Component {
   }
 
   getContent() {
-    const { actions, study, auth } = this.props
+    const { study, auth } = this.props
     if (auth.token) {
       if (study.isEvaluating) {
-        return [
-          <Toolbar key="toolbar" actions={actions} />,
-          <div key="answer" className="content">
-            <Answer {...this.props} />
-          </div>
-        ]
+        return <Answer {...this.props} />
       } else {
-        return [
-          <Toolbar key="toolbar" actions={actions} />,
-          <div key="question" className="content">
-            <Question {...this.props} />
-          </div>
-        ]
+        return <Question {...this.props} />
       }
     } else {
-      return (
-        <div className="content">
-          <Unauthorized />
-        </div>
-      )
+      return <Unauthorized />
     }
   }
 
@@ -58,9 +47,11 @@ export default class Study extends Component {
     return (
       <div className="Study">
         <Header title="Study" />
+        <Toolbar actions={this.props.actions} />
         {this.getContent()}
         <OptionsModal {...this.props} />
         <EditWordModal {...this.props} />
+        <Status status={this.props.study.status} />
       </div>
     )
   }
