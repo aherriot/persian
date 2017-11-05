@@ -11,6 +11,7 @@
     "node": ">=8.x"
   },
   "dependencies": {
+    "@google-cloud/error-reporting": "^0.2.2",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "classnames": "^2.2.5",
