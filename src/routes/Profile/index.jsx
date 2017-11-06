@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Header from 'components/Header'
 import ChangePasswordModal from './ChangePasswordModal'
 import './Profile.css'
@@ -36,7 +37,10 @@ export default function Profile({ actions, auth, profile }) {
 
       {!auth.token && (
         <div className="content">
-          <div>You are not logged in.</div>
+          <div>
+            You are not logged in but you can still view the{' '}
+            <Link to="/words">list of words</Link>.
+          </div>
         </div>
       )}
     </div>

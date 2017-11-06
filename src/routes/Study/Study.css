@@ -4,3 +4,8 @@
   display: flex;
   flex-direction: column;
 }
+
+.Study__Unauthorized {
+  max-width: 40rem;
+  margin: 2rem auto;
+}

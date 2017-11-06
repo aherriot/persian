@@ -9,7 +9,7 @@ class AuthModal extends Component {
     const { auth, actions } = this.props
 
     let title, form
-    if (auth.showingCreateAccount) {
+    if (auth.showCreateAccount) {
       title = 'Create Account'
       form = <CreateAccountForm auth={auth} actions={actions} />
     } else {
@@ -18,7 +18,7 @@ class AuthModal extends Component {
     }
 
     return (
-      <Modal open={auth.open} onClose={actions.closeAuthDialog} title={title}>
+      <Modal open={auth.open} onClose={actions.closeAuthModal} title={title}>
         {form}
       </Modal>
     )

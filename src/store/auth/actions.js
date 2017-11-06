@@ -1,13 +1,14 @@
 import { authRequest } from 'utils/request'
 
-export function openAuthDialog() {
+export function openAuthModal(showCreateAccount = false) {
   return {
-    type: 'auth/OPEN_DIALOG'
+    type: 'auth/OPEN_MODAL',
+    payload: { showCreateAccount }
   }
 }
 
-export function closeAuthDialog() {
-  return { type: 'auth/CLOSE_DIALOG' }
+export function closeAuthModal() {
+  return { type: 'auth/CLOSE_MODAL' }
 }
 
 export function showLogin() {

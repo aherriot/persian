@@ -1,17 +1,21 @@
 import jwtDecode from 'jwt-decode'
 
 const actionHandlers = {
-  'auth/OPEN_DIALOG': (state, action) => {
-    return { ...state, open: true, showingCreateAccount: false }
+  'auth/OPEN_MODAL': (state, action) => {
+    return {
+      ...state,
+      open: true,
+      showCreateAccount: action.payload.showCreateAccount
+    }
   },
-  'auth/CLOSE_DIALOG': (state, action) => {
+  'auth/CLOSE_MODAL': (state, action) => {
     return { ...state, open: false }
   },
   'auth/SHOW_LOGIN': (state, action) => {
-    return { ...state, showingCreateAccount: false }
+    return { ...state, showCreateAccount: false }
   },
   'auth/SHOW_CREATE_ACCOUNT': (state, action) => {
-    return { ...state, showingCreateAccount: true }
+    return { ...state, showCreateAccount: true }
   },
   'auth/LOGIN_PENDING': (state, action) => {
     return { ...state, status: 'PENDING' }
@@ -75,7 +79,7 @@ if (token) {
 
 const defaultState = {
   open: false,
-  showingCreateAccount: false,
+  showCreateAccount: false,
 
   status: 'INIT',
   token: token,

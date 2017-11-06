@@ -50,12 +50,9 @@ const InnerLoginForm = ({
         </div>
         <div>
           or{' '}
-          <button
-            type="button"
-            className="link"
-            onClick={actions.showCreateAccount}>
+          <a href="#" className="link" onClick={actions.showCreateAccount}>
             Create Account
-          </button>
+          </a>
         </div>
       </div>
 
@@ -95,7 +92,7 @@ const LoginForm = withFormik({
       .login(values.username, values.password)
       .then(resp => {
         setSubmitting(false)
-        props.actions.closeAuthDialog()
+        props.actions.closeAuthModal()
       })
       .catch(error => {
         setErrors({ password: error.message })

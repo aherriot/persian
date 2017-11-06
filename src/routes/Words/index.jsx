@@ -12,9 +12,12 @@ import './Words.css'
 
 export default class Words extends Component {
   componentDidMount() {
-    const { actions, words, scores } = this.props
+    const { actions, words, scores, auth } = this.props
 
-    if (scores.fetchStatus === 'INIT' || scores.fetchStatus === 'ERROR') {
+    if (
+      auth.token &&
+      (scores.fetchStatus === 'INIT' || scores.fetchStatus === 'ERROR')
+    ) {
       actions.fetchScores()
     }
 

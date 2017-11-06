@@ -1,4 +1,9 @@
 export default function selectWord(state, action) {
+  // If we haven't loaded the scores, don't do anything
+  if (action.payload.scores.fetchStatus !== 'SUCCESS') {
+    return state
+  }
+
   if (state.options.algorithm === 'SPACED_REPETITION') {
     return spacedRepetition(state, action)
   } else if (state.options.algorithm === 'LEAST_RECENT') {
