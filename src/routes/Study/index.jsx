@@ -60,7 +60,7 @@ export default class Study extends Component {
         {this.getContent()}
         <OptionsModal {...this.props} />
         <EditWordModal {...this.props} />
-        <Status status={this.props.study.status} />
+        <Status status={this.props.study.status} actions={this.props.actions} />
       </div>
     )
   }

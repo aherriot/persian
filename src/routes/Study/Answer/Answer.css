@@ -1,5 +1,6 @@
 .Answer {
-  padding: 1rem 1rem;
+  padding: 0rem 0rem;
+  height: 100%;
 }
 
 .Answer__correct {
@@ -30,4 +31,12 @@
 .Answer__questionSide {
   text-align: center;
   font-size: 1.8rem;
+}
+
+.Answer__buttons {
+  margin: 2rem auto 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 40rem;
 }

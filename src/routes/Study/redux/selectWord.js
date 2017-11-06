@@ -168,7 +168,13 @@ function spacedRepetition(state, action) {
   if (candidateWords.length > 0) {
     selectedWordId = candidateWords[Math.floor(seed * candidateWords.length)]
   } else {
-    status = 'categoryFinished'
+    if (wordList.length === 0) {
+      status = 'NO_WORDS'
+    } else if (state.options.tagFilter) {
+      status = 'CATEGORY_FINISHED'
+    } else {
+      status = 'WORDS_FINISHED'
+    }
     selectedWordId = wordList[Math.floor(seed * wordList.length)]
   }
 
