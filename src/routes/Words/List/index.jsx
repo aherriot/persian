@@ -75,7 +75,13 @@ export default class List extends Component {
 
     let score
     if (width >= 700) {
-      score = getTotalScore(word._id, this.props.scores) || '-'
+      score = getTotalScore(word._id, this.props.scores)
+
+      // if score is null
+      // we have to be careful, because 0 is a valid number.
+      if (score === null) {
+        score = '-'
+      }
     }
 
     return (
