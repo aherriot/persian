@@ -42,6 +42,7 @@ export default function FilterModal({
               <option value="english">English</option>
               <option value="persian">Persian</option>
               <option value="phonetic">Phonetic</option>
+              <option value="score">Score</option>
             </select>
           </div>
           <div className="form__group">

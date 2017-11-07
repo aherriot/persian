@@ -38,6 +38,7 @@ const actionHandlers = {
     return { ...state, searchText: action.payload.searchText.toLowerCase() }
   },
   'words/SET_SORT_BY': (state, action) => {
+    localStorage.setItem('sortBy', action.payload.sortBy)
     return { ...state, sortBy: action.payload.sortBy }
   }
 }
@@ -50,7 +51,7 @@ const defaultState = {
   confirmingDelete: false,
 
   searchText: '',
-  sortBy: 'english'
+  sortBy: localStorage.getItem('sortBy') || 'english'
 }
 
 export default function(state = defaultState, action) {

@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import ReactVirtualizedList from 'react-virtualized/dist/es/List'
 import ReactVirtualizedAutoSizer from 'react-virtualized/dist/es/AutoSizer'
+
+import getTotalScore from 'utils/getTotalScore'
+
 import './List.css'
 
 export default class List extends Component {
@@ -15,6 +18,7 @@ export default class List extends Component {
     this.state = {
       filterSortedWords: this.filterAndSortWords(
         props.words,
+        props.scores,
         props.tagFilter,
         props.wordsRoute.searchText,
         props.wordsRoute.sortBy
@@ -22,7 +26,7 @@ export default class List extends Component {
     }
   }
 
-  filterAndSortWords = (words, tagFilter, searchText, sortBy) => {
+  filterAndSortWords = (words, scores, tagFilter, searchText, sortBy) => {
     if (words.fetchStatus !== 'SUCCESS') {
       return []
     }
@@ -54,7 +58,13 @@ export default class List extends Component {
     }
 
     filteredSortedWords.sort((wordA, wordB) => {
-      return wordA[sortBy].localeCompare(wordB[sortBy])
+      if (sortBy === 'score') {
+        const scoreA = getTotalScore(wordA._id, scores)
+        const scoreB = getTotalScore(wordB._id, scores)
+        return scoreB - scoreA
+      } else {
+        return wordA[sortBy].localeCompare(wordB[sortBy])
+      }
     })
 
     return filteredSortedWords
@@ -63,19 +73,9 @@ export default class List extends Component {
   rowRenderer = ({ key, index, style, parent: { props: { width } } }) => {
     const word = this.state.filterSortedWords[index]
 
-    let score = '-'
+    let score
     if (width >= 700) {
-      const scoreForWord = this.props.scores.byWordId[word._id]
-      if (scoreForWord) {
-        score = 0
-        if (scoreForWord.fromEnglish) {
-          score += scoreForWord.fromEnglish.score
-        }
-
-        if (scoreForWord.fromPersian) {
-          score += scoreForWord.fromPersian.score
-        }
-      }
+      score = getTotalScore(word._id, this.props.scores) || '-'
     }
 
     return (
@@ -107,6 +107,7 @@ export default class List extends Component {
   componentWillReceiveProps(newProps) {
     if (
       this.props.words !== newProps.words ||
+      this.props.scores !== newProps.scores ||
       this.props.tagFilter !== newProps.tagFilter ||
       this.props.wordsRoute.searchText !== newProps.wordsRoute.searchText ||
       this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy
@@ -114,6 +115,7 @@ export default class List extends Component {
       this.setState({
         filterSortedWords: this.filterAndSortWords(
           newProps.words,
+          newProps.scores,
           newProps.tagFilter,
           newProps.wordsRoute.searchText,
           newProps.wordsRoute.sortBy
