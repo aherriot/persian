@@ -23,7 +23,7 @@ export function revealAnswer() {
 
 export function markCorrect(wordId, direction, score) {
   return function(dispatch, getState) {
-    dispatch(updateScore(wordId, direction, score))
+    dispatch(updateScore(wordId, direction, Math.min(score, 6)))
 
     dispatch({
       type: 'study/MARK_CORRECT'

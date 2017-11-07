@@ -126,21 +126,27 @@ function spacedRepetition(state, action) {
         candidateWords.push(word._id)
       }
     } else if (score === 3) {
-      // if it has been at least 2 days
-      // 2 * 24 * 60 * 60 * 1000
-      if (timeSinceQuizzed > 172800000) {
+      // if it has been at least 3 days
+      // 3 * 24 * 60 * 60 * 1000
+      if (timeSinceQuizzed > 259200000) {
         candidateWords.push(word._id)
       }
     } else if (score === 4) {
-      // if it has been at least 1 week
-      // 7 * 24 * 60 * 60 * 1000
-      if (timeSinceQuizzed > 604800000) {
+      // if it has been at least 10 days
+      // 10 * 24 * 60 * 60 * 1000
+      if (timeSinceQuizzed > 864000000) {
         candidateWords.push(word._id)
       }
     } else if (score === 5) {
       // if it has been at least 1 month
       // 30 * 24 * 60 * 60 * 1000
       if (timeSinceQuizzed > 2592000000) {
+        candidateWords.push(word._id)
+      }
+    } else if (score === 6) {
+      // if it has been at least 4 month
+      // 120 * 24 * 60 * 60 * 1000
+      if (timeSinceQuizzed > 10368000000) {
         candidateWords.push(word._id)
       }
     }

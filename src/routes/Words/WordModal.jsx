@@ -16,11 +16,11 @@ export default class WordModal extends Component {
       const scoreForWord = scores.byWordId[selectedWordId]
 
       if (scoreForWord && scoreForWord.fromEnglish) {
-        fromEnglishScore = scoreForWord.fromEnglish.score + ' / 5'
+        fromEnglishScore = scoreForWord.fromEnglish.score + ' / 6'
       }
 
       if (scoreForWord && scoreForWord.fromPersian) {
-        fromPersianScore = scoreForWord.fromPersian.score + ' / 5'
+        fromPersianScore = scoreForWord.fromPersian.score + ' / 6'
       }
     }
 

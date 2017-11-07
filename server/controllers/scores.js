@@ -32,7 +32,7 @@ router.put('/:wordId', auth, async function(req, res) {
   } else if (
     !Number.isInteger(req.body.score) ||
     req.body.score < 0 ||
-    req.body.score > 5
+    req.body.score > 6
   ) {
     return respondWithError(res, 'scoreInvalid')
   }
