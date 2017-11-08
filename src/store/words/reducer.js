@@ -40,8 +40,8 @@ const actionHandlers = {
 
     // find tags to add
     newWord.tags.forEach(updatedTag => {
-      updatedTags[updatedTag] = state.byId[updatedTag]
-        ? [...state.byId[updatedTag], newWord._id]
+      updatedTags[updatedTag] = state.byTag[updatedTag]
+        ? [...state.byTag[updatedTag], newWord._id]
         : [newWord._id]
     })
 
@@ -88,8 +88,8 @@ const actionHandlers = {
     updatedWord.tags.forEach(updatedTag => {
       // if a tag was added
       if (!originalWord.tags.includes(updatedTag)) {
-        updatedTags[updatedTag] = state.byId[updatedTag]
-          ? [...state.byId[updatedTag], updatedWord._id]
+        updatedTags[updatedTag] = state.byTag[updatedTag]
+          ? [...state.byTag[updatedTag], updatedWord._id]
           : [updatedWord._id]
       }
     })

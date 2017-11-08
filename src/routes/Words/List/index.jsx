@@ -38,7 +38,7 @@ export default class List extends Component {
     // as every word, we can directly look at the words that have that tag
     let wordsList
     if (tagFilter) {
-      wordsList = words.byTag[tagFilter]
+      wordsList = words.byTag[tagFilter] || []
     } else {
       wordsList = Object.keys(words.byId)
     }
@@ -61,7 +61,19 @@ export default class List extends Component {
       if (sortBy === 'score') {
         const scoreA = getTotalScore(wordA._id, scores)
         const scoreB = getTotalScore(wordB._id, scores)
-        return scoreB - scoreA
+
+        // if one of the values is null
+        if (scoreA === null || scoreB === null) {
+          if (scoreA !== null) {
+            return -1
+          } else if (scoreB !== null) {
+            return 1
+          } else {
+            return 0
+          }
+        } else {
+          return scoreB - scoreA
+        }
       } else {
         return wordA[sortBy].localeCompare(wordB[sortBy])
       }
@@ -111,6 +123,7 @@ export default class List extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    console.log(newProps)
     if (
       this.props.words !== newProps.words ||
       this.props.scores !== newProps.scores ||
@@ -118,6 +131,7 @@ export default class List extends Component {
       this.props.wordsRoute.searchText !== newProps.wordsRoute.searchText ||
       this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy
     ) {
+      console.log('setState')
       this.setState({
         filterSortedWords: this.filterAndSortWords(
           newProps.words,
@@ -129,10 +143,15 @@ export default class List extends Component {
       })
     }
 
+    // Because the React Virtualized List only updates when the number of rows changes,
+    // there are special prop changes where we have to force the table to redraw because
+    // the number of rows may not change, but the content changes.
     if (
       this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy ||
-      this.props.scores !== newProps.scores
+      this.props.scores !== newProps.scores ||
+      this.props.words !== newProps.words
     ) {
+      console.log('forceUpdateGrid')
       this.list.forceUpdateGrid()
     }
   }

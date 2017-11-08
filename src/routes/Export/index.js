@@ -13,7 +13,7 @@ export default class Export extends Component {
 
     let wordList
     if (tagFilter) {
-      wordList = words.byTag[tagFilter]
+      wordList = words.byTag[tagFilter] || []
     } else {
       wordList = Object.keys(words.byId)
     }
