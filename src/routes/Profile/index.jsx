@@ -39,7 +39,9 @@ export default function Profile({ actions, auth, profile }) {
         <div className="content">
           <div>
             You are not logged in but you can still view the{' '}
-            <Link to="/words">list of words</Link>.
+            <Link className="link" to="/words">
+              list of words
+            </Link>.
           </div>
         </div>
       )}

@@ -11,9 +11,9 @@ export default function Status({ status, actions }) {
     return (
       <div className="Status">
         Finished studying this category for now.{' '}
-        <a href="#" className="link" onClick={actions.openOptionsModal}>
+        <button className="link" onClick={actions.openOptionsModal}>
           Try another one.
-        </a>
+        </button>
       </div>
     )
   } else if (status === 'WORDS_FINISHED') {

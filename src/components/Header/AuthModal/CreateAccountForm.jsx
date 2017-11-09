@@ -83,9 +83,9 @@ const InnerCreateAccountForm = ({
 
         <div>
           or{' '}
-          <a href="#" className="link" onClick={actions.showLogin}>
+          <button type="button" className="link" onClick={actions.showLogin}>
             Login
-          </a>
+          </button>
         </div>
       </div>
       <div className="form__button-row">

@@ -217,15 +217,32 @@ button.button[disabled] {
 
 /* button as link */
 
-a.link {
+button.link {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--persian-blue);
+  cursor: pointer;
+}
+
+button.link:hover,
+button.link:active,
+button.link:focus {
   color: var(--persian-blue-dark);
+  text-decoration: underline;
+}
+
+a.link {
+  color: var(--persian-blue);
   font-size: 1.6rem;
   cursor: pointer;
 }
 
 a.link:hover,
 a.link:active {
-  color: var(--persian-blue);
+  color: var(--persian-blue-dark);
+  text-decoration: underline;
+  outline: none;
 }
 
 .rtl {

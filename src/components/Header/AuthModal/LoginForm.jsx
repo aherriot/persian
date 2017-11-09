@@ -50,9 +50,12 @@ const InnerLoginForm = ({
         </div>
         <div>
           or{' '}
-          <a href="#" className="link" onClick={actions.showCreateAccount}>
+          <button
+            type="button"
+            className="link"
+            onClick={actions.showCreateAccount}>
             Create Account
-          </a>
+          </button>
         </div>
       </div>
 

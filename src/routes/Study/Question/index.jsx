@@ -32,6 +32,6 @@ export default function Question(props) {
       </div>
     )
   } else {
-    return <div className="Question">No word</div>
+    return <div className="Question">No words match filter.</div>
   }
 }

@@ -1,9 +1,10 @@
-export function showAlert(title, text) {
+export function showAlert(title, text, action) {
   return {
     type: 'app/SHOW_ALERT',
     payload: {
       title,
-      text
+      text,
+      action
     }
   }
 }

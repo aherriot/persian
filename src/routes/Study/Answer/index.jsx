@@ -31,13 +31,9 @@ export default class Answer extends Component {
         </div>
         <div className="Answer__buttons">
           {!study.wasCorrect && (
-            <a
-              href="#"
-              role="button"
-              className="link"
-              onClick={actions.undoMarkWrong}>
+            <button className="link" onClick={actions.undoMarkWrong}>
               Undo Mark Wrong
-            </a>
+            </button>
           )}{' '}
           <button
             type="button"

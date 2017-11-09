@@ -6,21 +6,19 @@ export default function Unauthorized({ actions }) {
     <div className="Study__Unauthorized">
       <p>
         Please{' '}
-        <a
+        <button
           className="link"
-          href="#"
-          role="button"
+          type="button"
           onClick={() => actions.openAuthModal(true)}>
           Create an Account
-        </a>
+        </button>
         {' or '}
-        <a
+        <button
           className="link"
-          href="#"
-          role="button"
+          type="button"
           onClick={() => actions.openAuthModal(false)}>
           Login
-        </a>{' '}
+        </button>{' '}
         to study flashcards.
       </p>
       <br />
