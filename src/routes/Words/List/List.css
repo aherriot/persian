@@ -19,10 +19,6 @@
   flex: 0 0 50%;
 } */
 
-.List__row:hover {
-  background-color: var(--persian-yellow);
-}
-
 .List__table--wrapper {
   flex-grow: 1;
   outline: none;
@@ -43,7 +39,7 @@
 }
 
 .List__row:hover {
-  background-color: var(--persian-yellow);
+  background-color: var(--persian-pale-blue);
 }
 
 .List__row > div {
