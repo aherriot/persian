@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import './MultipleChoiceEvaluation.css'
+// import './SelfEvaluation.css'
 
-export default class MultipleChoiceEvaluation extends Component {
+export default class SelfEvaluation extends Component {
   constructor(props) {
     super(props)
 

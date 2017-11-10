@@ -16,21 +16,20 @@
   align-items: center;
   justify-content: center;
   margin: 0.5rem;
+
+  opacity: 0;
+  transition: opacity 300ms, color 400ms, background-color 400ms;
 }
 
-.MultipleChoice__choice:nth-child(4n) {
-  background-color: var(--persian-blue-light);
+.MultipleChoice__choice--mounted {
+  opacity: 1;
 }
 
-.MultipleChoice__choice:nth-child(4n + 1) {
+.MultipleChoice__choice:nth-child(2n) {
   background-color: var(--persian-blue);
 }
 
-.MultipleChoice__choice:nth-child(4n + 2) {
-  background-color: var(--persian-teal-light);
-}
-
-.MultipleChoice__choice:nth-child(4n + 3) {
+.MultipleChoice__choice:nth-child(2n + 1) {
   background-color: var(--persian-teal);
 }
 

@@ -123,7 +123,8 @@ export default class List extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps)
+    // only update the sorted filtered list if the following
+    // properties change.
     if (
       this.props.words !== newProps.words ||
       this.props.scores !== newProps.scores ||
@@ -131,28 +132,36 @@ export default class List extends Component {
       this.props.wordsRoute.searchText !== newProps.wordsRoute.searchText ||
       this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy
     ) {
-      console.log('setState')
-      this.setState({
-        filterSortedWords: this.filterAndSortWords(
-          newProps.words,
-          newProps.scores,
-          newProps.tagFilter,
-          newProps.wordsRoute.searchText,
-          newProps.wordsRoute.sortBy
-        )
-      })
-    }
+      // save these values to check if we need to rerender
+      // after the state changes (see comment below)
+      const prevSortBy = this.props.wordsRoute.sortBy
+      const prevScores = this.props.scores
+      const prevWords = this.props.words
 
-    // Because the React Virtualized List only updates when the number of rows changes,
-    // there are special prop changes where we have to force the table to redraw because
-    // the number of rows may not change, but the content changes.
-    if (
-      this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy ||
-      this.props.scores !== newProps.scores ||
-      this.props.words !== newProps.words
-    ) {
-      console.log('forceUpdateGrid')
-      this.list.forceUpdateGrid()
+      this.setState(
+        {
+          filterSortedWords: this.filterAndSortWords(
+            newProps.words,
+            newProps.scores,
+            newProps.tagFilter,
+            newProps.wordsRoute.searchText,
+            newProps.wordsRoute.sortBy
+          )
+        },
+        () => {
+          // Because the React Virtualized List only updates when the number
+          // of rows change, there are prop changes where we have to
+          // force the table to redraw because the number of rows may not
+          // change, but the List content changes.
+          if (
+            prevSortBy !== this.props.wordsRoute.sortBy ||
+            prevScores !== this.props.scores ||
+            prevWords !== this.props.words
+          ) {
+            this.list.forceUpdateGrid()
+          }
+        }
+      )
     }
   }
 

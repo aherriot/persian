@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import classnames from 'classnames'
+import MultipleChoiceOption from './MultipleChoiceOption'
 import './MultipleChoiceEvaluation.css'
 
 export default class MultipleChoiceEvaluation extends Component {
@@ -143,14 +143,13 @@ export default class MultipleChoiceEvaluation extends Component {
     return (
       <div className="MultipleChoice">
         {this.state.choices.map((choice, index) => (
-          <div
+          <MultipleChoiceOption
             key={index}
-            className={classnames('MultipleChoice__choice', {
-              'MultipleChoice__choice--persian': answerSide === 'persian'
-            })}
-            onClick={choice.correct ? this.onCorrect : this.onWrong}>
+            index={index}
+            onClick={choice.correct ? this.onCorrect : this.onWrong}
+            isPersian={answerSide === 'persian'}>
             {words.byId[choice.wordId][answerSide]}
-          </div>
+          </MultipleChoiceOption>
         ))}
       </div>
     )
