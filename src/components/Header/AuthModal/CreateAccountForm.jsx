@@ -145,7 +145,7 @@ const CreateAccountForm = withFormik({
       .createAccount(values.username, values.email, values.password)
       .then(resp => {
         setSubmitting(false)
-        props.actions.closeAuthDialog()
+        props.actions.closeAuthModal()
       })
       .catch(error => {
         setErrors({ password: error.message })

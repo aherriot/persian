@@ -74,7 +74,7 @@ const ImportForm = withFormik({
       .addWord(words)
       .then(resp => {
         setSubmitting(false)
-        props.actions.closeAuthDialog()
+        props.actions.closeAuthModal()
       })
       .catch(error => {
         setErrors({ words: error.message })

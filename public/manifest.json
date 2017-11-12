@@ -1,6 +1,6 @@
 {
   "short_name": "Persian Flashcards",
-  "name": "Persian Flashcards",
+  "name": "Persian",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,6 +10,6 @@
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#0095cc",
   "background_color": "#ffffff"
 }

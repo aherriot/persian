@@ -1,4 +1,9 @@
 export default function selectWord(state, action) {
+  // If we haven't loaded the scores, don't do anything
+  if (action.payload.scores.fetchStatus !== 'SUCCESS') {
+    return state
+  }
+
   if (state.options.algorithm === 'SPACED_REPETITION') {
     return spacedRepetition(state, action)
   } else if (state.options.algorithm === 'LEAST_RECENT') {
@@ -9,7 +14,7 @@ export default function selectWord(state, action) {
   return state
 }
 
-// SPACED REPETION
+// SPACED REPETITION
 // The core of the spaced repetition algorithm works
 // by assigning words into score buckets numbered 0 through 5
 // If the word is answered correctly, the word is moved up one bucket.
@@ -30,7 +35,7 @@ export default function selectWord(state, action) {
 
 // Also, if all words in the category have been tested correctly and the
 // time has not passed for them to be retested, a message will be displayed
-// prompting them to try a different category and if they still continue
+// prompting them to try a different category and if they still continue,
 // words will be chosen at random, even if it is too early.
 
 // TODO: These calculation don't need to be done every time a word is selected
@@ -86,6 +91,12 @@ function spacedRepetition(state, action) {
         if (scoreForWord.fromEnglish) {
           score = scoreForWord.fromEnglish.score
           lastedQuizzedDate = new Date(scoreForWord.fromEnglish.quizzedAt)
+        } else if (scoreForWord.fromPersian) {
+          // Even if the word does not have a score for english->persian
+          // if it has a score in the other direction, we give it a score
+          // of 0, because this word has been seen by this user before.
+          // so we do not consider it an untested word
+          score = 0
         }
         // quizzing from persian
       } else {
@@ -93,6 +104,12 @@ function spacedRepetition(state, action) {
         if (scoreForWord.fromPersian) {
           score = scoreForWord.fromPersian.score
           lastedQuizzedDate = new Date(scoreForWord.fromPersian.quizzedAt)
+        } else if (scoreForWord.fromEnglish) {
+          // Even if the word does not have a score for persian->english
+          // if it has a score in the other direction, we give it a score
+          // of 0, because this word has been seen by this user before.
+          // so we do not consider it an untested word
+          score = 0
         }
       }
     }
@@ -121,21 +138,27 @@ function spacedRepetition(state, action) {
         candidateWords.push(word._id)
       }
     } else if (score === 3) {
-      // if it has been at least 2 days
-      // 2 * 24 * 60 * 60 * 1000
-      if (timeSinceQuizzed > 172800000) {
+      // if it has been at least 3 days
+      // 3 * 24 * 60 * 60 * 1000
+      if (timeSinceQuizzed > 259200000) {
         candidateWords.push(word._id)
       }
     } else if (score === 4) {
-      // if it has been at least 1 week
-      // 7 * 24 * 60 * 60 * 1000
-      if (timeSinceQuizzed > 604800000) {
+      // if it has been at least 10 days
+      // 10 * 24 * 60 * 60 * 1000
+      if (timeSinceQuizzed > 864000000) {
         candidateWords.push(word._id)
       }
     } else if (score === 5) {
       // if it has been at least 1 month
       // 30 * 24 * 60 * 60 * 1000
       if (timeSinceQuizzed > 2592000000) {
+        candidateWords.push(word._id)
+      }
+    } else if (score === 6) {
+      // if it has been at least 4 month
+      // 120 * 24 * 60 * 60 * 1000
+      if (timeSinceQuizzed > 10368000000) {
         candidateWords.push(word._id)
       }
     }
@@ -163,7 +186,13 @@ function spacedRepetition(state, action) {
   if (candidateWords.length > 0) {
     selectedWordId = candidateWords[Math.floor(seed * candidateWords.length)]
   } else {
-    status = 'categoryFinished'
+    if (wordList.length === 0) {
+      status = 'NO_WORDS'
+    } else if (state.options.tagFilter) {
+      status = 'CATEGORY_FINISHED'
+    } else {
+      status = 'WORDS_FINISHED'
+    }
     selectedWordId = wordList[Math.floor(seed * wordList.length)]
   }
 

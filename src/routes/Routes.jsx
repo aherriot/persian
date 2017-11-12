@@ -9,6 +9,8 @@ import Profile from './Profile/redux/container'
 import Export from './Export/redux/container'
 import Import from './Import/redux/container'
 
+import Alert from 'components/Alert'
+
 class Routes extends Component {
   render() {
     return (
@@ -24,6 +26,7 @@ class Routes extends Component {
 
           <Route path="/about" exact render={() => <div>about</div>} />
         </Switch>
+        <Alert />
       </div>
     )
   }

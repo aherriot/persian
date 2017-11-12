@@ -15,7 +15,7 @@ export default class Answer extends Component {
     const { actions, study, words } = this.props
     const word = words.byId[study.selectedWordId]
     return (
-      <div className={study.wasCorrect ? 'Answer--correct' : 'Answer--wrong'}>
+      <div className="Answer">
         {study.wasCorrect && <div className="Answer__correct">Correct!</div>}
         {!study.wasCorrect && <div className="Answer__wrong">Wrong!</div>}
         <div className="Answer__answerSide">
@@ -29,15 +29,12 @@ export default class Answer extends Component {
             ]
           }
         </div>
-        <div className="form__button-row ">
+        <div className="Answer__buttons">
           {!study.wasCorrect && (
-            <button
-              className="button"
-              type="button"
-              onClick={actions.undoMarkWrong}>
+            <button className="link" onClick={actions.undoMarkWrong}>
               Undo Mark Wrong
             </button>
-          )}
+          )}{' '}
           <button
             type="button"
             className="button"

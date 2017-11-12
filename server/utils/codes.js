@@ -73,7 +73,7 @@ const codes = {
   },
   scoreInvalid: {
     status: 400,
-    message: 'The "score" field must be a number between 0 and 5'
+    message: 'The "score" field must be a number between 0 and 6'
   },
   wordNotFound: {
     status: 404,

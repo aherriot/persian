@@ -26,7 +26,7 @@ function Header({ title, auth, actions }) {
           <button
             type="button"
             className="button"
-            onClick={actions.openAuthDialog}>
+            onClick={() => actions.openAuthModal()}>
             Login
           </button>
         )}

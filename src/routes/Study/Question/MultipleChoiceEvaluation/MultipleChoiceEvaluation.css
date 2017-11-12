@@ -1,0 +1,48 @@
+.MultipleChoice {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.MultipleChoice__choice {
+  color: var(--persian-white);
+
+  flex: 1 0 43%;
+
+  border: 0.2rem solid var(--persian-grey);
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+
+  opacity: 0;
+  transition: opacity 300ms, color 400ms, background-color 400ms;
+}
+
+.MultipleChoice__choice--mounted {
+  opacity: 1;
+}
+
+.MultipleChoice__choice:nth-child(4n),
+.MultipleChoice__choice:nth-child(4n + 1) {
+  background-color: var(--persian-blue);
+}
+
+.MultipleChoice__choice:nth-child(4n + 2),
+.MultipleChoice__choice:nth-child(4n + 3) {
+  background-color: var(--persian-teal);
+}
+
+.MultipleChoice__choice:hover,
+.MultipleChoice__choice:active {
+  background-color: var(--persian-yellow);
+  color: var(--persian-black);
+}
+
+.MultipleChoice__choice--persian {
+  font-size: 2rem;
+  font-weight: 400;
+  direction: rtl;
+}

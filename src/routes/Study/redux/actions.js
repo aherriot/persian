@@ -21,9 +21,9 @@ export function revealAnswer() {
   }
 }
 
-export function markCorrect(wordId, direction, score) {
+export function markCorrect(wordId, direction, newScore) {
   return function(dispatch, getState) {
-    dispatch(updateScore(wordId, direction, score))
+    dispatch(updateScore(wordId, direction, Math.min(newScore, 6)))
 
     dispatch({
       type: 'study/MARK_CORRECT'
@@ -33,16 +33,41 @@ export function markCorrect(wordId, direction, score) {
 
 export function markWrong(wordId, direction) {
   return function(dispatch, getState) {
+    // we also remember the previous score,
+    // so that we can support "undo mark wrong" functionality
+    const scoreForWord = getState().data.scores.byWordId[wordId]
+    let previousScore = 0
+    if (scoreForWord && scoreForWord[direction]) {
+      previousScore = scoreForWord[direction].score
+    }
+
     dispatch(updateScore(wordId, direction, 0))
     dispatch({
-      type: 'study/MARK_WRONG'
+      type: 'study/MARK_WRONG',
+      payload: {
+        previousScore: previousScore
+      }
     })
   }
 }
 
 export function undoMarkWrong() {
-  return {
-    type: 'study/UNDO_MARK_WRONG'
+  return function(dispatch, getState) {
+    // extract the information we need to undo
+    // mark wrong from the quiz state.
+    const {
+      selectedWordId,
+      options: { questionSide },
+      previousScore
+    } = getState().routes.study
+
+    // determine the quest direction from the questionSide of the card
+    const direction = questionSide === 'english' ? 'fromEnglish' : 'fromPersian'
+
+    dispatch({
+      type: 'study/UNDO_MARK_WRONG'
+    })
+    dispatch(markCorrect(selectedWordId, direction, previousScore + 1))
   }
 }
 

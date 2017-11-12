@@ -52,13 +52,13 @@ describe('Score API', function() {
         })
     })
 
-    it('error on score above 5', function(done) {
+    it('error on score above 6', function(done) {
       request
         .put(SCORES_URL + global.testWordId)
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({
           direction: 'fromEnglish',
-          score: 6
+          score: 7
         })
         .end((err, resp) => {
           expect(err).to.not.be.null
@@ -102,7 +102,7 @@ describe('Score API', function() {
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({
           direction: 'fromPersian',
-          score: 5
+          score: 6
         })
         .end((err, resp) => {
           expect(err).to.be.null
@@ -128,7 +128,7 @@ describe('Score API', function() {
           expect(err).to.be.null
           expect(resp.body).to.have.lengthOf(1)
           expect(resp.body[0].fromEnglish.score).to.equal(0)
-          expect(resp.body[0].fromPersian.score).to.equal(5)
+          expect(resp.body[0].fromPersian.score).to.equal(6)
           done()
         })
     })

@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import ReactVirtualizedList from 'react-virtualized/dist/es/List'
 import ReactVirtualizedAutoSizer from 'react-virtualized/dist/es/AutoSizer'
+
+import getTotalScore from 'utils/getTotalScore'
+
 import './List.css'
 
 export default class List extends Component {
@@ -15,6 +18,7 @@ export default class List extends Component {
     this.state = {
       filterSortedWords: this.filterAndSortWords(
         props.words,
+        props.scores,
         props.tagFilter,
         props.wordsRoute.searchText,
         props.wordsRoute.sortBy
@@ -22,7 +26,7 @@ export default class List extends Component {
     }
   }
 
-  filterAndSortWords = (words, tagFilter, searchText, sortBy) => {
+  filterAndSortWords = (words, scores, tagFilter, searchText, sortBy) => {
     if (words.fetchStatus !== 'SUCCESS') {
       return []
     }
@@ -34,7 +38,7 @@ export default class List extends Component {
     // as every word, we can directly look at the words that have that tag
     let wordsList
     if (tagFilter) {
-      wordsList = words.byTag[tagFilter]
+      wordsList = words.byTag[tagFilter] || []
     } else {
       wordsList = Object.keys(words.byId)
     }
@@ -54,7 +58,25 @@ export default class List extends Component {
     }
 
     filteredSortedWords.sort((wordA, wordB) => {
-      return wordA[sortBy].localeCompare(wordB[sortBy])
+      if (sortBy === 'score') {
+        const scoreA = getTotalScore(wordA._id, scores)
+        const scoreB = getTotalScore(wordB._id, scores)
+
+        // if one of the values is null
+        if (scoreA === null || scoreB === null) {
+          if (scoreA !== null) {
+            return -1
+          } else if (scoreB !== null) {
+            return 1
+          } else {
+            return 0
+          }
+        } else {
+          return scoreB - scoreA
+        }
+      } else {
+        return wordA[sortBy].localeCompare(wordB[sortBy])
+      }
     })
 
     return filteredSortedWords
@@ -63,18 +85,14 @@ export default class List extends Component {
   rowRenderer = ({ key, index, style, parent: { props: { width } } }) => {
     const word = this.state.filterSortedWords[index]
 
-    let score = '-'
+    let score
     if (width >= 700) {
-      const scoreForWord = this.props.scores.byWordId[word._id]
-      if (scoreForWord) {
-        score = 0
-        if (scoreForWord.fromEnglish) {
-          score += scoreForWord.fromEnglish.score
-        }
+      score = getTotalScore(word._id, this.props.scores)
 
-        if (scoreForWord.fromPersian) {
-          score += scoreForWord.fromPersian.score
-        }
+      // if score is null
+      // we have to be careful, because 0 is a valid number.
+      if (score === null) {
+        score = '-'
       }
     }
 
@@ -105,27 +123,45 @@ export default class List extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    // only update the sorted filtered list if the following
+    // properties change.
     if (
       this.props.words !== newProps.words ||
+      this.props.scores !== newProps.scores ||
       this.props.tagFilter !== newProps.tagFilter ||
       this.props.wordsRoute.searchText !== newProps.wordsRoute.searchText ||
       this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy
     ) {
-      this.setState({
-        filterSortedWords: this.filterAndSortWords(
-          newProps.words,
-          newProps.tagFilter,
-          newProps.wordsRoute.searchText,
-          newProps.wordsRoute.sortBy
-        )
-      })
-    }
+      // save these values to check if we need to rerender
+      // after the state changes (see comment below)
+      const prevSortBy = this.props.wordsRoute.sortBy
+      const prevScores = this.props.scores
+      const prevWords = this.props.words
 
-    if (
-      this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy ||
-      this.props.scores !== newProps.scores
-    ) {
-      this.list.forceUpdateGrid()
+      this.setState(
+        {
+          filterSortedWords: this.filterAndSortWords(
+            newProps.words,
+            newProps.scores,
+            newProps.tagFilter,
+            newProps.wordsRoute.searchText,
+            newProps.wordsRoute.sortBy
+          )
+        },
+        () => {
+          // Because the React Virtualized List only updates when the number
+          // of rows change, there are prop changes where we have to
+          // force the table to redraw because the number of rows may not
+          // change, but the List content changes.
+          if (
+            prevSortBy !== this.props.wordsRoute.sortBy ||
+            prevScores !== this.props.scores ||
+            prevWords !== this.props.words
+          ) {
+            this.list.forceUpdateGrid()
+          }
+        }
+      )
     }
   }
 

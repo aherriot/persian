@@ -12,6 +12,7 @@ function mapStateToProps(state) {
   return {
     words: state.data.words,
     scores: state.data.scores,
+    auth: state.data.auth,
 
     wordsRoute: state.routes.words,
     tagFilter: state.routes.study.options.tagFilter

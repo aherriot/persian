@@ -13,6 +13,8 @@
   --persian-blue-light: hsl(196, 100%, 40%);
   --persian-blue-dark: hsl(196, 100%, 26%);
 
+  --persian-pale-blue: hsl(196, 53%, 70%);
+
   --persian-teal: hsl(176, 59%, 30%);
   --persian-teal-light: hsl(176, 59%, 37%);
   --persian-teal-dark: hsl(176, 59%, 23%);
@@ -216,10 +218,31 @@ button.button[disabled] {
 /* button as link */
 
 button.link {
+  background: none;
   border: none;
-  background-color: rgba(0, 0, 0, 0);
-  color: var(--persian-blue-light);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  color: var(--persian-blue);
+  cursor: pointer;
+}
+
+button.link:hover,
+button.link:active,
+button.link:focus {
+  color: var(--persian-blue-dark);
+  text-decoration: underline;
+}
+
+a.link {
+  color: var(--persian-blue);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+a.link:hover,
+a.link:active {
+  color: var(--persian-blue-dark);
+  text-decoration: underline;
+  outline: none;
 }
 
 .rtl {
@@ -252,7 +275,7 @@ button.link {
 }
 
 .form__button-row {
-  margin: 1rem 2rem 2rem 2rem;
+  margin: 0.5rem 2rem 1.5rem 2rem;
   flex: 0 0 auto;
   display: flex;
   justify-content: flex-end;

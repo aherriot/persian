@@ -18,9 +18,14 @@ class Alert extends Component {
   }
 
   onClose = () => {
+    const { alerts } = this.props
+
     this.setState({ open: false })
 
     this.timerRef = window.setTimeout(() => {
+      if (alerts[0].action === 'reload') {
+        window.location.reload()
+      }
       this.props.actions.hideAlert()
     }, 400)
   }

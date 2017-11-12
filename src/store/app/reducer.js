@@ -1,6 +1,10 @@
 const actionHandlers = {
   'app/SHOW_ALERT': (state, action) => {
-    const alert = { title: action.payload.title, text: action.payload.text }
+    const alert = {
+      title: action.payload.title,
+      text: action.payload.text,
+      action: action.payload.action
+    }
     return { ...state, alerts: state.alerts.concat(alert) }
   },
   'app/HIDE_ALERT': (state, action) => {

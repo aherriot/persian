@@ -14,10 +14,19 @@ import './Study.css'
 
 export default class Study extends Component {
   componentDidMount() {
-    this.props.actions.fetchWords()
-    this.props.actions.fetchScores()
+    const { actions, scores, words, auth } = this.props
+    if (
+      auth.token &&
+      (scores.fetchStatus === 'INIT' || scores.fetchStatus === 'ERROR')
+    ) {
+      actions.fetchScores()
+    }
 
-    this.props.actions.selectWord()
+    if (words.fetchStatus === 'INIT' || words.fetchStatus === 'ERROR') {
+      actions.fetchWords()
+    }
+
+    actions.selectWord()
   }
 
   componentWillReceiveProps(newProps) {
@@ -39,7 +48,7 @@ export default class Study extends Component {
         return <Question {...this.props} />
       }
     } else {
-      return <Unauthorized />
+      return <Unauthorized actions={this.props.actions} />
     }
   }
 
@@ -47,11 +56,11 @@ export default class Study extends Component {
     return (
       <div className="Study">
         <Header title="Study" />
-        <Toolbar actions={this.props.actions} />
+        {this.props.auth.token && <Toolbar actions={this.props.actions} />}
         {this.getContent()}
         <OptionsModal {...this.props} />
         <EditWordModal {...this.props} />
-        <Status status={this.props.study.status} />
+        <Status status={this.props.study.status} actions={this.props.actions} />
       </div>
     )
   }
