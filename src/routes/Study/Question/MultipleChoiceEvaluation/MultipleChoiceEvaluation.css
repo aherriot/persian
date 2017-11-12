@@ -25,11 +25,13 @@
   opacity: 1;
 }
 
-.MultipleChoice__choice:nth-child(2n) {
+.MultipleChoice__choice:nth-child(4n),
+.MultipleChoice__choice:nth-child(4n + 1) {
   background-color: var(--persian-blue);
 }
 
-.MultipleChoice__choice:nth-child(2n + 1) {
+.MultipleChoice__choice:nth-child(4n + 2),
+.MultipleChoice__choice:nth-child(4n + 3) {
   background-color: var(--persian-teal);
 }
 

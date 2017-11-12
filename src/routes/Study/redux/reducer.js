@@ -9,11 +9,16 @@ const actionHandlers = {
     return { ...state, isEvaluating: true, wasCorrect: true }
   },
   'study/MARK_WRONG': function(state, action) {
-    return { ...state, isEvaluating: true, wasCorrect: false }
+    return {
+      ...state,
+      isEvaluating: true,
+      wasCorrect: false,
+      previousScore: action.payload.previousScore
+    }
   },
-  'study/UNDO_MARK_WRONG': function(state, action) {
-    return { ...state, wasCorrect: true }
-  },
+  // 'study/UNDO_MARK_WRONG': function(state, action) {
+  //   return { ...state, wasCorrect: true }
+  // },
   'study/OPEN_OPTIONS_MODAL': function(state, action) {
     return { ...state, showOptions: true }
   },
@@ -65,6 +70,10 @@ const defaultState = {
   status: null,
 
   selectedWordId: null,
+
+  // previousScore is remember if word graded as wrong,
+  // so the user can undo it and mark it as correct.
+  previousScore: 0,
 
   options: studyOptions
 }

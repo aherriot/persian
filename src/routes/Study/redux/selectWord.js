@@ -91,6 +91,12 @@ function spacedRepetition(state, action) {
         if (scoreForWord.fromEnglish) {
           score = scoreForWord.fromEnglish.score
           lastedQuizzedDate = new Date(scoreForWord.fromEnglish.quizzedAt)
+        } else if (scoreForWord.fromPersian) {
+          // Even if the word does not have a score for english->persian
+          // if it has a score in the other direction, we give it a score
+          // of 0, because this word has been seen by this user before.
+          // so we do not consider it an untested word
+          score = 0
         }
         // quizzing from persian
       } else {
@@ -98,6 +104,12 @@ function spacedRepetition(state, action) {
         if (scoreForWord.fromPersian) {
           score = scoreForWord.fromPersian.score
           lastedQuizzedDate = new Date(scoreForWord.fromPersian.quizzedAt)
+        } else if (scoreForWord.fromEnglish) {
+          // Even if the word does not have a score for persian->english
+          // if it has a score in the other direction, we give it a score
+          // of 0, because this word has been seen by this user before.
+          // so we do not consider it an untested word
+          score = 0
         }
       }
     }
