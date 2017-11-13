@@ -4,7 +4,7 @@ import { withFormik } from 'formik'
 import classnames from 'classnames'
 
 // Our inner form component which receives our form's state and updater methods as props
-const InnerLoginForm = ({
+const InnerDeleteForm = ({
   values,
   errors,
   touched,
@@ -32,7 +32,7 @@ const InnerLoginForm = ({
 }
 
 // Wrap our form with the using withFormik HoC
-const LoginForm = withFormik({
+const DeleteForm = withFormik({
   // Transform outer props into form values
   // mapPropsToValues: props => ({}),
 
@@ -50,6 +50,6 @@ const LoginForm = withFormik({
         setSubmitting(false)
       })
   }
-})(InnerLoginForm)
+})(InnerDeleteForm)
 
-export default LoginForm
+export default DeleteForm

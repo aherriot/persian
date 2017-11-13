@@ -40,6 +40,9 @@ const actionHandlers = {
   'words/SET_SORT_BY': (state, action) => {
     localStorage.setItem('sortBy', action.payload.sortBy)
     return { ...state, sortBy: action.payload.sortBy }
+  },
+  'words/DELETE_SUCCESS': (state, action) => {
+    return { ...state, selectedWordId: null }
   }
 }
 
