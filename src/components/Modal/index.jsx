@@ -20,6 +20,10 @@ export default class Modal extends Component {
   constructor(props) {
     super(props)
 
+    // we have a another variable that internally tracks whether
+    // the modal is open. This is used to facilitate the time needed
+    // for the leave animation. So when it is closing, it does not
+    // fire the onClose prop until after the 200ms has passed.
     this.state = { open: false }
   }
 
@@ -37,8 +41,9 @@ export default class Modal extends Component {
   }
 
   onRequestClose = () => {
+    // start the closing animation,
+    // but don't fire onClose callback until after.
     this.setState({ open: false })
-
     this.timeoutRef = window.setTimeout(this.props.onClose, 200)
   }
 

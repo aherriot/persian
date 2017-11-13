@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import Modal from 'components/Modal'
 import WordForm from 'components/WordForm'
 
-import './WordModal.css'
-
 export default class AddWordModal extends Component {
   getNotAuthorizedContent = () => {
     return (
