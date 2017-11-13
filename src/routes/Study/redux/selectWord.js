@@ -48,11 +48,19 @@ export default function selectWord(state, action) {
 function spacedRepetition(state, action) {
   const { seed, words, scores, currentTime } = action.payload
 
+  // if the alternateSides option is true,
+  // we swap the question and answer side
+  // each time we select a new word.
+  let questionSide = state.options.questionSide
+  let answerSide = state.options.answerSide
+  if (state.options.alternateSides) {
+    questionSide = state.options.answerSide
+    answerSide = state.options.questionSide
+  }
+
   const untestedWords = []
   const candidateWords = []
-
   let wordList
-
   // If a specify tag category has been choose
   // only choose words from that category
   if (state.options.tagFilter) {
@@ -86,7 +94,7 @@ function spacedRepetition(state, action) {
     if (scoreForWord) {
       // if they are quizzing from english, because we separately track
       // scores for english->persian and persian->english.
-      if (state.options.questionSide === 'english') {
+      if (questionSide === 'english') {
         // Check if this key exists
         if (scoreForWord.fromEnglish) {
           score = scoreForWord.fromEnglish.score
@@ -200,13 +208,24 @@ function spacedRepetition(state, action) {
     ...state,
     isEvaluating: false,
     selectedWordId: selectedWordId,
-    status: status
+    status: status,
+    options: { ...state.options, questionSide, answerSide }
   }
 }
 
 // LEAST RECENT
 function leastRecent(state, action) {
   const { seed, words, scores, currentTime } = action.payload
+
+  // if the alternateSides option is true,
+  // we swap the question and answer side
+  // each time we select a new word.
+  let questionSide = state.options.questionSide
+  let answerSide = state.options.answerSide
+  if (state.options.alternateSides) {
+    questionSide = state.options.answerSide
+    answerSide = state.options.questionSide
+  }
 
   // track which word is the oldest
   let oldestTime = currentTime
@@ -240,7 +259,7 @@ function leastRecent(state, action) {
     if (scoreForWord) {
       // if they are quizzing from english, because we separately track
       // scores for english->persian and persian->english.
-      if (state.options.questionSide === 'english') {
+      if (questionSide === 'english') {
         // Check if this key exists
         if (scoreForWord.fromEnglish) {
           lastQuizzedDate = new Date(scoreForWord.fromEnglish.quizzedAt)
@@ -275,12 +294,28 @@ function leastRecent(state, action) {
     selectedWordId = untestedWords[randIndex]
   }
 
-  return { ...state, isEvaluating: false, selectedWordId: selectedWordId }
+  return {
+    ...state,
+    isEvaluating: false,
+    selectedWordId: selectedWordId,
+    options: { ...state.options, questionSide, answerSide }
+  }
 }
 
 // RANDOM
 function random(state, action) {
   const { words } = action.payload
+
+  // if the alternateSides option is true,
+  // we swap the question and answer side
+  // each time we select a new word.
+  let questionSide = state.options.questionSide
+  let answerSide = state.options.answerSide
+  if (state.options.alternateSides) {
+    questionSide = state.options.answerSide
+    answerSide = state.options.questionSide
+  }
+
   let wordList
   // If a specify tag category has been choose
   // only choose words from that category
@@ -298,7 +333,12 @@ function random(state, action) {
   // select a word at random from the choices
   const wordId = wordList[Math.floor(action.payload.seed * wordList.length)]
 
-  return { ...state, isEvaluating: false, selectedWordId: wordId }
+  return {
+    ...state,
+    isEvaluating: false,
+    selectedWordId: wordId,
+    options: { ...state.options, questionSide, answerSide }
+  }
 }
 
 // This isn't really random, but good enough for our purpose

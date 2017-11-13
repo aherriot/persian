@@ -46,14 +46,23 @@ const actionHandlers = {
 }
 
 // retrive options from local storage
-let studyOptions = JSON.parse(localStorage.getItem('studyOptions'))
-if (!studyOptions) {
-  studyOptions = {
-    questionSide: 'persian', // question side
-    answerSide: 'english', // answer side
-    tagFilter: '', // only quiz words that have this tag.
-    evaluation: 'MULTIPLE', // do they have to type response,
-    algorithm: 'SPACED_REPETITION' // how the next word is selected
+const savedOptions = JSON.parse(localStorage.getItem('studyOptions'))
+const defaultOptions = {
+  questionSide: 'persian', // question side
+  answerSide: 'english', // answer side
+  alternateSides: true, // should we alternate testing both sides
+  tagFilter: '', // only quiz words that have this tag.
+  evaluation: 'MULTIPLE', // do they have to type response,
+  algorithm: 'SPACED_REPETITION' // how the next word is selected
+}
+
+const options = { ...defaultOptions, ...savedOptions }
+
+// if the savedOptions have keys that are no longer in the default options
+// we should remove them because they are no longer relevant.
+for (let key in savedOptions) {
+  if (!defaultOptions.hasOwnProperty(key)) {
+    delete options[key]
   }
 }
 
@@ -75,7 +84,7 @@ const defaultState = {
   // so the user can undo it and mark it as correct.
   previousScore: 0,
 
-  options: studyOptions
+  options: options
 }
 
 export default function(state = defaultState, action) {
