@@ -120,6 +120,15 @@ input.error:focus {
   border-color: var(--persian-red);
 }
 
+input[type='checkbox'] {
+  display: inline-block;
+}
+
+input[type='checkbox'] + label {
+  margin-left: 1rem;
+  display: inline-block;
+}
+
 select {
   padding: 0.6rem;
   background-color: white;

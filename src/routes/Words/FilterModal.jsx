@@ -63,11 +63,13 @@ export default function FilterModal({
                 })}
             </select>
           </div>
-
+          {/* TODO: for small screens, maybe we can toggle showing the
+              the phonetic persian instead of the persian characters.
+              to be implemented...
           <div className="form__group">
             <input type="checkbox" id="phonetic" />
             <label htmlFor="phonetic">Show Phonetic</label>
-          </div>
+          </div> */}
         </div>
 
         <div className="form__button-row">
