@@ -14,7 +14,6 @@ export default function Profile({ actions, auth, profile }) {
           <br />
 
           <p>Welcome to your profile.</p>
-          <br />
           <p>
             You can view the{' '}
             <Link className="link" to="/words">
@@ -25,8 +24,6 @@ export default function Profile({ actions, auth, profile }) {
               study the flashcards
             </Link>.
           </p>
-          <br />
-
           {/* <p>Change username or email</p> */}
           {/* <p>Delete account</p> */}
           <p>
@@ -37,7 +34,6 @@ export default function Profile({ actions, auth, profile }) {
               Change Password
             </button>
           </p>
-          <br />
 
           <p>
             <button className="button" onClick={actions.logout}>

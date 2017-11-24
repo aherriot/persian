@@ -180,6 +180,7 @@ export default class List extends Component {
             {({ width, height }) => (
               <ReactVirtualizedList
                 ref={ref => (this.list = ref)}
+                overscanRowCount={15}
                 width={width}
                 height={height}
                 rowCount={this.state.filterSortedWords.length}

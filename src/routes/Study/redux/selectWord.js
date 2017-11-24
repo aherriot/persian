@@ -16,7 +16,7 @@ export default function selectWord(state, action) {
 
 // SPACED REPETITION
 // The core of the spaced repetition algorithm works
-// by assigning words into score buckets numbered 0 through 5
+// by assigning words into score buckets numbered 0 through 7
 // If the word is answered correctly, the word is moved up one bucket.
 // If the word is answered incorrectly, the word is reset back to bucket 0.
 // The timestamp of when it was last tested is also stored.
