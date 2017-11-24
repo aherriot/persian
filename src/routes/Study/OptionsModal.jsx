@@ -51,36 +51,52 @@ export default function OptionsModal({ actions, words, study }) {
           </div>
 
           <div className="form__group">
-            <label htmlFor="questionSide">Question Side</label>
-            <select
-              id="questionSide"
-              value={study.options.questionSide}
+            <input
+              type="checkbox"
+              id="alternateSides"
+              checked={study.options.alternateSides}
               onChange={e =>
                 actions.setOptions({
                   ...study.options,
-                  questionSide: e.target.value
-                })}>
-              <option value="persian">Persian</option>
-              <option value="english">English</option>
-              <option value="phonetic">Phonetic Persian</option>
-            </select>
+                  alternateSides: e.target.checked
+                })}
+            />
+            <label htmlFor="alternateSides">Alternate Sides</label>
           </div>
 
-          <div className="form__group">
-            <label htmlFor="answerSide">Answer Side</label>
-            <select
-              id="answerSide"
-              value={study.options.answerSide}
-              onChange={e =>
-                actions.setOptions({
-                  ...study.options,
-                  answerSide: e.target.value
-                })}>
-              <option value="persian">Persian</option>
-              <option value="english">English</option>
-              <option value="phonetic">Phonetic Persian</option>
-            </select>
-          </div>
+          {!study.options.alternateSides && [
+            <div key="question" className="form__group">
+              <label htmlFor="questionSide">Question Side</label>
+              <select
+                id="questionSide"
+                value={study.options.questionSide}
+                onChange={e =>
+                  actions.setOptions({
+                    ...study.options,
+                    questionSide: e.target.value
+                  })}>
+                <option value="persian">Persian</option>
+                <option value="english">English</option>
+                <option value="phonetic">Phonetic Persian</option>
+              </select>
+            </div>,
+
+            <div key="answer" className="form__group">
+              <label htmlFor="answerSide">Answer Side</label>
+              <select
+                id="answerSide"
+                value={study.options.answerSide}
+                onChange={e =>
+                  actions.setOptions({
+                    ...study.options,
+                    answerSide: e.target.value
+                  })}>
+                <option value="persian">Persian</option>
+                <option value="english">English</option>
+                <option value="phonetic">Phonetic Persian</option>
+              </select>
+            </div>
+          ]}
 
           <div className="form__group">
             <label htmlFor="algorithm">Selection Algorithm</label>

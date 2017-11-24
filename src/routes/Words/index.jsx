@@ -26,7 +26,7 @@ export default class Words extends Component {
   }
 
   render() {
-    const { actions, words, scores, wordsRoute, tagFilter } = this.props
+    const { actions, words, scores, wordsRoute, tagFilter, auth } = this.props
 
     return (
       <div className="Words">
@@ -52,11 +52,16 @@ export default class Words extends Component {
           actions={actions}
           words={words}
           scores={scores}
+          auth={auth}
           selectedWordId={wordsRoute.selectedWordId}
           editingWord={wordsRoute.editingWord}
           confirmingDelete={wordsRoute.confirmingDelete}
         />
-        <AddWordModal open={wordsRoute.addModalOpen} actions={actions} />
+        <AddWordModal
+          open={wordsRoute.addModalOpen}
+          actions={actions}
+          auth={auth}
+        />
       </div>
     )
   }

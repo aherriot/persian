@@ -70,7 +70,14 @@ body {
 }
 
 a {
+  color: var(--persian-black);
   text-decoration: none;
+}
+
+p {
+  line-height: 2.2rem;
+  margin: 2rem auto;
+  max-width: 50rem;
 }
 
 a:hover,
@@ -117,6 +124,15 @@ input.error,
 input.error:hover,
 input.error:focus {
   border-color: var(--persian-red);
+}
+
+input[type='checkbox'] {
+  display: inline-block;
+}
+
+input[type='checkbox'] + label {
+  margin-left: 1rem;
+  display: inline-block;
 }
 
 select {
@@ -232,6 +248,8 @@ button.link:focus {
   text-decoration: underline;
 }
 
+/* anchor as link */
+
 a.link {
   color: var(--persian-blue);
   font-size: 1.6rem;
@@ -244,6 +262,8 @@ a.link:active {
   text-decoration: underline;
   outline: none;
 }
+
+/* miscellaneous */
 
 .rtl {
   direction: rtl;

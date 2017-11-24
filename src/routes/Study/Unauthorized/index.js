@@ -5,7 +5,7 @@ export default function Unauthorized({ actions }) {
   return (
     <div className="Study__Unauthorized">
       <p>
-        Please{' '}
+        In order to track your progress studying Persian, you first need to {' '}
         <button
           className="link"
           type="button"
@@ -18,10 +18,8 @@ export default function Unauthorized({ actions }) {
           type="button"
           onClick={() => actions.openAuthModal(false)}>
           Login
-        </button>{' '}
-        to study flashcards.
+        </button>.
       </p>
-      <br />
       <p>
         {' '}
         You can also view the{' '}

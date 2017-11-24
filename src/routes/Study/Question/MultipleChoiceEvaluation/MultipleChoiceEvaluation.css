@@ -9,7 +9,7 @@
   color: var(--persian-white);
 
   flex: 1 0 43%;
-
+  cursor: pointer;
   border: 0.2rem solid var(--persian-grey);
   border-radius: 0.4rem;
   display: flex;

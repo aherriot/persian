@@ -96,6 +96,7 @@ const LoginForm = withFormik({
       .then(resp => {
         setSubmitting(false)
         props.actions.closeAuthModal()
+        props.actions.fetchScores()
       })
       .catch(error => {
         setErrors({ password: error.message })

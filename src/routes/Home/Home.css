@@ -1,61 +1,97 @@
-.Home section {
-  height: 20rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.Home .logo {
-  font-size: 3.6rem;
-  font-weight: 800;
-  border: 0.1rem solid white;
-  border-radius: 0.3rem;
-  padding: 0 0.5rem;
-}
-
 .Home h1 {
-  font-weight: 200;
-  margin: 0;
+  font-weight: 500;
+  font-size: 3rem;
+  margin: 1rem 0;
+  color: white;
+  text-shadow: 0rem 0rem 1.5rem black;
 }
 
 .Home h2 {
   font-weight: 400;
-  font-size: 1.6rem;
-  margin: 0.5rem 0;
+  font-size: 2rem;
+  margin: 1rem 0;
+  color: var(--persian-white);
+  text-shadow: 0rem 0rem 1.5rem black;
 }
 
-.Home a {
-  color: black;
-  text-decoration: none;
-}
-
-.Home section.top {
-  color: white;
-  background-color: #087f23;
-  padding: 0 2rem;
-}
-
-.Home section.middle {
-  background-color: #eee;
+.Home__top {
   display: flex;
-  flex-direction: row;
-}
+  /* flex-direction: column; */
+  align-items: center;
+  /* justify-content: center; */
 
-.Home .words {
-  height: 100%;
-  background-color: #bbb;
-  flex-grow: 1;
-  text-align: center;
-}
-
-.Home .quiz {
-  height: 100%;
-  flex-grow: 1;
-  text-align: center;
-}
-
-.Home .Home section.bottom {
   padding: 0 2rem;
-  background-color: #ccc;
+  height: calc(100vh - 4rem);
+
+  background: url('./landing-blur-small.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 65%;
+  background-position-y: top;
+}
+
+.Home__title {
+  width: 100%;
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+.Home__button {
+  border: 0.2rem solid var(--persian-white);
+  color: var(--persian-white);
+  margin: 2rem 0;
+  padding: 0.7rem;
+  border-radius: 0.4rem;
+  display: block;
+  width: fit-content;
+  /* float: right; */
+  text-shadow: 0rem 0rem 1.5rem black;
+}
+
+.Home__button:visited {
+  color: var(--persian-white);
+}
+
+.Home__button:active,
+.Home__button:hover {
+  color: var(--persian-yellow);
+  border-color: var(--persian-yellow);
+}
+
+.Home__middle {
+  padding: 1rem 2rem;
+  background-color: var(--persian-teal);
+  color: var(--persian-white);
+}
+
+.Home__middle a {
+  color: var(--persian-yellow);
+}
+
+.Home__middle a:hover {
+  color: var(--persian-yellow);
+}
+
+.Home__bottom {
+  padding: 1rem 2rem;
+  color: var(--persian-black);
+}
+
+@media only screen and (min-width: 700px) {
+  .Home__top {
+    background: url('./landing-blur-medium.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: top;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .Home__top {
+    background: url('./landing-blur-large.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: 65%;
+    background-position-y: top;
+  }
 }

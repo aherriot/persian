@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import * as authActions from 'store/auth/actions'
+import { fetchScores } from 'store/scores/actions'
 
 import AuthModal from './AuthModal'
 
@@ -46,7 +47,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       {
-        ...authActions
+        ...authActions,
+        fetchScores
       },
       dispatch
     )

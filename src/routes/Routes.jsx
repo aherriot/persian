@@ -25,6 +25,7 @@ class Routes extends Component {
           <Route path="/profile" exact component={Profile} />
 
           <Route path="/about" exact render={() => <div>about</div>} />
+          <Route render={() => <div>Page not found.</div>} />
         </Switch>
         <Alert />
       </div>
