@@ -1,5 +1,7 @@
 ## persianflashcards.com
 
+[![Travis CI Build Status Indicator](https://travis-ci.org/aherriot/persian.svg?branch=master "tranvis")](https://travis-ci.org/aherriot/persian)
+
 A curated flashcard app for Persian language learners using React, Redux,
 Express, and MongoDB hosted at
 [persianflashcards.com](https://www.persianflashcards.com).
