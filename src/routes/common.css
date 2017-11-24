@@ -74,6 +74,12 @@ a {
   text-decoration: none;
 }
 
+p {
+  line-height: 2.2rem;
+  margin: 2rem auto;
+  max-width: 50rem;
+}
+
 a:hover,
 a:visited {
   color: var(--persian-black);
@@ -242,6 +248,8 @@ button.link:focus {
   text-decoration: underline;
 }
 
+/* anchor as link */
+
 a.link {
   color: var(--persian-blue);
   font-size: 1.6rem;
@@ -254,6 +262,8 @@ a.link:active {
   text-decoration: underline;
   outline: none;
 }
+
+/* miscellaneous */
 
 .rtl {
   direction: rtl;

@@ -63,7 +63,7 @@ class Alert extends Component {
     const alert = alerts[0]
 
     return (
-      <Modal open={this.state.open} title={alert.title} onClose={this.onClose}>
+      <Modal open={this.state.open} title={alert.title} onClose={this.onReject}>
         <div className="form">
           <div className="form__body">{alert.text}</div>
           <div className="form__button-row">
