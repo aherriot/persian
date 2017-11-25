@@ -1,11 +1,12 @@
-// protect router so only admins can use it
+// protect route so only admins can use it
+
+const respondWithError = require('../utils/respondWithError')
+
 function admin(req, res, next) {
   if (req.user && req.user.role === 'admin') {
     next()
   } else {
-    return res
-      .status(401)
-      .json({ code: 'adminOnly', message: 'Only admin users can list users' })
+    return respondWithError(res, 'adminOnly')
   }
 }
 

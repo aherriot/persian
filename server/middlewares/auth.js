@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const respondWithError = require('../utils/respondWithError')
 
 // validate JWT and extract data from it
 function auth(req, res, next) {
@@ -10,7 +11,11 @@ function auth(req, res, next) {
     // verifies secret and checks exp
     jwt.verify(token, config.JWT_SECRET, function(err, decoded) {
       if (err) {
-        return res.status(401).json({ code: err.name, message: err.message })
+        if (err.name === 'TokenExpiredError') {
+          return respondWithError(res, 'TokenExpiredError')
+        } else {
+          return respondWithError(res, 'JsonWebTokenError')
+        }
       }
 
       req.user = {
@@ -22,10 +27,7 @@ function auth(req, res, next) {
       next()
     })
   } else {
-    return res.status(401).json({
-      code: 'missingAuthToken',
-      message: 'No Authorization token provided'
-    })
+    return respondWithError(res, 'missingAuthToken')
   }
 }
 
