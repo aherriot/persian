@@ -11,10 +11,15 @@ export default class Toolbar extends Component {
   onAdd = () => {
     if (this.props.role === 'admin') {
       this.props.actions.openAddModal()
-    } else {
+    } else if (this.props.role) {
       this.props.actions.showAlert(
         'Coming Soon',
         'In the future, you will be able to suggest new words.'
+      )
+    } else {
+      this.props.actions.showAlert(
+        'Create Account First',
+        'Please create an account first in order to suggest new words.'
       )
     }
   }
