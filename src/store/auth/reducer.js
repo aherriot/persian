@@ -40,6 +40,29 @@ const actionHandlers = {
       status: 'ERROR'
     }
   },
+  'auth/CREATE_ACCOUNT_PENDING': (state, action) => {
+    return { ...state, status: 'PENDING' }
+  },
+  'auth/CREATE_ACCOUNT_SUCCESS': (state, action) => {
+    const decoded = jwtDecode(action.payload.response.token)
+    localStorage.setItem('token', action.payload.response.token)
+    return {
+      ...state,
+      status: 'SUCCESS',
+      token: action.payload.response.token,
+      username: decoded.username,
+      id: decoded._id,
+      role: decoded.role,
+      expiresAt: decoded.exp,
+      error: null
+    }
+  },
+  'auth/CREATE_ACCOUNT_ERROR': (state, action) => {
+    return {
+      ...state,
+      status: 'ERROR'
+    }
+  },
   'auth/LOGOUT': (state, action) => {
     localStorage.removeItem('token')
 
