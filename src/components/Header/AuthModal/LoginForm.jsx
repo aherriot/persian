@@ -47,6 +47,7 @@ const InnerLoginForm = ({
             value={values.password}
           />
           {passwordError && <div className="error">{errors.password}</div>}
+          {errors._generic && <div className="error">{errors._generic}</div>}
         </div>
         <div>
           or{' '}
@@ -99,8 +100,7 @@ const LoginForm = withFormik({
         props.actions.fetchScores()
       })
       .catch(error => {
-        setErrors({ password: error.message })
-        console.log(error)
+        setErrors({ _generic: error.message || 'Unknown Error' })
         setSubmitting(false)
       })
   }
