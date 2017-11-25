@@ -20,7 +20,11 @@ function Header({ title, auth, actions }) {
       </div>
       <div className="right">
         {auth.username ? (
-          <Link role="button" type="button" to="/profile">
+          <Link
+            role="button"
+            className="Header__link"
+            type="button"
+            to="/profile">
             {auth.username}
           </Link>
         ) : (
