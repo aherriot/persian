@@ -35,6 +35,9 @@ const actionHandlers = {
   },
   'scores/UPDATE_ERROR': (state, action) => {
     return { ...state, fetchStatus: 'ERROR', error: action.error }
+  },
+  'auth/LOGOUT': (state, action) => {
+    return { ...defaultState }
   }
 }
 
