@@ -20,7 +20,7 @@ I made this project for three reasons:
 3. I wanted something that tracks the progress of translating Persian to English
    independently of English to Persian, which I find more helpful.
 
-## Spaced Repitition algorithm:
+## Spaced Repitition algorithm
 
 The core of the spaced repetition algorithm works by assigning words into score
 buckets numbered 0 through 7. If the word is answered correctly, the word is

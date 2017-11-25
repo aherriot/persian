@@ -81,6 +81,11 @@ function spacedRepetition(state, action) {
   // Iterate over all the potential words
   // to remove the ones that are not ready to be tested
   for (let i = 0; i < wordList.length; i++) {
+    // Don't use a word, if it was the previously selected word
+    if (wordList[i] === state.previousWordId) {
+      continue
+    }
+
     const word = words.byId[wordList[i]]
 
     // Find a score bucket assigned to word
@@ -208,6 +213,7 @@ function spacedRepetition(state, action) {
     ...state,
     isEvaluating: false,
     selectedWordId: selectedWordId,
+    previousWordId: state.selectedWordId,
     status: status,
     options: { ...state.options, questionSide, answerSide }
   }
