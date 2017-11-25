@@ -9,9 +9,8 @@ export default function Profile({ actions, auth, profile }) {
     <div className="Profile">
       <Header title="Profile" />
       {auth.token && (
-        <div className="content">
+        <div className="Profile__content">
           <h1>{auth.username}</h1>
-          <br />
 
           <p>Welcome to your profile.</p>
           <p>
@@ -49,7 +48,7 @@ export default function Profile({ actions, auth, profile }) {
       )}
 
       {!auth.token && (
-        <div className="content">
+        <div className="Profile__content">
           <div>
             You are not logged in but you can still view the{' '}
             <Link className="link" to="/words">

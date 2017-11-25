@@ -6,6 +6,8 @@
   align-items: center;
 }
 
-.Profile > .content {
+.Profile__content {
   margin-top: 2rem;
+  max-width: 50rem;
+  padding: 0 2rem;
 }

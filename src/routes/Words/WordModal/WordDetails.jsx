@@ -5,7 +5,8 @@ export default function WordDetails({
   actions,
   words,
   scores,
-  selectedWordId
+  selectedWordId,
+  role
 }) {
   let fromEnglishScore = '-'
   let fromPersianScore = '-'
@@ -44,14 +45,24 @@ export default function WordDetails({
         <label>Score from Persian</label>
         <div className="form__text">{fromPersianScore}</div>
       </div>
-      <div className="form__button-row">
-        <button className="button" onClick={actions.confirmDeleteWord}>
-          Delete
-        </button>
-        <button className="button" onClick={actions.editWord}>
-          Edit
-        </button>
-      </div>
+      {role === 'admin' && (
+        <div className="form__button-row">
+          <button className="button" onClick={actions.confirmDeleteWord}>
+            Delete
+          </button>
+          <button className="button" onClick={actions.editWord}>
+            Edit
+          </button>
+        </div>
+      )}
+
+      {role !== 'admin' && (
+        <div className="form__button-row">
+          <button className="button" onClick={actions.deselectWord}>
+            Okay
+          </button>
+        </div>
+      )}
     </div>
   )
 }
