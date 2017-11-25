@@ -1,0 +1,10 @@
+.NotFound {
+  padding-top: 5rem;
+  /* height: 100%; */
+}
+
+.NotFound__content {
+  max-width: 50rem;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}

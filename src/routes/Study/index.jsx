@@ -56,7 +56,9 @@ export default class Study extends Component {
     return (
       <div className="Study">
         <Header title="Study" />
-        {this.props.auth.token && <Toolbar actions={this.props.actions} />}
+        {this.props.auth.token && (
+          <Toolbar actions={this.props.actions} role={this.props.auth.role} />
+        )}
         {this.getContent()}
         <OptionsModal {...this.props} />
         <EditWordModal {...this.props} />

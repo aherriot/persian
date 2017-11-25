@@ -48,9 +48,31 @@ const codes = {
     message: 'User not found'
   },
 
+  // auth
+
+  missingAuthToken: {
+    status: 401,
+    message: 'Authorization token is missing from the headers'
+  },
+
   unauthorized: {
     status: 401,
     message: 'Not authorized to perform this action'
+  },
+
+  adminOnly: {
+    status: 401,
+    message: 'Not authorized to perform this action'
+  },
+
+  TokenExpiredError: {
+    status: 401,
+    message: 'JSON web token has is expired'
+  },
+
+  JsonWebTokenError: {
+    status: 401,
+    message: 'Invalid json web token'
   },
 
   // words

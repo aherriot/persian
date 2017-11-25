@@ -8,6 +8,7 @@ import Study from './Study/redux/container'
 import Profile from './Profile/redux/container'
 import Export from './Export/redux/container'
 import Import from './Import/redux/container'
+import NotFound from './NotFound'
 
 import Alert from 'components/Alert'
 
@@ -25,7 +26,7 @@ class Routes extends Component {
           <Route path="/profile" exact component={Profile} />
 
           <Route path="/about" exact render={() => <div>about</div>} />
-          <Route render={() => <div>Page not found.</div>} />
+          <Route component={NotFound} />
         </Switch>
         <Alert />
       </div>

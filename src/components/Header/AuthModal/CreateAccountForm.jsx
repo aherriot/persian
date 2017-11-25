@@ -81,6 +81,8 @@ const InnerCreateAccountForm = ({
           {password2Error && <div className="error">{errors.password2}</div>}
         </div>
 
+        {errors._generic && <div className="error">{errors._generic}</div>}
+
         <div>
           or{' '}
           <button type="button" className="link" onClick={actions.showLogin}>
@@ -115,6 +117,10 @@ const CreateAccountForm = withFormik({
 
     if (!values.username) {
       errors.username = 'Username is required'
+    } else if (values.username.length < 3) {
+      errors.username = 'Username must be at least 3 characters'
+    } else if (values.username.length > 10) {
+      errors.username = 'Username must be less than 11 characters'
     }
 
     if (!values.email) {
@@ -131,9 +137,7 @@ const CreateAccountForm = withFormik({
 
     if (!values.password2) {
       errors.password2 = 'Password is required'
-    }
-
-    if (values.password !== values.password2) {
+    } else if (values.password !== values.password2) {
       errors.password2 = 'Passwords do not match'
     }
 
@@ -148,8 +152,17 @@ const CreateAccountForm = withFormik({
         props.actions.closeAuthModal()
       })
       .catch(error => {
-        setErrors({ password: error.message })
         setSubmitting(false)
+        switch (error.code) {
+          case 'usernameDuplicate':
+            setErrors({ username: error.message })
+            break
+          case 'emailDuplicate':
+            setErrors({ email: error.message })
+            break
+          default:
+            setErrors({ _generic: error.message || 'Unknown Error' })
+        }
       })
   }
 })(InnerCreateAccountForm)

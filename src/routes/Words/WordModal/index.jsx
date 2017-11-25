@@ -49,7 +49,8 @@ export default class WordModal extends Component {
       confirmingDelete,
       words,
       scores,
-      selectedWordId
+      selectedWordId,
+      auth: { role }
     } = this.props
 
     let content, title
@@ -67,6 +68,7 @@ export default class WordModal extends Component {
           words={words}
           scores={scores}
           selectedWordId={selectedWordId}
+          role={role}
         />
       )
     }

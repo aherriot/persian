@@ -77,6 +77,8 @@ const InnerWordForm = ({
           />
           {tagsError && <div className="error">{errors.tags}</div>}
         </div>
+
+        {errors._generic && <div className="error">{errors._generic}</div>}
       </div>
 
       <div className="form__button-row">
@@ -151,8 +153,7 @@ const WordForm = withFormik({
         props.finishedSubmitAction()
       })
       .catch(error => {
-        setErrors({ password: error.message })
-        console.error(error)
+        setErrors({ _generic: error.message || 'Unknown Error' })
         setSubmitting(false)
       })
   }

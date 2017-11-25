@@ -23,3 +23,13 @@
 .Header .title {
   margin-left: 1rem;
 }
+
+.Header__link,
+.Header__link:visited {
+  color: var(--persian-white);
+}
+
+.Header__link:hover,
+.Header__link:active {
+  color: var(--persian-yellow);
+}

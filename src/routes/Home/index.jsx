@@ -42,7 +42,7 @@ export default function() {
           <a className="link" href="http://www.aherriot.com">
             Andrew Herriot.
           </a>{' '}
-          The source is avalailable at{' '}
+          The source is available at{' '}
           <a className="link" href="https://www.github.com/aherriot/persian">
             github.com/aherriot/persian
           </a>.

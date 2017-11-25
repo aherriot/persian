@@ -67,6 +67,10 @@ const actionHandlers = {
       role: null,
       expiresAt: null
     }
+  },
+  'auth/AUTH_ERROR': (state, action) => {
+    console.log('auth error')
+    return { ...state, open: true }
   }
 }
 
