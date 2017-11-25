@@ -31,7 +31,7 @@ export default class Words extends Component {
     return (
       <div className="Words">
         <Header title="Words" />
-        <Toolbar actions={actions} />
+        <Toolbar actions={actions} role={auth.role} />
         <List
           words={words}
           scores={scores}
@@ -57,11 +57,7 @@ export default class Words extends Component {
           editingWord={wordsRoute.editingWord}
           confirmingDelete={wordsRoute.confirmingDelete}
         />
-        <AddWordModal
-          open={wordsRoute.addModalOpen}
-          actions={actions}
-          auth={auth}
-        />
+        <AddWordModal open={wordsRoute.addModalOpen} actions={actions} />
       </div>
     )
   }
