@@ -32,7 +32,11 @@ router.post('/login', async function(req, res) {
     return respondWithError(res, 'usernameMissing')
   } else {
     try {
-      const user = await User.findOne({ username: req.body.username })
+      const user = await User.findOne(
+        { username: req.body.username },
+        '_id username role'
+      )
+
       if (!user) {
         return respondWithError(res, 'invalidAuthentication')
       }
@@ -133,8 +137,6 @@ router.post('/', async function(req, res) {
     } catch (err) {
       return respondWithError(res, err)
     }
-
-    return res.json({ user: newUser })
   } catch (err) {
     return respondWithError(res, err)
   }

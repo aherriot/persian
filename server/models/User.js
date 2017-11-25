@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const Score = require('./Score')
 const bcrypt = require('bcrypt')
-
+const Score = require('./Score')
+const Suggestion = require('./Suggestion')
 const config = require('../config')
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   username: { type: String, required: true, index: { unique: true } },
@@ -37,6 +37,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.pre('remove', function(next) {
   Score.remove({ userId: this._id }).exec()
+  Suggestion.remove({ useurId: this._id }).exec()
   next()
 })
 
