@@ -12,7 +12,8 @@ const InnerWordForm = ({
   handleSubmit,
   isValid,
   isSubmitting,
-  cancelAction
+  cancelAction,
+  isAdmin
 }) => {
   const englishError = touched.english && errors.english
   const persianError = touched.persian && errors.persian
@@ -82,15 +83,18 @@ const InnerWordForm = ({
       </div>
 
       <div className="form__button-row">
-        <button type="button" className="button" onClick={cancelAction}>
-          Revert
+        <button
+          type="button"
+          className="button secondary"
+          onClick={cancelAction}>
+          Cancel
         </button>
-
+        <div className="button-spacer" />
         <button
           type="submit"
           className="button"
           disabled={!isValid || isSubmitting}>
-          Save
+          {isAdmin ? 'Save' : 'Suggest'}
         </button>
       </div>
     </form>
@@ -162,7 +166,8 @@ const WordForm = withFormik({
 WordForm.propTypes = {
   submitAction: PropTypes.func.isRequired,
   finishedSubmitAction: PropTypes.func.isRequired,
-  cancelAction: PropTypes.func.isRequired
+  cancelAction: PropTypes.func.isRequired,
+  isAdmin: PropTypes.bool.isRequired
 }
 
 export default WordForm

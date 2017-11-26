@@ -5,6 +5,7 @@ const config = require('./config')
 require('./controllers/users.test.js')
 require('./controllers/words.test.js')
 require('./controllers/scores.test.js')
+require('./controllers/suggestions.test.js')
 
 const SERVER_URL = `localhost:${config.PORT}/`
 
@@ -45,7 +46,7 @@ describe('Clean up after deleting content', function() {
       })
   })
 
-  it('no scores re on delete user', function(done) {
+  it('no scores on delete user', function(done) {
     request
       .get(SERVER_URL + 'api/scores/')
       .set('Authorization', 'Bearer ' + global.testUserToken)

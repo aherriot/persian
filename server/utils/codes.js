@@ -104,6 +104,16 @@ const codes = {
   wordIdInvalid: {
     status: 400,
     message: 'Word ID is not valid'
+  },
+
+  //suggestions
+  suggestionNotFound: {
+    status: 404,
+    message: 'Suggestion does not exist with this id'
+  },
+  textMissing: {
+    status: 400,
+    message: 'Suggestion requires a text property'
   }
 }
 

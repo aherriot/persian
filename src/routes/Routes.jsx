@@ -4,6 +4,7 @@ import './common.css'
 
 import Home from './Home'
 import Words from './Words/redux/container'
+import Suggestions from './Suggestions/redux/container'
 import Study from './Study/redux/container'
 import Profile from './Profile/redux/container'
 import Export from './Export/redux/container'
@@ -18,7 +19,9 @@ class Routes extends Component {
       <div className="Routes">
         <Switch>
           <Route path="/" exact component={Home} />
+
           <Route path="/words" exact component={Words} />
+          <Route path="/words/suggestions" exact component={Suggestions} />
           <Route path="/words/import" exact component={Import} />
           <Route path="/words/export" exact component={Export} />
 

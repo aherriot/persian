@@ -68,10 +68,14 @@ class Alert extends Component {
           <div className="form__body">{alert.text}</div>
           <div className="form__button-row">
             {alert.action === 'reload' && (
-              <button type="button" className="button" onClick={this.onReject}>
+              <button
+                type="button"
+                className="button secondary"
+                onClick={this.onReject}>
                 No
               </button>
             )}
+            <div className="button-spacer" />
             <button type="button" className="button" onClick={this.onAffirm}>
               Okay
             </button>

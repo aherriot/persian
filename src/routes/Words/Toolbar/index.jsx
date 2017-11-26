@@ -9,13 +9,8 @@ import Study from 'icons/Study'
 
 export default class Toolbar extends Component {
   onAdd = () => {
-    if (this.props.role === 'admin') {
+    if (this.props.role) {
       this.props.actions.openAddModal()
-    } else if (this.props.role) {
-      this.props.actions.showAlert(
-        'Coming Soon',
-        'In the future, you will be able to suggest new words.'
-      )
     } else {
       this.props.actions.showAlert(
         'Create Account First',

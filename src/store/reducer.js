@@ -4,6 +4,7 @@ import appReducer from './app/reducer'
 
 import wordsReducer from './words/reducer'
 import scoresReducer from './scores/reducer'
+import suggestionsReducer from './suggestions/reducer'
 import authReducer from './auth/reducer'
 
 import wordsRouteReducer from 'routes/Words/redux/reducer'
@@ -18,6 +19,7 @@ export default combineReducers({
   data: combineReducers({
     words: wordsReducer,
     scores: scoresReducer,
+    suggestions: suggestionsReducer,
     auth: authReducer
   }),
 
