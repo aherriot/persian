@@ -14,10 +14,7 @@ const router = express.Router()
 router.get('/', auth, async function(req, res) {
   let suggestions
   try {
-    suggestions = await Suggestion.find(
-      { userId: req.user._id },
-      'wordId userId text'
-    )
+    suggestions = await Suggestion.find({ userId: req.user._id })
   } catch (err) {
     return respondWithError(res, err)
   }
@@ -36,8 +33,8 @@ router.get('/all', auth, admin, function(req, res) {
   })
 })
 
-// get all suggestions
-router.delete('/:suggestionId', auth, async function(req, res) {
+// delete a suggestion
+router.delete('/:suggestionId', auth, admin, async function(req, res) {
   try {
     const suggestion = await Suggestion.findByIdAndRemove(
       req.params.suggestionId
@@ -54,14 +51,17 @@ router.delete('/:suggestionId', auth, async function(req, res) {
 })
 
 router.post('/', auth, async function(req, res) {
-  if (!req.body.text) {
-    return respondWithError(res, 'textMissing')
-  }
+  // if (!req.body.text) {
+  //   return respondWithError(res, 'textMissing')
+  // }
 
   const suggestion = new Suggestion({
     userId: req.user._id,
     wordId: req.body.wordId,
-    text: req.body.text
+    english: req.body.english,
+    persian: req.body.persian,
+    phonetic: req.body.phonetic,
+    tags: req.body.tags
   })
 
   suggestion

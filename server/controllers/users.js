@@ -34,7 +34,7 @@ router.post('/login', async function(req, res) {
     try {
       const user = await User.findOne(
         { username: req.body.username },
-        '_id username role'
+        '_id username role password'
       )
 
       if (!user) {
@@ -235,43 +235,54 @@ router.delete('/:id', auth, async function(req, res) {
 })
 
 router.get('/leaderboard', auth, admin, async function(req, res) {
+  let users
   try {
-    const users = await User.find({})
-
-    let respObj = []
-    let refCount = 0
-    users.forEach(async function(user) {
-      try {
-        const scores = await Score.find({ userId: user._id })
-        refCount++
-
-        let sum = 0
-        let mostRecent = null
-        scores.forEach(score => {
-          if (!mostRecent || score.quizzedAt > mostRecent) {
-            mostRecent = score.quizzedAt
-          }
-
-          score.scores.forEach(scoreElem => (sum += scoreElem))
-        })
-
-        respObj.push({
-          username: user.username,
-          quizzedWords: scores.length,
-          mostRecent: mostRecent,
-          score: sum
-        })
-
-        if (refCount === users.length) {
-          return res.json(respObj)
-        }
-      } catch (err) {
-        return respondWithError(res, err)
-      }
-    })
+    users = await User.find({})
   } catch (err) {
     return respondWithError(res, err)
   }
+
+  let respObj = []
+  let refCount = 0
+  users.forEach(async function(user) {
+    let scores
+    try {
+      scores = await Score.find({ userId: user._id })
+    } catch (err) {
+      return respondWithError(res, err)
+    }
+
+    refCount++
+
+    let sum = 0
+    let mostRecent = null
+    scores.forEach(score => {
+      if (score.fromEnglish.score) {
+        sum += score.fromEnglish.score
+        if (!mostRecent || mostRecent < score.fromEnglish.quizzedAt) {
+          mostRecent = score.fromEnglish.quizzedAt
+        }
+      }
+
+      if (score.fromPersian.score) {
+        sum += score.fromPersian.score
+        if (!mostRecent || mostRecent < score.fromPersian.quizzedAt) {
+          mostRecent = score.fromPersian.quizzedAt
+        }
+      }
+    })
+
+    respObj.push({
+      username: user.username,
+      quizzedWords: scores.length,
+      mostRecent: mostRecent,
+      score: sum
+    })
+
+    if (refCount === users.length) {
+      return res.json(respObj)
+    }
+  })
 })
 
 module.exports = router
