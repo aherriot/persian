@@ -57,7 +57,11 @@ export default class Words extends Component {
           editingWord={wordsRoute.editingWord}
           confirmingDelete={wordsRoute.confirmingDelete}
         />
-        <AddWordModal open={wordsRoute.addModalOpen} actions={actions} />
+        <AddWordModal
+          open={wordsRoute.addModalOpen}
+          actions={actions}
+          role={auth.role}
+        />
       </div>
     )
   }

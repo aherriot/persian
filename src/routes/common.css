@@ -231,6 +231,12 @@ button.button[disabled] {
   border-color: #999;
 }
 
+button.button.secondary {
+  border-color: var(--persian-blue);
+  background-color: var(--persian-white);
+  color: var(--persian-blue-dark);
+}
+
 /* button as link */
 
 button.link {
@@ -246,6 +252,10 @@ button.link:active,
 button.link:focus {
   color: var(--persian-blue-dark);
   text-decoration: underline;
+}
+
+.button-spacer {
+  width: 0.5rem;
 }
 
 /* anchor as link */

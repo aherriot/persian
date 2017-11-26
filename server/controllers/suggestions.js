@@ -24,7 +24,7 @@ router.get('/', auth, async function(req, res) {
 
 // get all suggestions
 router.get('/all', auth, admin, function(req, res) {
-  Suggestion.find({}, 'wordId userId text', function(err, suggestions) {
+  Suggestion.find({}, function(err, suggestions) {
     if (err) {
       return respondWithError(res, err)
     }
