@@ -133,4 +133,19 @@ describe('Score API', function() {
         })
     })
   })
+
+  describe('Fetch leaderboard', function() {
+    it('success on fetching leaderboard', function(done) {
+      request
+        .get(`localhost:${config.PORT}/api/users/leaderboard`)
+        .end((err, resp) => {
+          expect(err).to.be.null
+          expect(resp.status).to.equal(200)
+          expect(resp.body).to.have.lengthOf(2)
+          expect(resp.body[1].quizzedWords).to.equal(1)
+          expect(resp.body[1].score).to.equal(6)
+          done()
+        })
+    })
+  })
 })

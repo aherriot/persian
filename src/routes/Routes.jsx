@@ -6,6 +6,7 @@ import Home from './Home'
 import Words from './Words/redux/container'
 import Suggestions from './Suggestions/redux/container'
 import Study from './Study/redux/container'
+import Leaderboard from './Leaderboard/redux/container'
 import Profile from './Profile/redux/container'
 import Export from './Export/redux/container'
 import Import from './Import/redux/container'
@@ -26,8 +27,9 @@ class Routes extends Component {
           <Route path="/words/export" exact component={Export} />
 
           <Route path="/quiz" exact component={Study} />
-          <Route path="/profile" exact component={Profile} />
+          <Route path="/leaderboard" exact component={Leaderboard} />
 
+          <Route path="/profile" exact component={Profile} />
           <Route path="/about" exact render={() => <div>about</div>} />
           <Route component={NotFound} />
         </Switch>

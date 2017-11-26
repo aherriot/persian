@@ -234,7 +234,7 @@ router.delete('/:id', auth, async function(req, res) {
   }
 })
 
-router.get('/leaderboard', auth, admin, async function(req, res) {
+router.get('/leaderboard', async function(req, res) {
   let users
   try {
     users = await User.find({})
