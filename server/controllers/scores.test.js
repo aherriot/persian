@@ -142,8 +142,10 @@ describe('Score API', function() {
           expect(err).to.be.null
           expect(resp.status).to.equal(200)
           expect(resp.body).to.have.lengthOf(2)
-          expect(resp.body[1].quizzedWords).to.equal(1)
-          expect(resp.body[1].score).to.equal(6)
+          const testUser = resp.body.find(user => (user.username = 'test_user'))
+          expect(testUser).to.not.be.undefined
+          expect(testUser.quizzedWords).to.equal(1)
+          expect(testUser.score).to.equal(6)
           done()
         })
     })
