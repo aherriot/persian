@@ -30,9 +30,10 @@ const InnerImportForm = ({
       {errors.words && <div className="error">{errors.words}</div>}
 
       <div className="form__button-row">
-        <button type="button" className="link">
+        <button type="button secondary" className="link">
           cancel
         </button>
+        <div className="button-spacer" />
         <button
           type="submit"
           className="button"
