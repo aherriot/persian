@@ -50,6 +50,7 @@ export default function WordDetails({
           <button className="button" onClick={actions.confirmDeleteWord}>
             Delete
           </button>
+          <div className="button-spacer" />
           <button className="button" onClick={actions.editWord}>
             Edit
           </button>

@@ -43,6 +43,11 @@ const actionHandlers = {
   },
   'words/DELETE_SUCCESS': (state, action) => {
     return { ...state, selectedWordId: null }
+  },
+  // We use the fact the user has jumped to the quiz
+  // to reset the search text.
+  'study/SELECT_WORD': (state, action) => {
+    return { ...state, searchText: '' }
   }
 }
 

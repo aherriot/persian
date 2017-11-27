@@ -30,9 +30,12 @@ export default class WordModal extends Component {
           </p>
         </div>
         <div className="form__button-row">
-          <button className="button" onClick={actions.dismissDeleteWord}>
+          <button
+            className="button secondary"
+            onClick={actions.dismissDeleteWord}>
             No
           </button>
+          <div className="button-spacer" />
           <button className="button" onClick={() => actions.deleteWord(word)}>
             Yes
           </button>
