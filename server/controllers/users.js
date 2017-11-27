@@ -242,7 +242,7 @@ router.get('/leaderboard', async function(req, res) {
     return respondWithError(res, err)
   }
 
-  let respObj = []
+  let leaderboardArray = []
   let refCount = 0
   users.forEach(async function(user) {
     let scores
@@ -272,15 +272,15 @@ router.get('/leaderboard', async function(req, res) {
       }
     })
 
-    respObj.push({
-      username: user.username,
+    leaderboardArray.push({
+      username: '' + user.username,
       quizzedWords: scores.length,
       mostRecent: mostRecent,
       score: sum
     })
 
     if (refCount === users.length) {
-      return res.json(respObj)
+      return res.json(leaderboardArray)
     }
   })
 })
