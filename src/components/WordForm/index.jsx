@@ -147,7 +147,8 @@ const WordForm = withFormik({
   handleSubmit: (values, { props, setSubmitting, setErrors }) => {
     const word = {
       ...values,
-      tags: values.tags.split(',').map(tag => tag.trim())
+      tags: values.tags.split(',').map(tag => tag.trim()),
+      wordId: props.word._id // we include this in case suggesting an edit to a word
     }
 
     props
