@@ -61,7 +61,10 @@ export default class Study extends Component {
         )}
         {this.getContent()}
         <OptionsModal {...this.props} />
-        <EditWordModal {...this.props} />
+        <EditWordModal
+          {...this.props}
+          isAdmin={this.props.auth.role === 'admin'}
+        />
         <Status status={this.props.study.status} actions={this.props.actions} />
       </div>
     )

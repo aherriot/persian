@@ -8,16 +8,6 @@ import Pencil from 'icons/Pencil'
 import List from 'icons/List'
 
 export default class Toolbar extends Component {
-  onEdit = () => {
-    if (this.props.role === 'admin') {
-      this.props.actions.openEditWordModal()
-    } else {
-      this.props.actions.showAlert(
-        'Coming Soon',
-        'In the future, you will be able to suggest edits to words.'
-      )
-    }
-  }
   render() {
     const { actions } = this.props
     return (
@@ -26,7 +16,7 @@ export default class Toolbar extends Component {
           <Cogs />
           Options
         </div>
-        <div role="button" tabIndex={0} onClick={this.onEdit}>
+        <div role="button" tabIndex={0} onClick={actions.openEditWordModal}>
           <Pencil />
           Edit
         </div>

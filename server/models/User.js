@@ -5,13 +5,16 @@ const Suggestion = require('./Suggestion')
 const config = require('../config')
 const Schema = mongoose.Schema
 
-const userSchema = new Schema({
-  username: { type: String, required: true, index: { unique: true } },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, required: true, default: 'user' },
-  createdAt: { type: Date, default: Date.now }
-})
+const userSchema = new Schema(
+  {
+    username: { type: String, required: true, index: { unique: true } },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, required: true, default: 'user' },
+    createdAt: { type: Date, default: Date.now }
+  },
+  { collation: { locale: 'en', strength: 1 } }
+)
 
 // generate password hash if it has changed
 userSchema.pre('save', function(next) {

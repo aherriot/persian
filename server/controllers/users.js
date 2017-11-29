@@ -13,6 +13,11 @@ const respondWithError = require('../utils/respondWithError')
 
 const router = express.Router()
 
+const usernameRegex = /[a-zA-Z0-9-_.]+/
+function isUsernameValid(username) {
+  return usernameRegex.test(username)
+}
+
 router.get('/', auth, admin, async function(req, res) {
   try {
     const users = await User.find(
@@ -86,6 +91,8 @@ router.post('/', async function(req, res) {
     return respondWithError(res, 'usernameMissing')
   } else if (req.body.username.length < 3 || req.body.username.length > 10) {
     return respondWithError(res, 'usernameLength')
+  } else if (!isUsernameValid(req.body.username)) {
+    return respondWithError(res, 'usernameInvalid')
   } else if (!req.body.password) {
     return respondWithError(res, 'passwordMissing')
   } else if (req.body.password.length < 6 || req.body.password.length > 30) {
@@ -100,10 +107,7 @@ router.post('/', async function(req, res) {
 
   try {
     const existingUser = await User.findOne({
-      $or: [
-        { username: req.body.username.toLowerCase() },
-        { email: req.body.email.toLowerCase() }
-      ]
+      $or: [{ username: req.body.username }, { email: req.body.email }]
     })
 
     if (existingUser) {
@@ -119,7 +123,7 @@ router.post('/', async function(req, res) {
     const newUser = new User({
       username: req.body.username,
       password: req.body.password,
-      email: req.body.email
+      email: req.body.email.toLowerCase()
     })
 
     try {

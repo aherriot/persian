@@ -154,6 +154,7 @@ const CreateAccountForm = withFormik({
       .catch(error => {
         setSubmitting(false)
         switch (error.code) {
+          case 'usernameInvalid':
           case 'usernameDuplicate':
             setErrors({ username: error.message })
             break

@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import * as studyActions from './actions'
 import * as wordActions from 'store/words/actions'
 import * as scoreActions from 'store/scores/actions'
+import { addSuggestion } from 'store/suggestions/actions'
 import { showAlert } from 'store/app/actions'
 import { openAuthModal } from 'store/auth/actions'
 import Study from '../'
@@ -23,6 +24,7 @@ function mapDispatchToProps(dispatch) {
         ...studyActions,
         ...wordActions,
         ...scoreActions,
+        addSuggestion,
         openAuthModal,
         showAlert
       },

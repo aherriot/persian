@@ -1,21 +1,28 @@
 language: node_js
 node_js: "8"
-services: mongodb
 
 env:
   global:
     - NODE_ENV=test
 
 install:
-  yarn install
+  # download custom version of mongoDB (because >3.4 supports collation)
+  - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.3.tgz
+  - tar xzf mongodb-linux-x86_64-3.4.3.tgz
+  - ${PWD}/mongodb-linux-x86_64-3.4.3/bin/mongod --version
+  - yarn install
 
 cache: 
   yarn
 
 before_script:
+  # run mongo
+  - mkdir ${PWD}/mongodb-linux-x86_64-3.4.3/data
+  - ${PWD}/mongodb-linux-x86_64-3.4.3/bin/mongod --dbpath ${PWD}/mongodb-linux-x86_64-3.4.3/data --logpath ${PWD}/mongodb-linux-x86_64-3.4.3/mongodb.log --fork
   - sleep 2
   - mongo persianTest --eval 'db.createCollection("users")'
   # had to escape the following line in a weird way because of nested objects and quotes
+  - "mongo persianTest --eval 'db.adminCommand( { setFeatureCompatibilityVersion: \"3.4\" } )'"
   - "mongo persianTest --eval 'db.users.insert({username: \"admin\", email: \"admin@test.com\", role: \"admin\", password: \"$2a$10$tcHz5Nl8IHvxhj7zdxhWR.jZPRO52Ftqr5PfGuzBuZdRJX2NX1KgW\"})'"
 
 script:
@@ -24,4 +31,5 @@ script:
   - yarn run test:server
 
 after_script:
-  --mongo persianTest --eval 'db.dropDatabase()'
+  - mongo persianTest --eval 'db.dropDatabase()'
+  - pkill mongod

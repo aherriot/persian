@@ -3,6 +3,7 @@
 # and create an admin user (so we can add and edit words)
 mongo persianTest --eval '
   db.dropDatabase(); 
+  db.adminCommand( { setFeatureCompatibilityVersion: "3.4" } );
   db.createCollection("users");
   db.users.insert({
     username: "admin", 
