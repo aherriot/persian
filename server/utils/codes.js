@@ -5,6 +5,11 @@ const codes = {
     status: 400,
     message: 'Username must be between 3 and 10 characters'
   },
+  usernameInvalid: {
+    status: 400,
+    message:
+      'Username must only contain letters, numbers, underscores, hyphen, or periods'
+  },
   usernameDuplicate: {
     status: 400,
     message: 'Username already in use'

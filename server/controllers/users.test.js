@@ -72,6 +72,18 @@ describe('User API', function() {
         })
     })
 
+    it('error on username with non-latin characters', function(done) {
+      request
+        .post(USERS_URL)
+        .send({ username: 'سیب', password: PASSWORD, email: EMAIL })
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('usernameInvalid')
+          expect(err.response.body.message).to.have.lengthOf.above(0)
+          done()
+        })
+    })
+
     it('error on invalid email', function(done) {
       request
         .post(USERS_URL)
