@@ -121,11 +121,43 @@ describe('User API', function() {
         })
     })
 
+    it('error on email differing only by case', function(done) {
+      request
+        .post(USERS_URL)
+        .send({
+          username: 'unique',
+          password: PASSWORD,
+          email: EMAIL.toUpperCase()
+        })
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('emailDuplicate')
+          expect(err.response.body.message).to.have.lengthOf.above(0)
+          done()
+        })
+    })
+
     it('error on duplicate username', function(done) {
       request
         .post(USERS_URL)
         .send({
           username: USERNAME,
+          password: PASSWORD,
+          email: 'unique@test.com'
+        })
+        .end((err, resp) => {
+          expect(err).to.not.be.null
+          expect(err.response.body.code).to.equal('usernameDuplicate')
+          expect(err.response.body.message).to.have.lengthOf.above(0)
+          done()
+        })
+    })
+
+    it('error on username differing only by case', function(done) {
+      request
+        .post(USERS_URL)
+        .send({
+          username: USERNAME.toUpperCase(),
           password: PASSWORD,
           email: 'unique@test.com'
         })
@@ -197,6 +229,18 @@ describe('User API', function() {
           expect(resp.body.token).to.exist
           global.testUserToken = resp.body.token
           global.testUserId = jwt.decode(resp.body.token)._id
+          done()
+        })
+    })
+
+    it('success on login with capitalized username', function(done) {
+      request
+        .post(USERS_URL + 'login')
+        .send({ username: USERNAME.toUpperCase(), password: PASSWORD })
+        .end((err, resp) => {
+          expect(err).to.be.null
+          expect(resp.status).to.equal(200)
+          expect(resp.body.token).to.exist
           done()
         })
     })

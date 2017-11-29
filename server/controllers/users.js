@@ -107,10 +107,7 @@ router.post('/', async function(req, res) {
 
   try {
     const existingUser = await User.findOne({
-      $or: [
-        { username: req.body.username.toLowerCase() },
-        { email: req.body.email.toLowerCase() }
-      ]
+      $or: [{ username: req.body.username }, { email: req.body.email }]
     })
 
     if (existingUser) {
@@ -126,7 +123,7 @@ router.post('/', async function(req, res) {
     const newUser = new User({
       username: req.body.username,
       password: req.body.password,
-      email: req.body.email
+      email: req.body.email.toLowerCase()
     })
 
     try {
