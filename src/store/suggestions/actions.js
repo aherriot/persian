@@ -8,10 +8,10 @@ export function fetchAllSuggestions() {
   return authRequest('suggestions/FETCH', '/api/suggestions/all')
 }
 
-export function deleteSuggestion(suggestion) {
+export function deleteSuggestion(suggestionId) {
   return authRequest(
     'suggestion/DELETE',
-    `/api/suggestions/${suggestion._id}`,
+    `/api/suggestions/${suggestionId}`,
     'DELETE'
   )
 }
