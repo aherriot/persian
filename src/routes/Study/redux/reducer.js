@@ -79,6 +79,7 @@ const defaultState = {
   status: null,
 
   selectedWordId: null,
+  previousWordId: null,
 
   // previousScore is remember if word graded as wrong,
   // so the user can undo it and mark it as correct.

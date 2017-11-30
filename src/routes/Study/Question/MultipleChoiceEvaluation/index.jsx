@@ -114,8 +114,8 @@ export default class MultipleChoiceEvaluation extends Component {
 
     // if the user gets a word correct on a word that has not been tested
     // yet, assume they are familiar with the word and start it with
-    // a score of three (test after 3 days)
-    let newScore = 3
+    // a score of four (test after 10 days)
+    let newScore = 4
 
     if (score && score[direction]) {
       newScore = score[direction].score + 1
