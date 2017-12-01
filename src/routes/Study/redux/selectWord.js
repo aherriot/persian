@@ -83,7 +83,6 @@ function spacedRepetition(state, action) {
   for (let i = 0; i < wordList.length; i++) {
     // Don't use a word, if it was the previously selected word
     if (wordList[i] === state.previousWordId) {
-      console.log('same word, skipping')
       continue
     }
 

@@ -34,7 +34,7 @@ last time it was chosen. For example, one hour for bucket 1, one day for bucket
 less often we test it.
 
 In addition to this, we do not want to overwhelm the user with too many words
-that have never been tested. Only if there are less than four words in bucket 0,
+that have never been tested. Only if there are less than five words in bucket 0,
 do we then start to introduce new, untested words, to prevent the user from
 being overwhelmed.
 
