@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import checkAnswer from 'utils/checkAnswer'
 
+import './TextEvaluation.css'
+
 export default class TextEvaluation extends Component {
   onSubmit = e => {
     const { actions, words, scores, study } = this.props
@@ -41,7 +43,7 @@ export default class TextEvaluation extends Component {
 
   render() {
     return (
-      <div>
+      <div className="TextEvaluation">
         <input
           type="text"
           ref={input => (this.input = input)}

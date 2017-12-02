@@ -63,8 +63,8 @@ export default class OptionsModal extends Component {
   }
 
   onQuestionSideChanged = e => {
-    const { options } = this.props.study.options
-    let { questionSide, answerSide } = options
+    // const { options } = this.props.study.options
+    // let { questionSide, answerSide } = options
 
     this.props.actions.setOptions({
       ...this.props.study.options,

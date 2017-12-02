@@ -34,7 +34,8 @@ export default class Answer extends Component {
             <button className="link" onClick={actions.undoMarkWrong}>
               Undo Mark Wrong
             </button>
-          )}{' '}
+          )}
+          <div className="button-spacer" />
           <button
             type="button"
             className="button"

@@ -309,6 +309,7 @@ a.link:active {
   flex: 0 0 auto;
   display: flex;
   justify-content: flex-end;
+  flex-wrap: nowrap;
 }
 
 .form__group {
