@@ -17,6 +17,8 @@
 
   --persian-teal: hsl(176, 59%, 30%);
   --persian-teal-light: hsl(176, 59%, 37%);
+  --persian-teal-transparent: hsla(175, 60%, 37%, 0.7);
+
   --persian-teal-dark: hsl(176, 59%, 23%);
 
   --persian-green: hsl(154, 28%, 57%);

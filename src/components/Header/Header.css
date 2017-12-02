@@ -4,7 +4,9 @@
   left: 0;
   right: 0;
   height: 5rem;
-  color: white;
+  color: var(--persian-white);
+  background: url('./backgroundPattern.svg');
+  background-repeat: repeat;
   background-color: var(--persian-teal-light);
   box-shadow: 0 0 0.5rem 0.2rem var(--box-shadow);
 
@@ -18,6 +20,8 @@
 .Header .left {
   display: flex;
   align-items: center;
+  background-color: var(--persian-teal-transparent);
+  padding-right: 1rem;
 }
 
 .Header .title {
@@ -26,6 +30,8 @@
 
 .Header__link,
 .Header__link:visited {
+  background-color: var(--persian-teal-transparent);
+  padding-left: 1rem;
   color: var(--persian-white);
 }
 
