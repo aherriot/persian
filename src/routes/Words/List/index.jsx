@@ -74,6 +74,11 @@ export default class List extends Component {
         } else {
           return scoreB - scoreA
         }
+      } else if (sortBy === 'createdAt') {
+        return (
+          new Date(wordB.createdAtt).getTime() -
+          new Date(wordA.createdAt).getTime()
+        )
       } else {
         return wordA[sortBy].localeCompare(wordB[sortBy])
       }

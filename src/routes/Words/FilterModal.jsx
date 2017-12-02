@@ -43,6 +43,7 @@ export default function FilterModal({
               <option value="persian">Persian</option>
               <option value="phonetic">Phonetic</option>
               <option value="score">Score</option>
+              <option value="createdAt">Date Added</option>
             </select>
           </div>
           <div className="form__group">
