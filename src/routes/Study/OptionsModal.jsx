@@ -63,19 +63,36 @@ export default class OptionsModal extends Component {
   }
 
   onQuestionSideChanged = e => {
-    // const { options } = this.props.study.options
-    // let { questionSide, answerSide } = options
+    const { options } = this.props.study
+    let { questionSide, answerSide } = options
+
+    // if the question side is being set to the same
+    // as the answer side, swap the values
+    if (answerSide === e.target.value) {
+      answerSide = questionSide
+    }
 
     this.props.actions.setOptions({
-      ...this.props.study.options,
-      questionSide: e.target.value
+      ...options,
+      questionSide: e.target.value,
+      answerSide: answerSide
     })
   }
 
   onAnswerSideChanged = e => {
+    const { options } = this.props.study
+    let { questionSide, answerSide } = options
+
+    // if the answer side is being set to the same
+    // as the question side, swap the values
+    if (questionSide === e.target.value) {
+      questionSide = answerSide
+    }
+
     this.props.actions.setOptions({
-      ...this.props.study.options,
-      answerSide: e.target.value
+      ...options,
+      answerSide: e.target.value,
+      questionSide: questionSide
     })
   }
 
