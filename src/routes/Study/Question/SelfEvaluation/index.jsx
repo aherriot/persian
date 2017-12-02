@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-// import './SelfEvaluation.css'
+import './SelfEvaluation.css'
 
 export default class SelfEvaluation extends Component {
   constructor(props) {
@@ -52,14 +52,19 @@ export default class SelfEvaluation extends Component {
         )}
 
         {this.state.revealAnswer && (
-          <div className="SelfEvaluation__answer">
-            <div>{correctWord[this.props.study.options.answerSide]}</div>
-            <button type="button" className="button" onClick={this.onCorrect}>
-              Correct
-            </button>
-            <button type="button" className="button" onClick={this.onWrong}>
-              Wrong
-            </button>
+          <div className="">
+            <div className="SelfEvaluation__answer">
+              {correctWord[this.props.study.options.answerSide]}
+            </div>
+            <div className="form__button-row">
+              <button type="button" className="button" onClick={this.onCorrect}>
+                Correct
+              </button>
+              <div className="button-spacer" />
+              <button type="button" className="button" onClick={this.onWrong}>
+                Wrong
+              </button>
+            </div>
           </div>
         )}
       </div>

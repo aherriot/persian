@@ -19,11 +19,23 @@ export default class Study extends Component {
       auth.token &&
       (scores.fetchStatus === 'INIT' || scores.fetchStatus === 'ERROR')
     ) {
-      actions.fetchScores()
+      actions.fetchScores().catch(error => {
+        this.props.actions.showAlert(
+          'Request Failed',
+          'Failed to fetch scores for words. Would you like to reload?',
+          'reload'
+        )
+      })
     }
 
     if (words.fetchStatus === 'INIT' || words.fetchStatus === 'ERROR') {
-      actions.fetchWords()
+      actions.fetchWords().catch(error => {
+        this.props.actions.showAlert(
+          'Request Failed',
+          'Failed to fetch list of words. Would you like to reload?',
+          'reload'
+        )
+      })
     }
 
     actions.selectWord()

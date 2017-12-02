@@ -38,13 +38,26 @@ export default function WordDetails({
 
         <label>Categories</label>
         <div className="form__text">{word && word.tags.join(', ')}</div>
+        {role && [
+          <label key="englishLabel">Score from English</label>,
+          <div key="englishValue" className="form__text">
+            {fromEnglishScore}
+          </div>,
 
-        <label>Score from English</label>
-        <div className="form__text">{fromEnglishScore}</div>
+          <label key="persianLabel">Score from Persian</label>,
+          <div key="persianValue" className="form__text">
+            {fromPersianScore}
+          </div>
+        ]}
 
-        <label>Score from Persian</label>
-        <div className="form__text">{fromPersianScore}</div>
+        {!role && [
+          <label key="scoresLabel">Scores</label>,
+          <div key="scoresValue">
+            Please create an account to track progress learning each word.
+          </div>
+        ]}
       </div>
+
       {role === 'admin' && (
         <div className="form__button-row">
           <button className="button" onClick={actions.confirmDeleteWord}>

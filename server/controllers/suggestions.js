@@ -23,14 +23,15 @@ router.get('/', auth, async function(req, res) {
 })
 
 // get all suggestions
-router.get('/all', auth, admin, function(req, res) {
-  Suggestion.find({}, function(err, suggestions) {
-    if (err) {
-      return respondWithError(res, err)
-    }
+router.get('/all', auth, admin, async function(req, res) {
+  let suggestions
+  try {
+    suggestions = await Suggestion.find({}).populate('userId', 'username')
+  } catch (err) {
+    return respondWithError(res, err)
+  }
 
-    res.json(suggestions)
-  })
+  res.json(suggestions)
 })
 
 // delete a suggestion

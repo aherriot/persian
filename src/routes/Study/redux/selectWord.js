@@ -30,7 +30,7 @@ export default function selectWord(state, action) {
 // In addition to this, we do not want to overwhelm the user
 // with too many words that have never been tested.
 // We assign these words as bucket -1 to indicate they are new and untested.
-// Only if there are less than four words in bucket 0, do we then start to
+// Only if there are less than five words in bucket 0, do we then start to
 // introduce new, untested words, to prevent the user from being overwhelmed.
 
 // Also, if all words in the category have been tested correctly and the
@@ -177,11 +177,11 @@ function spacedRepetition(state, action) {
     }
   }
 
-  // If we have less than four words with a score of 0
+  // If we have less than five words with a score of 0
   // it is time to start introducing new words to the user
   // This is done to not overwhelm the user with too many
   // new words while they still are incorrectly answering
-  for (let i = 4; i > wordsWithZeroScoreCount; i--) {
+  for (let i = 5; i > wordsWithZeroScoreCount; i--) {
     if (untestedWords.length > 0) {
       // we pseudorandomly choose an untested word to add to candidate choices
       const randIndex = Math.floor(untestedWords.length * randomFromSeed(seed))
@@ -197,13 +197,17 @@ function spacedRepetition(state, action) {
   let status = null
 
   if (candidateWords.length > 0) {
+    // finally we pick a word from the candidates,if we have anything
     selectedWordId = candidateWords[Math.floor(seed * candidateWords.length)]
   } else {
+    // we have reach a few special states
     if (wordList.length === 0) {
       status = 'NO_WORDS'
     } else if (state.options.tagFilter) {
+      // if only this category is finished, suggestion that they change category
       status = 'CATEGORY_FINISHED'
     } else {
+      // all words in the system are finished testing for now
       status = 'WORDS_FINISHED'
     }
     selectedWordId = wordList[Math.floor(seed * wordList.length)]

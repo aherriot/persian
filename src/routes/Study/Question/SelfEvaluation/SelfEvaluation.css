@@ -1,0 +1,10 @@
+.SelfEvaluation {
+  display: flex;
+  align-content: center;
+  margin: 0 auto;
+}
+
+.SelfEvaluation__answer {
+  margin: 1rem auto 3rem auto;
+  text-align: center;
+}

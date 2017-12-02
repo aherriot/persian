@@ -15,7 +15,7 @@
       "type": "node",
       "request": "launch",
       "name": "Persian server",
-      "env": { "NODE_ENV": "development" },
+      "env": { "NODE_ENV": "test" },
       "program": "${workspaceFolder}/server/server.js"
     }
   ]

@@ -22,24 +22,19 @@ export default class Leaderboard extends Component {
         <div className="Leaderboard__content">
           <h2>Leaderboard</h2>
           <div className="Leaderboard__table">
-            <div className="Leaderboard__row">
-              <div className="Leaderboard__cell">Username</div>
-              <div className="Leaderboard__cell">Total Score</div>
-              <div className="Leaderboard__cell"># of Words Studied</div>
-              <div className="Leaderboard__cell">mostRecent</div>
+            <div className="Leaderboard__header">
+              <div className="Leaderboard__header-cell">Rank</div>
+              <div className="Leaderboard__header-cell">Username</div>
+              <div className="Leaderboard__header-cell">Total Score</div>
+              <div className="Leaderboard__header-cell"># of Words</div>
             </div>
-            {rows.map(user => {
-              const date = new Date(user.mostRecent)
+            {rows.map((user, index) => {
               return (
                 <div className="Leaderboard__row" key={user.username}>
+                  <div className="Leaderboard__cell">{index + 1}</div>
                   <div className="Leaderboard__cell">{user.username}</div>
                   <div className="Leaderboard__cell">{user.score}</div>
                   <div className="Leaderboard__cell">{user.quizzedWords}</div>
-                  <div className="Leaderboard__cell">
-                    {date.toLocaleDateString() +
-                      ' ' +
-                      date.toLocaleTimeString()}
-                  </div>
                 </div>
               )
             })}
