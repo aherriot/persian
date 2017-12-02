@@ -34,7 +34,7 @@ export default class OptionsModal extends Component {
   }
 
   onShowPersianChanged = e => {
-    const { options } = this.props.study.options
+    const { options } = this.props.study
     let { questionSide, answerSide } = options
 
     if (e.target.checked) {
