@@ -5,13 +5,14 @@ import WordDetails from './WordDetails'
 
 export default class WordModal extends Component {
   getEditForm() {
-    const { actions, words, selectedWordId } = this.props
+    const { actions, words, selectedWordId, auth } = this.props
     return (
       <WordForm
         submitAction={actions.updateWord}
         finishedSubmitAction={actions.deselectWord}
         cancelAction={actions.cancelEditWord}
         word={words.byId[selectedWordId]}
+        isAdmin={auth.role === 'admin'}
       />
     )
   }
