@@ -63,20 +63,20 @@ export default class List extends Component {
         const scoreB = getTotalScore(wordB._id, scores)
 
         // if one of the values is null
-        if (scoreA === null || scoreB === null) {
-          if (scoreA !== null) {
-            return -1
-          } else if (scoreB !== null) {
-            return 1
-          } else {
+        if (scoreA === null) {
+          if (scoreB === null) {
             return 0
+          } else {
+            return 1
           }
+        } else if (scoreB === null) {
+          return -1
         } else {
           return scoreB - scoreA
         }
       } else if (sortBy === 'createdAt') {
         return (
-          new Date(wordB.createdAtt).getTime() -
+          new Date(wordB.createdAt).getTime() -
           new Date(wordA.createdAt).getTime()
         )
       } else {
