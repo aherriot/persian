@@ -29,6 +29,7 @@ script:
   - yarn run start:server &
   - sleep 2
   - yarn run test:server
+  - yarn run test:client
 
 after_script:
   - mongo persianTest --eval 'db.dropDatabase()'

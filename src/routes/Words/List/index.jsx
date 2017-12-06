@@ -4,6 +4,7 @@ import ReactVirtualizedList from 'react-virtualized/dist/es/List'
 import ReactVirtualizedAutoSizer from 'react-virtualized/dist/es/AutoSizer'
 
 import getTotalScore from 'utils/getTotalScore'
+import getMostRecentStudyDate from 'utils/getMostRecentStudyDate'
 
 import './List.css'
 
@@ -73,6 +74,21 @@ export default class List extends Component {
           return -1
         } else {
           return scoreB - scoreA
+        }
+      } else if (sortBy === 'mostRecentlyStudied') {
+        const dateA = getMostRecentStudyDate(wordA._id, scores)
+        const dateB = getMostRecentStudyDate(wordB._id, scores)
+
+        if (dateA === null) {
+          if (dateB === null) {
+            return 0
+          } else {
+            return 1
+          }
+        } else if (dateB === null) {
+          return -1
+        } else {
+          return dateB - dateA
         }
       } else if (sortBy === 'createdAt') {
         return (

@@ -44,6 +44,7 @@ export default function FilterModal({
               <option value="phonetic">Phonetic</option>
               <option value="score">Score</option>
               <option value="createdAt">Date Added</option>
+              <option value="mostRecentlyStudied">Most Recently Studied</option>
             </select>
           </div>
           <div className="form__group">
