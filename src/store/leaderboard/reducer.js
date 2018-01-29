@@ -6,7 +6,7 @@ const actionHandlers = {
     return {
       ...state,
       status: 'SUCCESS',
-      fetchTime: Date.now(),
+      fetchTime: action.payload.time,
       data: action.payload.response,
       error: null
     }

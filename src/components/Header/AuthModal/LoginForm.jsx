@@ -75,7 +75,10 @@ const InnerLoginForm = ({
 // Wrap our form with the using withFormik HoC
 const LoginForm = withFormik({
   // Transform outer props into form values
-  mapPropsToValues: props => ({ username: '', password: '' }),
+  mapPropsToValues: props => ({
+    username: props.auth.username || '',
+    password: ''
+  }),
 
   validate: (values, props) => {
     let errors = {}

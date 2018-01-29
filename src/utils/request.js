@@ -48,10 +48,11 @@ const requestPending = type => ({
   type: type + '_PENDING'
 })
 
-const requestSuccess = (type, response) => ({
+const requestSuccess = (type, response, time) => ({
   type: type + '_SUCCESS',
   payload: {
-    response
+    response,
+    time
   }
 })
 
@@ -66,7 +67,7 @@ export function authRequest(actionType, url, method = 'GET', data) {
 
     return request(url, method, data)
       .then(response => {
-        dispatch(requestSuccess(actionType, response))
+        dispatch(requestSuccess(actionType, response, Date.now()))
         return response
       })
       .catch(error => {
@@ -78,7 +79,8 @@ export function authRequest(actionType, url, method = 'GET', data) {
           ].includes(error.code)
         ) {
           dispatch({ type: 'auth/AUTH_ERROR', error: error })
-          return Promise.reject(error)
+          // but don't propogate the error
+          // return Promise.reject(error)
         } else {
           dispatch(requestError(actionType, error))
           return Promise.reject(error)

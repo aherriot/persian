@@ -10,7 +10,7 @@ const actionHandlers = {
     return {
       ...state,
       fetchStatus: 'SUCCESS',
-      fetchTime: Date.now(),
+      fetchTime: action.payload.time,
       byWordId: byWordId,
       error: null
     }

@@ -1,6 +1,6 @@
 module.exports = {
   // MongoDB connection strings
-  PRODUCTION_CONNECTION: '',
+  PRODUCTION_CONNECTION: 'mongodb://persian:c6dkf7U2ssgJ@10.128.0.2/persian',
   DEVELOPMENT_CONNECTION: 'mongodb://localhost/persian',
   TEST_CONNECTION: 'mongodb://localhost/persianTest',
 
@@ -8,7 +8,7 @@ module.exports = {
   PORT: 3001,
 
   // JSON web token secret key
-  JWT_SECRET: 'hard-to-guess-secret-key',
+  JWT_SECRET: 'P4#@Wja(eEe?FpmU>H9d6F*wvhUw8q',
 
   JWT_EXPIRY: 86400 * 7, // 7 days
 
