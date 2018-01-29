@@ -1,4 +1,4 @@
-// match anything in paranthesis or any punctuation or white
+// match anything except paranthesis or any punctuation or white space
 // used to strip out noise and compare just the letters in quiz
 const stripRegex = /(\(.*?\)|[!.?,'";\-\s]+)/gi
 

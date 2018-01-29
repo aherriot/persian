@@ -92,7 +92,6 @@ const actionHandlers = {
     }
   },
   'auth/AUTH_ERROR': (state, action) => {
-    console.log('auth error')
     return { ...state, open: true }
   }
 }

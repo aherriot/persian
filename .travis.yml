@@ -21,7 +21,7 @@ before_script:
   - ${PWD}/mongodb-linux-x86_64-3.4.3/bin/mongod --dbpath ${PWD}/mongodb-linux-x86_64-3.4.3/data --logpath ${PWD}/mongodb-linux-x86_64-3.4.3/mongodb.log --fork
   - sleep 2
   - mongo persianTest --eval 'db.createCollection("users")'
-  # had to escape the following line in a weird way because of nested objects and quotes
+  # had to escape the following lines in a weird way because of nested objects and quotes
   - "mongo persianTest --eval 'db.adminCommand( { setFeatureCompatibilityVersion: \"3.4\" } )'"
   - "mongo persianTest --eval 'db.users.insert({username: \"admin\", email: \"admin@test.com\", role: \"admin\", password: \"$2a$10$tcHz5Nl8IHvxhj7zdxhWR.jZPRO52Ftqr5PfGuzBuZdRJX2NX1KgW\"})'"
 
@@ -29,6 +29,7 @@ script:
   - yarn run start:server &
   - sleep 2
   - yarn run test:server
+  - yarn run test:client
 
 after_script:
   - mongo persianTest --eval 'db.dropDatabase()'

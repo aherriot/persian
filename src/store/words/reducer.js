@@ -21,7 +21,7 @@ const actionHandlers = {
     return {
       ...state,
       fetchStatus: 'SUCCESS',
-      fetchTime: Date.now(),
+      fetchTime: action.payload.time,
       byId: byId,
       byTag: byTag,
       error: null
