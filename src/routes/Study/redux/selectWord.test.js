@@ -68,7 +68,7 @@ describe('selectWord', () => {
         currentTime: 1511353815000
       }
     }
-    it('return null with missing score object', () => {
+    it('selects a word', () => {
       const newState = selectWord(state, action)
       expect(newState).toEqual({
         isEvaluating: false,
@@ -79,7 +79,7 @@ describe('selectWord', () => {
           questionSide: 'english',
           tagFilter: ''
         },
-        selectedWordId: '1'
+        selectedWordId: '4'
       })
     })
   })
