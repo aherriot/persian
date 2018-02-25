@@ -36,7 +36,9 @@
 }
 
 .MultipleChoice__choice:hover,
-.MultipleChoice__choice:active {
+.MultipleChoice__choice:active,
+.MultipleChoice__choice:focus {
+  outline: none;
   background-color: var(--persian-yellow);
   color: var(--persian-black);
 }

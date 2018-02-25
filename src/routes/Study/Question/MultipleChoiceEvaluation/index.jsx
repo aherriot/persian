@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import MultipleChoiceOption from './MultipleChoiceOption'
 import './MultipleChoiceEvaluation.css'
 
+const NUM_OF_CHOICES = 6
+
 export default class MultipleChoiceEvaluation extends Component {
   constructor(props) {
     super(props)
@@ -18,8 +20,8 @@ export default class MultipleChoiceEvaluation extends Component {
     if (study.options.tagFilter) {
       wordIds = words.byTag[study.options.tagFilter]
 
-      // if we have 8 or less words in this category,
-      if (wordIds.length <= 8) {
+      // if we have NUM_OF_CHOICES or less words in this category,
+      if (wordIds.length <= NUM_OF_CHOICES) {
         // then we add them all
         for (let i = 0; i < wordIds.length; i++) {
           if (!usedWords[wordIds[i]]) {
@@ -31,7 +33,7 @@ export default class MultipleChoiceEvaluation extends Component {
         // we have to now fill the remaining words
         // with other words, not in the category
         const otherWordIds = Object.keys(words.byId)
-        while (choices.length < 8) {
+        while (choices.length < NUM_OF_CHOICES) {
           const choiceIndex = Math.floor(Math.random() * otherWordIds.length)
           const choiceId = otherWordIds[choiceIndex]
           // only add it if it hasn;t been used yet
@@ -43,7 +45,7 @@ export default class MultipleChoiceEvaluation extends Component {
 
         // else, we randomly add a subset
       } else {
-        while (choices.length < 8) {
+        while (choices.length < NUM_OF_CHOICES) {
           const choiceIndex = Math.floor(Math.random() * wordIds.length)
           const choiceId = wordIds[choiceIndex]
           // only add it if it hasn;t been used yet
@@ -58,7 +60,7 @@ export default class MultipleChoiceEvaluation extends Component {
     } else {
       wordIds = Object.keys(words.byId)
 
-      if (wordIds.length < 8) {
+      if (wordIds.length < NUM_OF_CHOICES) {
         // then we add them all
         for (let i = 0; i < wordIds.length; i++) {
           if (!usedWords[wordIds[i]]) {
@@ -67,8 +69,8 @@ export default class MultipleChoiceEvaluation extends Component {
           }
         }
       } else {
-        // we have more than 8 cards, so we randomly add a subset
-        while (choices.length < 8) {
+        // we have more than NUM_OF_CHOICES cards, so we randomly add a subset
+        while (choices.length < NUM_OF_CHOICES) {
           const choiceIndex = Math.floor(Math.random() * wordIds.length)
           const choiceId = wordIds[choiceIndex]
           // only add it if it hasn;t been used yet
