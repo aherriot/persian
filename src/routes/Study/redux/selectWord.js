@@ -82,7 +82,7 @@ function spacedRepetition(state, action) {
   // to remove the ones that are not ready to be tested
   for (let i = 0; i < wordList.length; i++) {
     // Don't use a word, if it was the previously selected word
-    if (wordList[i] === state.previousWordId) {
+    if (wordList[i] === state.selectedWordId) {
       continue
     }
 
@@ -184,6 +184,7 @@ function spacedRepetition(state, action) {
   for (let i = 5; i > wordsWithZeroScoreCount; i--) {
     if (untestedWords.length > 0) {
       // we pseudorandomly choose an untested word to add to candidate choices
+      // using the deterministic randomFromSeed function (so that testing is deterministic)
       const randIndex = Math.floor(untestedWords.length * randomFromSeed(seed))
       const word = untestedWords.splice(randIndex, 1)
       candidateWords.push(word)
@@ -197,28 +198,32 @@ function spacedRepetition(state, action) {
   let status = null
 
   if (candidateWords.length > 0) {
-    // finally we pick a word from the candidates,if we have anything
+    // finally we pick a word from the candidates, if we have anything
     selectedWordId = candidateWords[Math.floor(seed * candidateWords.length)]
   } else {
     // we have reach a few special states
     if (wordList.length === 0) {
+      // no words at all exist to test
       status = 'NO_WORDS'
-    } else if (state.options.tagFilter) {
-      // if only this category is finished, suggestion that they change category
-      status = 'CATEGORY_FINISHED'
+      selectedWordId = null
     } else {
-      // all words in the system are finished testing for now
-      status = 'WORDS_FINISHED'
+      if (state.options.tagFilter) {
+        // if only this category is finished, suggestion that they change category
+        status = 'CATEGORY_FINISHED'
+      } else {
+        // all words in the system are finished testing for now
+        status = 'WORDS_FINISHED'
+      }
+      selectedWordId = wordList[Math.floor(seed * wordList.length)]
     }
-    selectedWordId = wordList[Math.floor(seed * wordList.length)]
   }
 
   return {
     ...state,
     isEvaluating: false,
     selectedWordId: selectedWordId,
-    previousWordId: state.selectedWordId,
     status: status,
+    wordCount: candidateWords.length + untestedWords.length,
     options: { ...state.options, questionSide, answerSide }
   }
 }
@@ -308,6 +313,7 @@ function leastRecent(state, action) {
     ...state,
     isEvaluating: false,
     selectedWordId: selectedWordId,
+    wordCount: wordList.length,
     options: { ...state.options, questionSide, answerSide }
   }
 }
@@ -347,6 +353,7 @@ function random(state, action) {
     ...state,
     isEvaluating: false,
     selectedWordId: wordId,
+    wordCount: wordList.length,
     options: { ...state.options, questionSide, answerSide }
   }
 }

@@ -9,7 +9,7 @@ import './Question.css'
 
 export default function Question(props) {
   const {
-    study: { selectedWordId, options: { questionSide, evaluation } },
+    study: { selectedWordId, wordCount, options: { questionSide, evaluation } },
     words
   } = props
 
@@ -17,6 +17,7 @@ export default function Question(props) {
     const word = words.byId[selectedWordId]
     return (
       <div className="Question">
+        <div className="Question__count">{wordCount}</div>
         <div
           className={classnames('Question__prompt', {
             'Question__prompt--persian': questionSide === 'persian'

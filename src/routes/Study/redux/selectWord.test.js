@@ -79,7 +79,8 @@ describe('selectWord', () => {
           questionSide: 'english',
           tagFilter: ''
         },
-        selectedWordId: '4'
+        selectedWordId: '4',
+        wordCount: 7
       })
     })
   })

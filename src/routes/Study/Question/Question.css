@@ -19,3 +19,10 @@
   font-size: 2.6rem;
   font-weight: 400;
 }
+
+.Question__count {
+  position: absolute;
+  opacity: 0.25;
+  padding: 1.5rem 0.5rem;
+  /* right: 0; */
+}

@@ -13,7 +13,7 @@ const respondWithError = require('../utils/respondWithError')
 
 const router = express.Router()
 
-const usernameRegex = /[a-zA-Z0-9-_.]+/
+const usernameRegex = /^[a-zA-Z0-9-_.]+$/
 function isUsernameValid(username) {
   return usernameRegex.test(username)
 }

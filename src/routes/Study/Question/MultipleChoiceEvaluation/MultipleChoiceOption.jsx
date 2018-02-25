@@ -27,7 +27,8 @@ export default class MultipleChoiceOption extends Component {
           'MultipleChoice__choice--persian': this.props.isPersian,
           'MultipleChoice__choice--mounted': this.state.mounted
         })}
-        onClick={this.props.onClick}>
+        onClick={this.props.onClick}
+        tabIndex={0}>
         {this.props.children}
       </div>
     )
