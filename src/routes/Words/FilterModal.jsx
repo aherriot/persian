@@ -36,8 +36,8 @@ export default function FilterModal({
               />
               <div
                 className="form__action"
-                onClick={() => actions.setTagFilter('')}>
-                <XIcon />
+                onClick={() => actions.setSearchText('')}>
+                <XIcon fill={searchText.length > 0 ? '#888' : '#bbb'} />
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function FilterModal({
               <div
                 className="form__action"
                 onClick={() => actions.setTagFilter('')}>
-                <XIcon />
+                <XIcon fill={tagFilter.length > 0 ? '#888' : '#bbb'} />
               </div>
             </div>
           </div>

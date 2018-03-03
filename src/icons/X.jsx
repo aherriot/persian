@@ -18,7 +18,7 @@ export default function X({ fill, width, height }) {
 }
 
 X.defaultProps = {
-  fill: '#666',
+  fill: '#bbb',
   width: 16,
   height: 16
 }
