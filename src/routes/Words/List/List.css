@@ -11,7 +11,7 @@
   cursor: none;
 }
 
-.list__header:hover {
+.List__row.List__header:hover {
   background-color: white;
 }
 
