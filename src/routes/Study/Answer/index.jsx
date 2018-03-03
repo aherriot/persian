@@ -22,7 +22,9 @@ export default class Answer extends Component {
           {word[study.options.answerSide]}
         </div>
         <div className="Answer__questionSide">
-          {word[study.options.questionSide]} /{' '}
+          {word[study.options.questionSide]}
+        </div>
+        <div className="Answer__thirdSide">
           {
             word[
               thirdSide(study.options.questionSide, study.options.answerSide)

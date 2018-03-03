@@ -33,6 +33,13 @@
   font-size: 1.8rem;
 }
 
+.Answer__thirdSide {
+  font-size: 1.6rem;
+  text-align: center;
+  opacity: 0.4;
+  margin-top: 1rem;
+}
+
 .Answer__buttons {
   margin: 2rem auto 0 auto;
   display: flex;
