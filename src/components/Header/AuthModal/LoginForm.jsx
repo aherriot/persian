@@ -31,6 +31,7 @@ const InnerLoginForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.username}
+            autoCapitalize="none"
             autoFocus
           />
           {usernameError && <div className="error">{errors.username}</div>}
@@ -45,6 +46,7 @@ const InnerLoginForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.password}
+            autoCapitalize="none"
           />
           {passwordError && <div className="error">{errors.password}</div>}
           {errors._generic && <div className="error">{errors._generic}</div>}

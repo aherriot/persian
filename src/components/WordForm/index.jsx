@@ -32,6 +32,7 @@ const InnerWordForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.persian}
+            autoCapitalize="none"
             autoFocus
           />
           {persianError && <div className="error">{errors.persian}</div>}
@@ -47,6 +48,7 @@ const InnerWordForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.english}
+            autoCapitalize="none"
           />
           {englishError && <div className="error">{errors.english}</div>}
         </div>
@@ -61,6 +63,7 @@ const InnerWordForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.phonetic}
+            autoCapitalize="none"
           />
           {phoneticError && <div className="error">{errors.phonetic}</div>}
         </div>
@@ -75,6 +78,7 @@ const InnerWordForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.tags}
+            autoCapitalize="none"
           />
           {tagsError && <div className="error">{errors.tags}</div>}
         </div>

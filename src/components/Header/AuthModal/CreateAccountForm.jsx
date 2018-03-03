@@ -34,6 +34,7 @@ const InnerCreateAccountForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.username}
+            autoCapitalize="none"
             autoFocus
           />
           {usernameError && <div className="error">{errors.username}</div>}
@@ -42,7 +43,7 @@ const InnerCreateAccountForm = ({
         <div className="form__group">
           <label htmlFor="email">Email</label>
           <input
-            type="text"
+            type="email"
             id="email"
             name="email"
             className={classnames({ error: emailError })}
