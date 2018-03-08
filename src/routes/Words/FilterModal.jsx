@@ -1,5 +1,6 @@
 import React from 'react'
 import Modal from 'components/Modal'
+import XIcon from 'icons/X'
 
 // function onSubmit(e) {
 //   e.preventDefault()
@@ -25,13 +26,20 @@ export default function FilterModal({
         <div className="form__body">
           <div className="form__group">
             <label htmlFor="search">Search</label>
-            <input
-              id="search"
-              type="text"
-              value={searchText}
-              onChange={e => actions.setSearchText(e.target.value)}
-              autoFocus
-            />
+            <div className="form__action-group">
+              <input
+                id="search"
+                type="text"
+                value={searchText}
+                onChange={e => actions.setSearchText(e.target.value)}
+                autoFocus
+              />
+              <div
+                className="form__action"
+                onClick={() => actions.setSearchText('')}>
+                <XIcon fill={searchText.length > 0 ? '#888' : '#bbb'} />
+              </div>
+            </div>
           </div>
           <div className="form__group">
             <label htmlFor="sortDirection">Sort By</label>
@@ -49,21 +57,28 @@ export default function FilterModal({
           </div>
           <div className="form__group">
             <label htmlFor="tag">Filter by Tag</label>
-            <select
-              id="tag"
-              value={tagFilter}
-              onChange={e => actions.setTagFilter(e.target.value)}>
-              <option value="">---No Filter---</option>
-              {Object.keys(words.byTag)
-                .sort()
-                .map(function(tag) {
-                  return (
-                    <option key={tag} value={tag}>
-                      {tag} ({words.byTag[tag].length})
-                    </option>
-                  )
-                })}
-            </select>
+            <div className="form__action-group">
+              <select
+                id="tag"
+                value={tagFilter}
+                onChange={e => actions.setTagFilter(e.target.value)}>
+                <option value="">---No Filter---</option>
+                {Object.keys(words.byTag)
+                  .sort()
+                  .map(function(tag) {
+                    return (
+                      <option key={tag} value={tag}>
+                        {tag} ({words.byTag[tag].length})
+                      </option>
+                    )
+                  })}
+              </select>
+              <div
+                className="form__action"
+                onClick={() => actions.setTagFilter('')}>
+                <XIcon fill={tagFilter.length > 0 ? '#888' : '#bbb'} />
+              </div>
+            </div>
           </div>
           {/* TODO: for small screens, maybe we can toggle showing the
               the phonetic persian instead of the persian characters.

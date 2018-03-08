@@ -95,6 +95,8 @@ export default class List extends Component {
           new Date(wordB.createdAt).getTime() -
           new Date(wordA.createdAt).getTime()
         )
+      } else if (sortBy === 'tags') {
+        return wordA[sortBy].join(',').localeCompare(wordB[sortBy].join(','))
       } else {
         return wordA[sortBy].localeCompare(wordB[sortBy])
       }
@@ -187,14 +189,23 @@ export default class List extends Component {
   }
 
   render() {
+    const { actions } = this.props
     return (
       <div className="List">
         <div className="List__header List__row">
-          <div>English</div>
-          <div className="medium">Phonetic</div>
-          <div className="large">Score</div>
-          <div className="x-large">Tags</div>
-          <div className="rtl">فارسی</div>
+          <div onClick={() => actions.setSortBy('english')}>English</div>
+          <div className="medium" onClick={() => actions.setSortBy('phonetic')}>
+            Phonetic
+          </div>
+          <div className="large" onClick={() => actions.setSortBy('score')}>
+            Score
+          </div>
+          <div className="x-large" onClick={() => actions.setSortBy('tags')}>
+            Tags
+          </div>
+          <div className="rtl" onClick={() => actions.setSortBy('persian')}>
+            فارسی
+          </div>
         </div>
         <div className="List__table--wrapper">
           <ReactVirtualizedAutoSizer>

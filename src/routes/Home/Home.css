@@ -82,16 +82,6 @@
     background: url('./landing-blur-medium.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position-y: top;
-  }
-}
-
-@media only screen and (min-width: 1000px) {
-  .Home__top {
-    background: url('./landing-blur-large.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position-x: 65%;
-    background-position-y: top;
+    background-position-y: 20%;
   }
 }
