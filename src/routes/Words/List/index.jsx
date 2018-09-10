@@ -50,9 +50,9 @@ export default class List extends Component {
       if (!searchText) {
         filteredSortedWords.push(word)
       } else if (
-        word.english.includes(searchText) ||
-        word.persian.includes(searchText) ||
-        word.phonetic.includes(searchText)
+        word.english.toLowerCase().includes(searchText) ||
+        word.persian.toLowerCase().includes(searchText) ||
+        word.phonetic.toLowerCase().includes(searchText)
       ) {
         filteredSortedWords.push(word)
       }
