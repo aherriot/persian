@@ -37,9 +37,30 @@ const actionHandlers = {
   'words/SET_SEARCH_TEXT': (state, action) => {
     return { ...state, searchText: action.payload.searchText.toLowerCase() }
   },
-  'words/SET_SORT_BY': (state, action) => {
+  'words/SET_SORT': (state, action) => {
+    // If the sort direction is not defined, and the column is the same as before
+    // then we actually flip the sort direction
+
+    // You can make an argument that this logic does not belong in the reducer
+    // but I felt that instead of duplicating this logic throughout my views,
+    // I added it here
+    let newSortDirection
+    if (action.payload.sortDirection) {
+      newSortDirection = action.payload.sortDirection
+    } else if (action.payload.sortBy === state.sortBy) {
+      newSortDirection = state.sortDirection === 'ASC' ? 'DESC' : 'ASC'
+    } else {
+      newSortDirection = 'ASC'
+    }
+
     localStorage.setItem('sortBy', action.payload.sortBy)
-    return { ...state, sortBy: action.payload.sortBy }
+    localStorage.setItem('sortDirection', newSortDirection)
+
+    return {
+      ...state,
+      sortBy: action.payload.sortBy,
+      sortDirection: newSortDirection
+    }
   },
   'words/DELETE_SUCCESS': (state, action) => {
     return { ...state, selectedWordId: null }
@@ -59,7 +80,8 @@ const defaultState = {
   confirmingDelete: false,
 
   searchText: '',
-  sortBy: localStorage.getItem('sortBy') || 'english'
+  sortBy: localStorage.getItem('sortBy') || 'english',
+  sortDirection: localStorage.getItem('sortDirection') || 'ASC'
 }
 
 export default function(state = defaultState, action) {

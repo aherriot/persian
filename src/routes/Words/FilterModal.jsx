@@ -46,7 +46,7 @@ export default function FilterModal({
             <select
               id="sortDirection"
               value={sortBy}
-              onChange={e => actions.setSortBy(e.target.value)}>
+              onChange={e => actions.setSort(e.target.value, 'ASC')}>
               <option value="english">English</option>
               <option value="persian">Persian</option>
               <option value="phonetic">Phonetic</option>

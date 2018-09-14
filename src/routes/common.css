@@ -291,8 +291,12 @@ a.link:active {
 }
 
 .icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  /* width: 1.5rem; */
+  /* height: 1.5rem; */
+}
+
+.icon--arrow {
+  margin: 0 0.2rem;
 }
 
 /***********************************

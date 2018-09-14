@@ -5,6 +5,8 @@ import ReactVirtualizedAutoSizer from 'react-virtualized/dist/es/AutoSizer'
 
 import getTotalScore from 'utils/getTotalScore'
 import getMostRecentStudyDate from 'utils/getMostRecentStudyDate'
+import ArrowUp from 'icons/ArrowUp'
+import ArrowDown from 'icons/ArrowDown'
 
 import './List.css'
 
@@ -27,7 +29,14 @@ export default class List extends Component {
     }
   }
 
-  filterAndSortWords = (words, scores, tagFilter, searchText, sortBy) => {
+  filterAndSortWords = (
+    words,
+    scores,
+    tagFilter,
+    searchText,
+    sortBy,
+    sortDirection
+  ) => {
     if (words.fetchStatus !== 'SUCCESS') {
       return []
     }
@@ -58,6 +67,8 @@ export default class List extends Component {
       }
     }
 
+    const direction = sortDirection === 'ASC' ? 1 : -1
+
     filteredSortedWords.sort((wordA, wordB) => {
       if (sortBy === 'score') {
         const scoreA = getTotalScore(wordA._id, scores)
@@ -68,12 +79,12 @@ export default class List extends Component {
           if (scoreB === null) {
             return 0
           } else {
-            return 1
+            return -direction
           }
         } else if (scoreB === null) {
-          return -1
+          return direction
         } else {
-          return scoreB - scoreA
+          return direction * (scoreA - scoreB)
         }
       } else if (sortBy === 'mostRecentlyStudied') {
         const dateA = getMostRecentStudyDate(wordA._id, scores)
@@ -83,29 +94,40 @@ export default class List extends Component {
           if (dateB === null) {
             return 0
           } else {
-            return 1
+            return direction
           }
         } else if (dateB === null) {
-          return -1
+          return -direction
         } else {
-          return dateB - dateA
+          return direction * (dateB - dateA)
         }
       } else if (sortBy === 'createdAt') {
         return (
-          new Date(wordB.createdAt).getTime() -
-          new Date(wordA.createdAt).getTime()
+          direction *
+          (new Date(wordB.createdAt).getTime() -
+            new Date(wordA.createdAt).getTime())
         )
       } else if (sortBy === 'tags') {
-        return wordA[sortBy].join(',').localeCompare(wordB[sortBy].join(','))
+        return (
+          direction *
+          wordA[sortBy].join(',').localeCompare(wordB[sortBy].join(','))
+        )
       } else {
-        return wordA[sortBy].localeCompare(wordB[sortBy])
+        return direction * wordA[sortBy].localeCompare(wordB[sortBy])
       }
     })
 
     return filteredSortedWords
   }
 
-  rowRenderer = ({ key, index, style, parent: { props: { width } } }) => {
+  rowRenderer = ({
+    key,
+    index,
+    style,
+    parent: {
+      props: { width }
+    }
+  }) => {
     const word = this.state.filterSortedWords[index]
 
     let score
@@ -153,11 +175,13 @@ export default class List extends Component {
       this.props.scores !== newProps.scores ||
       this.props.tagFilter !== newProps.tagFilter ||
       this.props.wordsRoute.searchText !== newProps.wordsRoute.searchText ||
-      this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy
+      this.props.wordsRoute.sortBy !== newProps.wordsRoute.sortBy ||
+      this.props.wordsRoute.sortDirection !== newProps.wordsRoute.sortDirection
     ) {
       // save these values to check if we need to rerender
       // after the state changes (see comment below)
       const prevSortBy = this.props.wordsRoute.sortBy
+      const prevSortDirection = this.props.wordsRoute.sortDirection
       const prevScores = this.props.scores
       const prevWords = this.props.words
 
@@ -168,7 +192,8 @@ export default class List extends Component {
             newProps.scores,
             newProps.tagFilter,
             newProps.wordsRoute.searchText,
-            newProps.wordsRoute.sortBy
+            newProps.wordsRoute.sortBy,
+            newProps.wordsRoute.sortDirection
           )
         },
         () => {
@@ -178,6 +203,7 @@ export default class List extends Component {
           // change, but the List content changes.
           if (
             prevSortBy !== this.props.wordsRoute.sortBy ||
+            prevSortDirection !== this.props.wordsRoute.sortDirection ||
             prevScores !== this.props.scores ||
             prevWords !== this.props.words
           ) {
@@ -189,22 +215,40 @@ export default class List extends Component {
   }
 
   render() {
-    const { actions } = this.props
+    const {
+      actions,
+      wordsRoute: { sortBy, sortDirection }
+    } = this.props
+
+    const arrowChar =
+      sortDirection === 'ASC' ? (
+        <ArrowUp className="icon--arrow" fill="#aaa" />
+      ) : (
+        <ArrowDown className="icon--arrow" fill="#aaa" />
+      )
+
     return (
       <div className="List">
         <div className="List__header List__row">
-          <div onClick={() => actions.setSortBy('english')}>English</div>
-          <div className="medium" onClick={() => actions.setSortBy('phonetic')}>
+          <div onClick={() => actions.setSort('english')}>
+            English
+            {sortBy === 'english' && arrowChar}
+          </div>
+          <div className="medium" onClick={() => actions.setSort('phonetic')}>
             Phonetic
+            {sortBy === 'phonetic' && arrowChar}
           </div>
-          <div className="large" onClick={() => actions.setSortBy('score')}>
+          <div className="large" onClick={() => actions.setSort('score')}>
             Score
+            {sortBy === 'score' && arrowChar}
           </div>
-          <div className="x-large" onClick={() => actions.setSortBy('tags')}>
+          <div className="x-large" onClick={() => actions.setSort('tags')}>
             Tags
+            {sortBy === 'tags' && arrowChar}
           </div>
-          <div className="rtl" onClick={() => actions.setSortBy('persian')}>
+          <div className="rtl" onClick={() => actions.setSort('persian')}>
             فارسی
+            {sortBy === 'persian' && arrowChar}
           </div>
         </div>
         <div className="List__table--wrapper">

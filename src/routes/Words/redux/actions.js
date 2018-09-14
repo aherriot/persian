@@ -68,11 +68,12 @@ export function setSearchText(text = '') {
   }
 }
 
-export function setSortBy(sortBy) {
+export function setSort(sortBy, sortDirection) {
   return {
-    type: 'words/SET_SORT_BY',
+    type: 'words/SET_SORT',
     payload: {
-      sortBy: sortBy
+      sortBy,
+      sortDirection
     }
   }
 }
