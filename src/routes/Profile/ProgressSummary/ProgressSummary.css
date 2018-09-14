@@ -1,0 +1,29 @@
+.ProgressSummary__heading {
+  margin-bottom: 2rem;
+}
+
+.ProgressSummary__row {
+  display: flex;
+  align-items: center;
+}
+
+.ProgressSummary__row:hover .ProgressSummary__bar {
+  background: var(--persian-yellow);
+}
+
+.ProgressSummary__row-label {
+  flex: 0 0 2rem;
+  text-align: right;
+}
+
+.ProgressSummary__bar {
+  border: 0.1rem solid var(--persian-teal-dark);
+  background: var(--persian-green);
+  margin: 0.5rem;
+  padding-left: 1rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  min-width: 3.2rem;
+  transition: width 1s ease-in-out;
+}
