@@ -10,7 +10,7 @@ export default function() {
       <section className="Home__top">
         <div className="Home__title">
           <h1>Persian Flashcards</h1>
-          <h2>A collection of words for reference and memorization.</h2>
+          <h2>A collection of words for reference and study.</h2>
           <Link to="/words" className="Home__button">
             Get Started &gt;
           </Link>
@@ -25,14 +25,15 @@ export default function() {
           or study{' '}
           <Link className="link" to="/quiz">
             flashcards
-          </Link>. It uses a spaced repetition technique, so you can quickly
-          learn new words and commit them to long term memory.
+          </Link>
+          . It uses a spaced repetition technique, so you can quickly learn new
+          words and commit them to long term memory.
         </p>
 
         <p>
-          Each word is tagged with different topics so that users can focus on
-          learner specific words. Also, each word includes phonetic
-          pronounciation.
+          Each word is tagged with different topics so that you can focus on
+          learning specific categories of words. Also, each word includes
+          phonetic pronounciation.
         </p>
       </section>
 
@@ -40,12 +41,13 @@ export default function() {
         <p>
           This is an open source project by{' '}
           <a className="link" href="http://www.aherriot.com">
-            Andrew Herriot.
+            Andrew Herriot
           </a>{' '}
-          The source is available at{' '}
+          hosted here for free for everyone to use. The source is available at{' '}
           <a className="link" href="https://www.github.com/aherriot/persian">
             github.com/aherriot/persian
-          </a>.
+          </a>{' '}
+          and suggestions are always welcome.
         </p>
       </section>
     </div>
