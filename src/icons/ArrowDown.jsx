@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default function Filter({ fill, width, height, className }) {
+export default function ArrowDown({ fill, width, height, className }) {
   return (
     <svg
       className={'icon ' + (className || '')}
@@ -11,19 +11,19 @@ export default function Filter({ fill, width, height, className }) {
       xmlns="http://www.w3.org/2000/svg">
       <path
         fill={fill}
-        d="M1595 295q17 41-14 70l-493 493v742q0 42-39 59-13 5-25 5-27 0-45-19l-256-256q-19-19-19-45v-486l-493-493q-31-29-14-70 17-39 59-39h1280q42 0 59 39z"
+        d="M1277 1299q8 19-5 35l-350 384q-10 10-23 10-14 0-24-10l-355-384q-13-16-5-35 9-19 29-19h224v-1248q0-14 9-23t23-9h192q14 0 23 9t9 23v1248h224q21 0 29 19z"
       />
     </svg>
   )
 }
 
-Filter.defaultProps = {
+ArrowDown.defaultProps = {
   fill: '#666',
-  width: 16,
-  height: 16
+  width: 12,
+  height: 12
 }
 
-Filter.propTypes = {
+ArrowDown.propTypes = {
   fill: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,

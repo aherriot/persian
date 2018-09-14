@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default function X({ fill, width, height }) {
+export default function X({ fill, width, height, className }) {
   return (
     <svg
-      className="icon"
+      className={'icon ' + (className || '')}
       width={width}
       height={height}
       viewBox="0 0 1792 1792"
@@ -26,5 +26,6 @@ X.defaultProps = {
 X.propTypes = {
   fill: PropTypes.string,
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
+  className: PropTypes.string
 }

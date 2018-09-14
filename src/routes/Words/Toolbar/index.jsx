@@ -25,7 +25,7 @@ export default class Toolbar extends Component {
       <div className="Toolbar">
         <div role="button" onClick={actions.openFilterModal}>
           <Filter />
-          Filter
+          Find
         </div>
         <div role="button" onClick={this.onAdd}>
           <Plus />
