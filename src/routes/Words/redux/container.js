@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+
 import * as wordActions from 'store/words/actions'
 import { fetchScores } from 'store/scores/actions'
 import { addSuggestion } from 'store/suggestions/actions'
@@ -36,4 +37,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Words)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Words)
