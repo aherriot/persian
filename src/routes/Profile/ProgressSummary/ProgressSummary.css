@@ -5,10 +5,17 @@
 .ProgressSummary__row {
   display: flex;
   align-items: center;
+  font-size: 1.4rem;
 }
 
 .ProgressSummary__row:hover .ProgressSummary__bar {
   background: var(--persian-yellow);
+  font-weight: bold;
+}
+
+.ProgressSummary__row:hover .ProgressSummary__row-label {
+  color: var(--persian-blue-dark);
+  font-weight: bold;
 }
 
 .ProgressSummary__row-label {
@@ -19,11 +26,12 @@
 .ProgressSummary__bar {
   border: 0.1rem solid var(--persian-teal-dark);
   background: var(--persian-green);
-  margin: 0.5rem;
+  margin: 0.2rem 0 0.2rem 0.6rem;
   padding-left: 1rem;
-  height: 3rem;
+  height: 2.4rem;
   display: flex;
   align-items: center;
+  text-align: center;
   min-width: 3.2rem;
   transition: width 1s ease-in-out;
 }
