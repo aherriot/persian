@@ -5,12 +5,7 @@ import './ProgressSummary.css'
 export default function ProgressSummary({ profile, words, scores, actions }) {
   return (
     <div>
-      <h2 className="ProgressSummary__heading">Study Progress</h2>
-      <p>
-        This is a histogram shows the number of words with each score. The
-        higher the score, the more the word has been commited to long term
-        memory.
-      </p>
+      <h2 className="ProgressSummary__heading">Study Progress Histogram</h2>
 
       <div className="form__group">
         <label htmlFor="tag">Progress by Tag</label>
@@ -34,6 +29,8 @@ export default function ProgressSummary({ profile, words, scores, actions }) {
       </div>
 
       <Histogram profile={profile} words={words} scores={scores} />
+
+      <p>This histogram shows the progress studying each word.</p>
     </div>
   )
 }

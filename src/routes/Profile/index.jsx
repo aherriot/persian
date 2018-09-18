@@ -38,9 +38,6 @@ export default class Profile extends PureComponent {
         <Header title="Profile" />
         {auth.token && (
           <div className="Profile__content">
-            <h1>{auth.username}</h1>
-
-            <p>Welcome to your profile.</p>
             <p>
               You can view the{' '}
               <Link className="link" to="/words">

@@ -5,7 +5,7 @@ import './Toolbar.css'
 
 import Cogs from 'icons/Cogs'
 import Pencil from 'icons/Pencil'
-import List from 'icons/List'
+import ListIcon from 'icons/List'
 
 export default class Toolbar extends PureComponent {
   render() {
@@ -21,7 +21,7 @@ export default class Toolbar extends PureComponent {
           Edit
         </div>
         <Link to="/words" role="button">
-          <List />
+          <ListIcon />
           Words
         </Link>
       </div>

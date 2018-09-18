@@ -159,11 +159,11 @@ export default class List extends PureComponent {
   }
 
   noRowsRenderer = () => {
-    const { status } = this.props
-    if (status === 'PENDING') {
+    const { words } = this.props
+    if (words.fetchStatus === 'PENDING') {
       return <div className="noRows">Loading...</div>
     } else {
-      return <div className="noRows">No rows match filter</div>
+      return <div className="noRows">No words match search.</div>
     }
   }
 
