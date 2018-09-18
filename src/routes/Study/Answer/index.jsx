@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import thirdSide from 'utils/thirdSide'
 import './Answer.css'
 
-export default class Answer extends Component {
+export default class Answer extends PureComponent {
   componentDidMount() {
     this.continueButton.focus()
   }

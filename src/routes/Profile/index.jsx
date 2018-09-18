@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import Header from 'components/Header'
 import ChangePasswordModal from './ChangePasswordModal'
 import './Profile.css'
 import ProgressSummary from './ProgressSummary'
 
-export default class Profile extends Component {
+export default class Profile extends PureComponent {
   componentDidMount() {
     const { actions, words, scores, auth } = this.props
 

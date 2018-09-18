@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Modal from 'components/Modal'
 import WordForm from 'components/WordForm'
 
-export default class AddWordModal extends Component {
+export default class AddWordModal extends PureComponent {
   render() {
     const { open, actions, role } = this.props
     const isAdmin = role === 'admin'

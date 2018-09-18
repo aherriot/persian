@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Modal from 'components/Modal'
 
-export default class OptionsModal extends Component {
+export default class OptionsModal extends PureComponent {
   onTagChanged = e => {
     this.props.actions.setOptions({
       ...this.props.study.options,

@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { hideAlert } from 'store/app/actions'
 
 import Modal from 'components/Modal'
 
-class Alert extends Component {
+class Alert extends PureComponent {
   constructor(props) {
     super(props)
     this.state = { open: true }
@@ -98,4 +98,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Alert)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Alert)

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import checkAnswer from 'utils/checkAnswer'
 
 import './TextEvaluation.css'
 
-export default class TextEvaluation extends Component {
+export default class TextEvaluation extends PureComponent {
   onSubmit = e => {
     const { actions, words, scores, study } = this.props
 

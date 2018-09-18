@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import classnames from 'classnames'
 import ReactVirtualizedList from 'react-virtualized/dist/es/List'
 import ReactVirtualizedAutoSizer from 'react-virtualized/dist/es/AutoSizer'
@@ -10,7 +10,7 @@ import ArrowDown from 'icons/ArrowDown'
 
 import './List.css'
 
-export default class List extends Component {
+export default class List extends PureComponent {
   constructor(props) {
     super(props)
 

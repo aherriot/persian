@@ -1,27 +1,30 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import Modal from 'components/Modal'
 import LoginForm from './LoginForm'
 import CreateAccountForm from './CreateAccountForm'
 
-class AuthModal extends Component {
+class AuthModal extends PureComponent {
   render() {
     const { auth, actions } = this.props
 
     let title, form
-    if (auth.showCreateAccount) {
-      title = 'Create Account'
-      form = <CreateAccountForm auth={auth} actions={actions} />
+    if (auth.open) {
+      if (auth.showCreateAccount) {
+        title = 'Create Account'
+        form = <CreateAccountForm auth={auth} actions={actions} />
+      } else {
+        title = 'Login'
+        form = <LoginForm auth={auth} actions={actions} />
+      }
+      return (
+        <Modal open={auth.open} onClose={actions.closeAuthModal} title={title}>
+          {form}
+        </Modal>
+      )
     } else {
-      title = 'Login'
-      form = <LoginForm auth={auth} actions={actions} />
+      return null
     }
-
-    return (
-      <Modal open={auth.open} onClose={actions.closeAuthModal} title={title}>
-        {form}
-      </Modal>
-    )
   }
 }
 

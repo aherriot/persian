@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Header from 'components/Header'
 
 import './Export.css'
 
-export default class Export extends Component {
+export default class Export extends PureComponent {
   componentDidMount() {
     this.props.actions.fetchWords()
   }

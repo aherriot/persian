@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import './SelfEvaluation.css'
 
-export default class SelfEvaluation extends Component {
+export default class SelfEvaluation extends PureComponent {
   constructor(props) {
     super(props)
 
