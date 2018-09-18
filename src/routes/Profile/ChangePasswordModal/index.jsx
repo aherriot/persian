@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Modal from 'components/Modal'
 import ChangePasswordForm from './ChangePasswordForm'
 
-export default class ChangePasswordModal extends Component {
+export default class ChangePasswordModal extends PureComponent {
   render() {
     const { open, actions, id } = this.props
 

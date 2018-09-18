@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Header from 'components/Header'
 
 import Toolbar from './Toolbar'
@@ -9,7 +9,7 @@ import AddWordModal from './AddWordModal'
 
 import './Words.css'
 
-export default class Words extends Component {
+export default class Words extends PureComponent {
   componentDidMount() {
     const { actions, words, scores, auth } = this.props
 

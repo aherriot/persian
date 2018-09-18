@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import classnames from 'classnames'
 
-export default class MultipleChoiceOption extends Component {
+export default class MultipleChoiceOption extends PureComponent {
   constructor(props) {
     super(props)
 

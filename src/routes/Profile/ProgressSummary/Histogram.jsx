@@ -40,9 +40,9 @@ export default class Histogram extends PureComponent {
 
     let mostFrequentScore = 1 // start at 1 to avoid divide by 0
     let unknownWordCount = 0
+    let wordList
 
     if (words.fetchStatus === 'SUCCESS' && scores.fetchStatus === 'SUCCESS') {
-      let wordList
       if (profile.selectedTag) {
         wordList = words.byTag[profile.selectedTag] || []
       } else {
@@ -85,11 +85,9 @@ export default class Histogram extends PureComponent {
           <div className="ProgressSummary__row-label">{score}</div>
           <div
             className="ProgressSummary__bar"
-            style={{
-              width: barWidth + '%'
-            }}>
-            {numWordsAtScore}
-          </div>
+            style={{ width: barWidth + '%' }}
+          />
+          <div className="ProgressSummary__row-count">{numWordsAtScore}</div>
         </div>
       )
     }
@@ -103,7 +101,8 @@ export default class Histogram extends PureComponent {
         {' ' + unknownWordCount + ' '}
         untested word
         {unknownWordCount !== 1 && 's'}
-        {profile.selectedTag && ' in this category'}.
+        {profile.selectedTag && ' in this category'} out of{' '}
+        {wordList && wordList.length}.
       </p>
     )
 

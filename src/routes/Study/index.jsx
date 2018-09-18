@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import Header from 'components/Header'
 
 import Toolbar from './Toolbar'
@@ -12,7 +12,7 @@ import Status from './Status'
 
 import './Study.css'
 
-export default class Study extends Component {
+export default class Study extends PureComponent {
   componentDidMount() {
     const { actions, scores, words, auth } = this.props
     if (
@@ -52,15 +52,13 @@ export default class Study extends Component {
   }
 
   getContent() {
-    const { study, auth } = this.props
-    if (auth.token) {
+    const { study, auth, words, scores } = this.props
+    if (words.fetchStatus === 'SUCCESS' && scores.fetchStatus === 'SUCCESS') {
       if (study.isEvaluating) {
         return <Answer {...this.props} />
       } else {
         return <Question {...this.props} />
       }
-    } else {
-      return <Unauthorized actions={this.props.actions} />
     }
   }
 
@@ -69,15 +67,24 @@ export default class Study extends Component {
       <div className="Study">
         <Header title="Study" />
         {this.props.auth.token && (
-          <Toolbar actions={this.props.actions} role={this.props.auth.role} />
+          <Fragment>
+            <Toolbar actions={this.props.actions} role={this.props.auth.role} />
+            {this.getContent()}
+            <OptionsModal {...this.props} />
+            <EditWordModal
+              {...this.props}
+              isAdmin={this.props.auth.role === 'admin'}
+            />
+            <Status
+              status={this.props.study.status}
+              actions={this.props.actions}
+            />
+          </Fragment>
         )}
-        {this.getContent()}
-        <OptionsModal {...this.props} />
-        <EditWordModal
-          {...this.props}
-          isAdmin={this.props.auth.role === 'admin'}
-        />
-        <Status status={this.props.study.status} actions={this.props.actions} />
+
+        {!this.props.auth.token && (
+          <Unauthorized actions={this.props.actions} />
+        )}
       </div>
     )
   }

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import MultipleChoiceOption from './MultipleChoiceOption'
 import './MultipleChoiceEvaluation.css'
 
 const NUM_OF_CHOICES = 6
 
-export default class MultipleChoiceEvaluation extends Component {
+export default class MultipleChoiceEvaluation extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -145,7 +145,12 @@ export default class MultipleChoiceEvaluation extends Component {
   }
 
   render() {
-    const { words, study: { options: { answerSide } } } = this.props
+    const {
+      words,
+      study: {
+        options: { answerSide }
+      }
+    } = this.props
     return (
       <div className="MultipleChoice">
         {this.state.choices.map((choice, index) => (

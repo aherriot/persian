@@ -31,7 +31,7 @@
   height: 2.4rem;
   display: flex;
   align-items: center;
-  text-align: center;
+  justify-content: flex-start;
   min-width: 3.2rem;
   transition: width 1s ease-in-out;
 }

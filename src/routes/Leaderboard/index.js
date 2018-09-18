@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 // import { Link } from 'react-router-dom'
 import Header from 'components/Header'
 import './Leaderboard.css'
 
-export default class Leaderboard extends Component {
+export default class Leaderboard extends PureComponent {
   componentDidMount() {
     this.props.actions.fetchLeaderboard()
   }

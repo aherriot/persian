@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import classnames from 'classnames'
 import ReactVirtualizedList from 'react-virtualized/dist/es/List'
 import ReactVirtualizedAutoSizer from 'react-virtualized/dist/es/AutoSizer'
@@ -10,7 +10,7 @@ import ArrowDown from 'icons/ArrowDown'
 
 import './List.css'
 
-export default class List extends Component {
+export default class List extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -159,11 +159,11 @@ export default class List extends Component {
   }
 
   noRowsRenderer = () => {
-    const { status } = this.props
-    if (status === 'PENDING') {
+    const { words } = this.props
+    if (words.fetchStatus === 'PENDING') {
       return <div className="noRows">Loading...</div>
     } else {
-      return <div className="noRows">No rows match filter</div>
+      return <div className="noRows">No words match search.</div>
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
@@ -16,7 +16,7 @@ const overlayClassNames = {
   beforeClose: 'Modal__overlay--before-close'
 }
 
-export default class Modal extends Component {
+export default class Modal extends PureComponent {
   constructor(props) {
     super(props)
 
