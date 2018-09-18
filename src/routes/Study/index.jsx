@@ -52,7 +52,7 @@ export default class Study extends PureComponent {
   }
 
   getContent() {
-    const { study, auth, words, scores } = this.props
+    const { study, words, scores } = this.props
     if (words.fetchStatus === 'SUCCESS' && scores.fetchStatus === 'SUCCESS') {
       if (study.isEvaluating) {
         return <Answer {...this.props} />
