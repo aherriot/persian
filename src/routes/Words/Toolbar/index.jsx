@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
 import './Toolbar.css'
@@ -7,7 +7,7 @@ import Filter from 'icons/Filter'
 import Plus from 'icons/Plus'
 import Study from 'icons/Study'
 
-export default class Toolbar extends Component {
+export default class Toolbar extends PureComponent {
   onAdd = () => {
     if (this.props.role) {
       this.props.actions.openAddModal()

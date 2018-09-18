@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Header from 'components/Header'
 
 import Toolbar from './Toolbar'
@@ -12,7 +12,7 @@ import Status from './Status'
 
 import './Study.css'
 
-export default class Study extends Component {
+export default class Study extends PureComponent {
   componentDidMount() {
     const { actions, scores, words, auth } = this.props
     if (

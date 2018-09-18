@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Header from 'components/Header'
 
 import ImportForm from './ImportForm'
 import './Import.css'
 
-export default class Import extends Component {
+export default class Import extends PureComponent {
   render() {
     // const { actions } = this.props
     return (

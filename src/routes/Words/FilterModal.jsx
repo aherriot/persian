@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Modal from 'components/Modal'
 import XIcon from 'icons/X'
 
@@ -7,7 +7,7 @@ import XIcon from 'icons/X'
 //   actions.closeFilterModal()
 // }
 
-export default class FilterModal extends Component {
+export default class FilterModal extends PureComponent {
   constructor(props) {
     super(props)
     this.searchFieldRef = React.createRef()

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
 import './Toolbar.css'
@@ -7,7 +7,7 @@ import Cogs from 'icons/Cogs'
 import Pencil from 'icons/Pencil'
 import List from 'icons/List'
 
-export default class Toolbar extends Component {
+export default class Toolbar extends PureComponent {
   render() {
     const { actions } = this.props
     return (

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import Header from 'components/Header'
 
 import './NotFound.css'
 
-export default class NotFound extends Component {
+export default class NotFound extends PureComponent {
   render() {
     return (
       <div className="NotFound">
@@ -16,7 +16,8 @@ export default class NotFound extends Component {
           You seem to be lost. Go back{' '}
           <Link className="link" to="/">
             home
-          </Link>.
+          </Link>
+          .
         </p>
       </div>
     )

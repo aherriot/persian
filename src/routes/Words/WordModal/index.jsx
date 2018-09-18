@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Modal from 'components/Modal'
 import WordForm from 'components/WordForm'
 import WordDetails from './WordDetails'
 
-export default class WordModal extends Component {
+export default class WordModal extends PureComponent {
   getEditForm() {
     const { actions, words, selectedWordId, auth } = this.props
     return (
