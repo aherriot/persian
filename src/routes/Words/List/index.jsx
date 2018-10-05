@@ -24,7 +24,8 @@ export default class List extends PureComponent {
         props.scores,
         props.tagFilter,
         props.wordsRoute.searchText,
-        props.wordsRoute.sortBy
+        props.wordsRoute.sortBy,
+        props.wordsRoute.sortDirection
       )
     }
   }
