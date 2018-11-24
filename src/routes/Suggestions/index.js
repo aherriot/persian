@@ -39,7 +39,9 @@ export default class Suggestions extends PureComponent {
               return (
                 <div className="Suggestions__row" key={suggestionId}>
                   <div className="Suggestions__cell">
-                    {suggestion.userId.username}
+                    {suggestion.userId
+                      ? suggestion.userId.username
+                      : 'Anonymous User'}
                   </div>
                   <div className="Suggestions__cell">{suggestion.english}</div>
                   <div className="Suggestions__cell">{suggestion.persian}</div>
