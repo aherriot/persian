@@ -58,7 +58,7 @@ describe('Score API', function() {
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({
           direction: 'fromEnglish',
-          score: 7
+          score: 8
         })
         .end((err, resp) => {
           expect(err).to.not.be.null
