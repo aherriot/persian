@@ -26,7 +26,8 @@ router.get('/', auth, function(req, res) {
 router.put('/:wordId', auth, async function(req, res) {
   if (
     req.body.direction !== 'fromEnglish' &&
-    req.body.direction !== 'fromPersian'
+    req.body.direction !== 'fromPersian' &&
+    req.body.direction !== 'both'
   ) {
     return respondWithError(res, 'directionInvalid')
   } else if (
@@ -51,14 +52,25 @@ router.put('/:wordId', auth, async function(req, res) {
   }
 
   if (score) {
-    const direction = score[req.body.direction]
-    if (direction) {
-      direction.score = req.body.score
-      direction.quizzedAt = Date.now()
-    } else {
-      direction[req.body.direction] = {
+    if (req.body.direction === 'both') {
+      score.fromEnglish = {
         score: req.body.score,
         quizzedAt: Date.now()
+      }
+      score.fromPersian = {
+        score: req.body.score,
+        quizzedAt: Date.now()
+      }
+    } else {
+      const direction = score[req.body.direction]
+      if (direction) {
+        direction.score = req.body.score
+        direction.quizzedAt = Date.now()
+      } else {
+        score[req.body.direction] = {
+          score: req.body.score,
+          quizzedAt: Date.now()
+        }
       }
     }
 
@@ -83,14 +95,30 @@ router.put('/:wordId', auth, async function(req, res) {
       return respondWithError(res, 'wordNotFound')
     }
 
-    var newScore = new Score({
-      [req.body.direction]: {
-        score: req.body.score,
-        quizzedAt: Date.now()
-      },
-      userId: req.user._id,
-      wordId: req.params.wordId
-    })
+    let newScore
+    if (req.body.direction === 'both') {
+      newScore = new Score({
+        fromPersian: {
+          score: req.body.score,
+          quizzedAt: Date.now()
+        },
+        fromEnglish: {
+          score: req.body.score,
+          quizzedAt: Date.now()
+        },
+        userId: req.user._id,
+        wordId: req.params.wordId
+      })
+    } else {
+      newScore = new Score({
+        [req.body.direction]: {
+          score: req.body.score,
+          quizzedAt: Date.now()
+        },
+        userId: req.user._id,
+        wordId: req.params.wordId
+      })
+    }
 
     try {
       await newScore.save()
