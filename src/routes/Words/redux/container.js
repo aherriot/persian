@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import * as wordActions from 'store/words/actions'
-import { fetchScores } from 'store/scores/actions'
+import { fetchScores, updateScore } from 'store/scores/actions'
 import { addSuggestion } from 'store/suggestions/actions'
 import * as wordsRouteActions from './actions'
 import { showAlert } from 'store/app/actions'
@@ -28,6 +28,7 @@ function mapDispatchToProps(dispatch) {
         ...wordActions,
         ...wordsRouteActions,
         fetchScores,
+        updateScore,
         addSuggestion,
         showAlert,
         setTagFilter

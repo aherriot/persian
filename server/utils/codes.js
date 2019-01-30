@@ -96,7 +96,8 @@ const codes = {
   // scores
   directionInvalid: {
     status: 400,
-    message: 'The "direction" field must be "fromPersian" or "fromEnglish"'
+    message:
+      'The "direction" field must be "fromPersian", "fromEnglish", or "both"'
   },
   scoreInvalid: {
     status: 400,
