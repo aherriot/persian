@@ -49,6 +49,7 @@ export default class Profile extends PureComponent {
               </Link>
               .
             </p>
+
             <ProgressSummary
               profile={profile}
               words={words}

@@ -22,20 +22,9 @@ export default class Histogram extends PureComponent {
   render() {
     const { words, scores, profile } = this.props
 
-    const scoreHistogram = {
-      0: 0,
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
-      6: 0,
-      7: 0,
-      8: 0,
-      9: 0,
-      10: 0,
-      11: 0,
-      12: 0
+    const scoreHistogram = {}
+    for (let i = 0; i <= 7 * 2; i++) {
+      scoreHistogram[i] = 0
     }
 
     let mostFrequentScore = 1 // start at 1 to avoid divide by 0

@@ -169,9 +169,15 @@ function spacedRepetition(state, action) {
         candidateWords.push(word._id)
       }
     } else if (score === 6) {
-      // if it has been at least 4 month
-      // 120 * 24 * 60 * 60 * 1000
+      // if it has been at least 4 months
+      // 4 * 30 * 24 * 60 * 60 * 1000
       if (timeSinceQuizzed > 10368000000) {
+        candidateWords.push(word._id)
+      }
+    } else if (score === 6) {
+      // if it has been at least a year
+      // 12 * 30 * 24 * 60 * 60 * 1000
+      if (timeSinceQuizzed > 31104000000) {
         candidateWords.push(word._id)
       }
     }

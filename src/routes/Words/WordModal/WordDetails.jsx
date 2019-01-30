@@ -16,11 +16,11 @@ export default function WordDetails({
     const scoreForWord = scores.byWordId[selectedWordId]
 
     if (scoreForWord && scoreForWord.fromEnglish) {
-      fromEnglishScore = scoreForWord.fromEnglish.score + ' / 6'
+      fromEnglishScore = scoreForWord.fromEnglish.score + ' / 7'
     }
 
     if (scoreForWord && scoreForWord.fromPersian) {
-      fromPersianScore = scoreForWord.fromPersian.score + ' / 6'
+      fromPersianScore = scoreForWord.fromPersian.score + ' / 7'
     }
   }
 
