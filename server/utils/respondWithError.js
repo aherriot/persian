@@ -1,10 +1,10 @@
-const ErrorReporting = require('@google-cloud/error-reporting')
+// const ErrorReporting = require('@google-cloud/error-reporting')
 const codes = require('./codes')
 
 let errorReporting
-if (process.env.GAE_INSTANCE) {
-  errorReporting = ErrorReporting()
-}
+// if (process.env.GAE_INSTANCE) {
+//   errorReporting = ErrorReporting()
+// }
 
 module.exports = function respondWithError(resp, error) {
   if (typeof error === 'string') {
@@ -16,10 +16,10 @@ module.exports = function respondWithError(resp, error) {
     } else {
       console.error('ERROR: UnknownError')
 
-      if (process.env.GAE_INSTANCE) {
-        // Google cloud error report
-        errorReporting.report(error)
-      }
+      // if (process.env.GAE_INSTANCE) {
+      //   // Google cloud error report
+      //   errorReporting.report(error)
+      // }
 
       return resp
         .status(500)
@@ -31,10 +31,10 @@ module.exports = function respondWithError(resp, error) {
         ? { message: error.message, stack: error.stack }
         : error
 
-    if (process.env.GAE_INSTANCE) {
-      // Google cloud error report
-      errorReporting.report(error)
-    }
+    // if (process.env.GAE_INSTANCE) {
+    //   // Google cloud error report
+    //   errorReporting.report(error)
+    // }
 
     return resp
       .status(500)

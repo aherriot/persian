@@ -1,5 +1,5 @@
 const request = require('superagent')
-const expect = require('chai').expect
+// const expect = require('chai').expect
 const jwt = require('jsonwebtoken')
 
 const config = require('../config')
@@ -17,9 +17,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({})
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameMissing')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameMissing')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -29,9 +29,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: USERNAME })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('passwordMissing')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('passwordMissing')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -41,9 +41,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: USERNAME, password: PASSWORD })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('emailMissing')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('emailMissing')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -53,9 +53,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: 'a', password: PASSWORD, email: EMAIL })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameLength')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameLength')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -65,9 +65,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: 'abcdefghijklm', password: PASSWORD, email: EMAIL })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameLength')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameLength')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -77,9 +77,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: 'سیب', password: PASSWORD, email: EMAIL })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameInvalid')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameInvalid')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -89,9 +89,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: 'سیبtest', password: PASSWORD, email: EMAIL })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameInvalid')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameInvalid')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -101,9 +101,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: USERNAME, password: PASSWORD, email: 'invalid' })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('emailInvalid')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('emailInvalid')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -113,9 +113,9 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: USERNAME, password: PASSWORD, email: EMAIL })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.status).to.equal(200)
-          expect(resp.body.token).to.exist
+          expect(err).toBeNull()
+          expect(resp.status).toEqual(200)
+          expect(resp.body.token).toBeDefined()
           done()
         })
     })
@@ -125,10 +125,10 @@ describe('User API', function() {
         .post(USERS_URL)
         .send({ username: 'unique', password: PASSWORD, email: EMAIL })
         .end((err, resp) => {
-          expect(err).to.not.be.null
+          expect(err).toBeDefined()
           // console.log(err)
-          expect(err.response.body.code).to.equal('emailDuplicate')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err.response.body.code).toEqual('emailDuplicate')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -142,9 +142,9 @@ describe('User API', function() {
           email: EMAIL.toUpperCase()
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('emailDuplicate')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('emailDuplicate')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -158,9 +158,9 @@ describe('User API', function() {
           email: 'unique@test.com'
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameDuplicate')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameDuplicate')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -174,9 +174,9 @@ describe('User API', function() {
           email: 'unique@test.com'
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameDuplicate')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameDuplicate')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -188,9 +188,9 @@ describe('User API', function() {
         .post(USERS_URL + 'login')
         .send({ password: PASSWORD })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('usernameMissing')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('usernameMissing')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -200,9 +200,9 @@ describe('User API', function() {
         .post(USERS_URL + 'login')
         .send({ username: USERNAME })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('passwordMissing')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('passwordMissing')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -212,9 +212,9 @@ describe('User API', function() {
         .post(USERS_URL + 'login')
         .send({ username: 'wrong', password: PASSWORD })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('invalidAuthentication')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('invalidAuthentication')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -224,9 +224,9 @@ describe('User API', function() {
         .post(USERS_URL + 'login')
         .send({ username: USERNAME, password: 'wrong' })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('invalidAuthentication')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('invalidAuthentication')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -236,9 +236,9 @@ describe('User API', function() {
         .post(USERS_URL + 'login')
         .send({ username: USERNAME, password: PASSWORD })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.status).to.equal(200)
-          expect(resp.body.token).to.exist
+          expect(err).toBeNull()
+          expect(resp.status).toEqual(200)
+          expect(resp.body.token).toBeDefined()
           global.testUserToken = resp.body.token
           global.testUserId = jwt.decode(resp.body.token)._id
           done()
@@ -250,9 +250,9 @@ describe('User API', function() {
         .post(USERS_URL + 'login')
         .send({ username: USERNAME.toUpperCase(), password: PASSWORD })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.status).to.equal(200)
-          expect(resp.body.token).to.exist
+          expect(err).toBeNull()
+          expect(resp.status).toEqual(200)
+          expect(resp.body.token).toBeDefined()
           done()
         })
     })
@@ -262,9 +262,9 @@ describe('User API', function() {
         .post(USERS_URL + 'login')
         .send({ username: 'admin', password: PASSWORD })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.status).to.equal(200)
-          expect(resp.body.token).to.exist
+          expect(err).toBeNull()
+          expect(resp.status).toEqual(200)
+          expect(resp.body.token).toBeDefined()
           global.adminToken = resp.body.token
           done()
         })
@@ -278,9 +278,9 @@ describe('User API', function() {
         .set('Authorization', 'Bearer ' + global.adminToken)
         .send({ password: 'password', newPassword: 'temppassword' })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('userWrong')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('userWrong')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -291,9 +291,9 @@ describe('User API', function() {
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({ newPassword: 'temppassword' })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('passwordMissing')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('passwordMissing')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -304,9 +304,9 @@ describe('User API', function() {
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({ password: 'password' })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('newPasswordMissing')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('newPasswordMissing')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -317,9 +317,9 @@ describe('User API', function() {
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({ password: 'wrong', newPassword: 'temppassword' })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('unauthorized')
-          expect(err.response.body.message).to.have.lengthOf.above(0)
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('unauthorized')
+          expect(err.response.body.message).toBeDefined()
           done()
         })
     })
@@ -330,9 +330,9 @@ describe('User API', function() {
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .send({ password: 'password', newPassword: 'temppassword' })
         .end((err, resp) => {
-          expect(err).to.be.null
-          // expect(err.response.body.code).to.equal('unauthorized')
-          expect(resp.body.success).to.be.true
+          expect(err).toBeNull()
+          // expect(err.response.body.code).toEqual('unauthorized')
+          expect(resp.body.success).toEqual(true)
           done()
         })
     })
@@ -346,13 +346,14 @@ describe('User API', function() {
 })
 
 // After all tests have run, delete test user
-after(function(done) {
-  request
-    .delete(USERS_URL + '/' + testUserId)
-    .set('Authorization', 'Bearer ' + global.testUserToken)
-    .end((err, resp) => {
-      expect(err).to.be.null
-      expect(resp.status).to.equal(200)
-      done()
-    })
-})
+// afterAll(function(done) {
+//   request
+//     .delete(USERS_URL + '/' + global.testUserId)
+//     .set('Authorization', 'Bearer ' + global.testUserToken)
+//     .end((err, resp) => {
+//       console.log('error', err)
+//       expect(err).toBeNull()
+//       expect(resp.status).toEqual(200)
+//       done()
+//     })
+// })

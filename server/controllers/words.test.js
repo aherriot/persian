@@ -1,5 +1,5 @@
 const request = require('superagent')
-const expect = require('chai').expect
+// const expect = require('chai').expect
 
 const config = require('../config')
 const codes = require('../utils/codes')
@@ -20,8 +20,8 @@ describe('Word API', function() {
           tags: ['noun', 'food', 'fruit']
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('missingAuthToken')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('missingAuthToken')
           done()
         })
     })
@@ -37,8 +37,8 @@ describe('Word API', function() {
           tags: ['noun', 'food', 'fruit']
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('JsonWebTokenError')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('JsonWebTokenError')
           done()
         })
     })
@@ -54,8 +54,8 @@ describe('Word API', function() {
           tags: ['noun', 'food', 'fruit']
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('adminOnly')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('adminOnly')
           done()
         })
     })
@@ -65,8 +65,8 @@ describe('Word API', function() {
         .post(WORDS_URL)
         .set('Authorization', 'Bearer ' + global.adminToken)
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordInvalid')
           done()
         })
     })
@@ -81,8 +81,8 @@ describe('Word API', function() {
           tags: ['noun', 'food', 'fruit']
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordInvalid')
           done()
         })
     })
@@ -97,8 +97,8 @@ describe('Word API', function() {
           tags: ['noun', 'food', 'fruit']
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordInvalid')
           done()
         })
     })
@@ -113,8 +113,8 @@ describe('Word API', function() {
           tags: ['noun', 'food', 'fruit']
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordInvalid')
           done()
         })
     })
@@ -129,8 +129,8 @@ describe('Word API', function() {
           phonetic: 'moz'
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordInvalid')
           done()
         })
     })
@@ -146,8 +146,8 @@ describe('Word API', function() {
           tags: [1, 2]
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordInvalid')
           done()
         })
     })
@@ -163,11 +163,11 @@ describe('Word API', function() {
           tags: ['noun', 'food', 'fruit']
         })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.property('_id')
-          expect(resp.body).to.have.property('english')
-          expect(resp.body).to.have.property('persian')
-          expect(resp.body).to.have.property('phonetic')
+          expect(err).toBeNull()
+          expect(resp.body).toHaveProperty('_id')
+          expect(resp.body).toHaveProperty('english')
+          expect(resp.body).toHaveProperty('persian')
+          expect(resp.body).toHaveProperty('phonetic')
           global.testWordId = resp.body._id
           done()
         })
@@ -179,8 +179,8 @@ describe('Word API', function() {
         .set('Authorization', 'Bearer ' + global.adminToken)
         .send([])
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordArrayInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordArrayInvalid')
           done()
         })
     })
@@ -210,8 +210,8 @@ describe('Word API', function() {
           }
         ])
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.lengthOf(3)
+          expect(err).toBeNull()
+          expect(resp.body).toHaveLength(3)
           done()
         })
     })
@@ -225,8 +225,8 @@ describe('Word API', function() {
           english: 'test'
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('missingAuthToken')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('missingAuthToken')
           done()
         })
     })
@@ -239,8 +239,8 @@ describe('Word API', function() {
           english: 'test'
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('adminOnly')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('adminOnly')
           done()
         })
     })
@@ -253,8 +253,8 @@ describe('Word API', function() {
           english: 'test'
         })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body.english).to.equal('test')
+          expect(err).toBeNull()
+          expect(resp.body.english).toEqual('test')
           done()
         })
     })
@@ -263,8 +263,8 @@ describe('Word API', function() {
   describe('Delete word', function() {
     it('error without authentication', function(done) {
       request.delete(WORDS_URL + global.testWordId).end((err, resp) => {
-        expect(err).to.not.be.null
-        expect(err.response.body.code).to.equal('missingAuthToken')
+        expect(err).toBeDefined()
+        expect(err.response.body.code).toEqual('missingAuthToken')
         done()
       })
     })
@@ -274,8 +274,8 @@ describe('Word API', function() {
         .delete(WORDS_URL + global.testWordId)
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('adminOnly')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('adminOnly')
           done()
         })
     })
@@ -284,8 +284,8 @@ describe('Word API', function() {
   describe('Fetch list of words', function() {
     it('success without authentication', function(done) {
       request.get(WORDS_URL).end((err, resp) => {
-        expect(err).to.be.null
-        expect(resp.body).to.have.lengthOf(4)
+        expect(err).toBeNull()
+        expect(resp.body).toHaveLength(4)
         done()
       })
     })
@@ -295,8 +295,8 @@ describe('Word API', function() {
         .get(WORDS_URL)
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.lengthOf(4)
+          expect(err).toBeNull()
+          expect(resp.body).toHaveLength(4)
           done()
         })
     })
