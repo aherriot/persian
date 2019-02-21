@@ -1,5 +1,5 @@
 const request = require('superagent')
-const expect = require('chai').expect
+// const expect = require('chai').expect
 
 const config = require('../config')
 const codes = require('../utils/codes')
@@ -16,8 +16,8 @@ describe('Score API', function() {
           score: 1
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('missingAuthToken')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('missingAuthToken')
           done()
         })
     })
@@ -31,8 +31,8 @@ describe('Score API', function() {
           score: 1
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('directionInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('directionInvalid')
           done()
         })
     })
@@ -46,8 +46,8 @@ describe('Score API', function() {
           score: -1
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('scoreInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('scoreInvalid')
           done()
         })
     })
@@ -61,8 +61,8 @@ describe('Score API', function() {
           score: 8
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('scoreInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('scoreInvalid')
           done()
         })
     })
@@ -76,8 +76,8 @@ describe('Score API', function() {
           score: 1
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('wordIdInvalid')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('wordIdInvalid')
           done()
         })
     })
@@ -91,7 +91,7 @@ describe('Score API', function() {
           score: 0
         })
         .end((err, resp) => {
-          expect(err).to.be.null
+          expect(err).toBeNull()
           done()
         })
     })
@@ -105,7 +105,7 @@ describe('Score API', function() {
           score: 6
         })
         .end((err, resp) => {
-          expect(err).to.be.null
+          expect(err).toBeNull()
           done()
         })
     })
@@ -114,8 +114,8 @@ describe('Score API', function() {
   describe('Fetch scores', function() {
     it('error on fetch scores with auth token', function(done) {
       request.get(SCORES_URL).end((err, resp) => {
-        expect(err).to.not.be.null
-        expect(err.response.body.code).to.equal('missingAuthToken')
+        expect(err).toBeDefined()
+        expect(err.response.body.code).toEqual('missingAuthToken')
         done()
       })
     })
@@ -125,10 +125,10 @@ describe('Score API', function() {
         .get(SCORES_URL)
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.lengthOf(1)
-          expect(resp.body[0].fromEnglish.score).to.equal(0)
-          expect(resp.body[0].fromPersian.score).to.equal(6)
+          expect(err).toBeNull()
+          expect(resp.body).toHaveLength(1)
+          expect(resp.body[0].fromEnglish.score).toEqual(0)
+          expect(resp.body[0].fromPersian.score).toEqual(6)
           done()
         })
     })
@@ -139,13 +139,13 @@ describe('Score API', function() {
       request
         .get(`localhost:${config.PORT}/api/users/leaderboard`)
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.status).to.equal(200)
-          expect(resp.body).to.have.lengthOf(2)
+          expect(err).toBeNull()
+          expect(resp.status).toEqual(200)
+          expect(resp.body).toHaveLength(2)
           const testUser = resp.body.find(user => user.username === 'test_user')
-          expect(testUser).to.not.be.undefined
-          expect(testUser.quizzedWords).to.equal(1)
-          expect(testUser.score).to.equal(6)
+          expect(testUser).toBeDefined()
+          expect(testUser.quizzedWords).toEqual(1)
+          expect(testUser.score).toEqual(6)
           done()
         })
     })

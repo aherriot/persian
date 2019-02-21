@@ -48,7 +48,10 @@ if (process.env.NODE_ENV === 'test') {
 
 // Connect to DB
 mongoose
-  .connect(connectionString, { useMongoClient: true })
+  .connect(connectionString, {
+    useCreateIndex: true,
+    useNewUrlParser: true
+  })
   .then(() => {
     console.log('Successfully connected to MongoDB.')
 

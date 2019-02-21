@@ -4,6 +4,8 @@ import ReactModal from 'react-modal'
 
 import './Modal.css'
 
+ReactModal.setAppElement(document.getElementById('root'))
+
 const windowClassNames = {
   base: 'Modal__window',
   afterOpen: 'Modal__window--after-open',

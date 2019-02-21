@@ -1,5 +1,5 @@
 const request = require('superagent')
-const expect = require('chai').expect
+// const expect = require('chai').expect
 
 const config = require('../config')
 // const codes = require('../utils/codes')
@@ -16,8 +16,8 @@ describe('Suggestion API', function() {
           english: 'pear'
         })
         .end((err, resp) => {
-          expect(err).to.not.be.null
-          expect(err.response.body.code).to.equal('missingAuthToken')
+          expect(err).toBeDefined()
+          expect(err.response.body.code).toEqual('missingAuthToken')
           done()
         })
     })
@@ -30,9 +30,9 @@ describe('Suggestion API', function() {
           english: 'pear'
         })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.property('_id')
-          expect(resp.body).to.have.property('english')
+          expect(err).toBeNull()
+          expect(resp.body).toHaveProperty('_id')
+          expect(resp.body).toHaveProperty('english')
 
           done()
         })
@@ -47,9 +47,9 @@ describe('Suggestion API', function() {
           wordId: global.testWordId
         })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.property('_id')
-          expect(resp.body).to.have.property('persian')
+          expect(err).toBeNull()
+          expect(resp.body).toHaveProperty('_id')
+          expect(resp.body).toHaveProperty('persian')
           done()
         })
     })
@@ -63,9 +63,9 @@ describe('Suggestion API', function() {
           wordId: global.testWordId
         })
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.property('_id')
-          expect(resp.body).to.have.property('phonetic')
+          expect(err).toBeNull()
+          expect(resp.body).toHaveProperty('_id')
+          expect(resp.body).toHaveProperty('phonetic')
           done()
         })
     })
@@ -74,8 +74,8 @@ describe('Suggestion API', function() {
   describe('Fetch suggestions', function() {
     it('error on fetch suggestions without auth token', function(done) {
       request.get(SUGGESTIONS_URL).end((err, resp) => {
-        expect(err).to.not.be.null
-        expect(err.response.body.code).to.equal('missingAuthToken')
+        expect(err).toBeDefined()
+        expect(err.response.body.code).toEqual('missingAuthToken')
         done()
       })
     })
@@ -85,8 +85,8 @@ describe('Suggestion API', function() {
         .get(SUGGESTIONS_URL)
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.lengthOf(2)
+          expect(err).toBeNull()
+          expect(resp.body).toHaveLength(2)
           testSuggestionId = resp.body[1]._id
           done()
         })
@@ -97,7 +97,7 @@ describe('Suggestion API', function() {
         .get(SUGGESTIONS_URL + 'all')
         .set('Authorization', 'Bearer ' + global.testUserToken)
         .end((err, resp) => {
-          expect(err).to.not.be.null
+          expect(err).toBeDefined()
           // expect(err)
           done()
         })
@@ -108,8 +108,8 @@ describe('Suggestion API', function() {
         .get(SUGGESTIONS_URL + 'all')
         .set('Authorization', 'Bearer ' + global.adminToken)
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.body).to.have.lengthOf(3)
+          expect(err).toBeNull()
+          expect(resp.body).toHaveLength(3)
           done()
         })
     })
@@ -118,8 +118,8 @@ describe('Suggestion API', function() {
   describe('Delete suggestion', function() {
     it('error on delete suggestions without auth token', function(done) {
       request.delete(SUGGESTIONS_URL + testSuggestionId).end((err, resp) => {
-        expect(err).to.not.be.null
-        expect(err.response.body.code).to.equal('missingAuthToken')
+        expect(err).toBeDefined()
+        expect(err.response.body.code).toEqual('missingAuthToken')
         done()
       })
     })
@@ -129,8 +129,8 @@ describe('Suggestion API', function() {
         .delete(SUGGESTIONS_URL + testSuggestionId)
         .set('Authorization', 'Bearer ' + global.adminToken)
         .end((err, resp) => {
-          expect(err).to.be.null
-          expect(resp.status).to.equal(200)
+          expect(err).toBeNull()
+          expect(resp.status).toEqual(200)
           done()
         })
     })

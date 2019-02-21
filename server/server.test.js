@@ -1,5 +1,5 @@
 const request = require('superagent')
-const expect = require('chai').expect
+// const expect = require('chai').expect
 const config = require('./config')
 
 require('./controllers/users.test.js')
@@ -15,7 +15,7 @@ describe('Clean up after deleting content', function() {
       .delete(SERVER_URL + 'api/words/' + global.testWordId)
       .set('Authorization', 'Bearer ' + global.adminToken)
       .end((err, resp) => {
-        expect(err).to.be.null
+        expect(err).toBeNull()
         done()
       })
   })
@@ -29,8 +29,8 @@ describe('Clean up after deleting content', function() {
         score: 1
       })
       .end((err, resp) => {
-        expect(err).to.not.be.null
-        expect(err.response.body.code).to.equal('wordNotFound')
+        expect(err).toBeDefined()
+        expect(err.response.body.code).toEqual('wordNotFound')
         done()
       })
   })
@@ -40,8 +40,8 @@ describe('Clean up after deleting content', function() {
       .delete(SERVER_URL + 'api/users/' + global.testUserId)
       .set('Authorization', 'Bearer ' + global.testUserToken)
       .end((err, resp) => {
-        expect(err).to.be.null
-        expect(resp.body.success).to.be.true
+        expect(err).toBeNull()
+        expect(resp.body.success).toEqual(true)
         done()
       })
   })
@@ -51,8 +51,8 @@ describe('Clean up after deleting content', function() {
       .get(SERVER_URL + 'api/scores/')
       .set('Authorization', 'Bearer ' + global.testUserToken)
       .end((err, resp) => {
-        expect(err).to.be.null
-        expect(resp.body).to.have.lengthOf(0)
+        expect(err).toBeNull()
+        expect(resp.body).toHaveLength(0)
         done()
       })
   })
@@ -61,10 +61,10 @@ describe('Clean up after deleting content', function() {
 describe('General server responses', function() {
   it('response with 404 on unknown api requests', function(done) {
     request.get(SERVER_URL + 'api/unknown').end((err, resp) => {
-      expect(err).to.not.be.null
-      expect(err.status).to.equal(404)
-      expect(resp.body.code).to.equal('notFound')
-      expect(resp.body.message).to.equal('path not found')
+      expect(err).toBeDefined()
+      expect(err.status).toEqual(404)
+      expect(resp.body.code).toEqual('notFound')
+      expect(resp.body.message).toEqual('path not found')
       done()
     })
   })
