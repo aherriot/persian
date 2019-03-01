@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { hideAlert } from 'store/app/actions'
 
-import Modal from 'components/Modal'
+import Modal from 'commonComponents/Modal'
 
 class Alert extends PureComponent {
   constructor(props) {

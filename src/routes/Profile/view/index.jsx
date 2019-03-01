@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-import Header from 'components/Header'
+import Header from 'commonComponents/Header'
 import ChangePasswordModal from './ChangePasswordModal'
 import './Profile.css'
 import ProgressSummary from './ProgressSummary'

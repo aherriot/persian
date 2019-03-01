@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import Modal from 'components/Modal'
+import Modal from 'commonComponents/Modal'
 
 export default class OptionsModal extends PureComponent {
   onTagChanged = e => {

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import Modal from 'components/Modal'
-import WordForm from 'components/WordForm'
+import Modal from 'commonComponents/Modal'
+import WordForm from 'commonComponents/WordForm'
 
 export default class AddWordModal extends PureComponent {
   render() {

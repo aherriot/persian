@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import Header from 'components/Header'
+import Header from 'commonComponents/Header'
 
 import Toolbar from './Toolbar'
 import List from './List'

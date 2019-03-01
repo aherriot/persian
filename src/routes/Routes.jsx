@@ -12,7 +12,7 @@ import Export from './Export/redux/container'
 import Import from './Import/redux/container'
 import NotFound from './NotFound'
 
-import Alert from 'components/Alert'
+import Alert from 'commonComponents/Alert'
 
 class Routes extends Component {
   render() {

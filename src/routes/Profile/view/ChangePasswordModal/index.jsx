@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import Modal from 'components/Modal'
+import Modal from 'commonComponents/Modal'
 import ChangePasswordForm from './ChangePasswordForm'
 
 export default class ChangePasswordModal extends PureComponent {

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import Modal from 'components/Modal'
+import Modal from 'commonComponents/Modal'
 import LoginForm from './LoginForm'
 import CreateAccountForm from './CreateAccountForm'
 

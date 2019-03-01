@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Modal from 'components/Modal'
-import WordForm from 'components/WordForm'
+import Modal from 'commonComponents/Modal'
+import WordForm from 'commonComponents/WordForm'
 
 export default function EditWordModal({ actions, study, words, isAdmin }) {
   return (

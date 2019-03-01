@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react'
-import Header from 'components/Header'
+import Header from 'commonComponents/Header'
 
 import Toolbar from './Toolbar'
 import Question from './Question'
