@@ -6,7 +6,7 @@ import * as scoreActions from 'store/scores/actions'
 import { addSuggestion } from 'store/suggestions/actions'
 import { showAlert } from 'store/app/actions'
 import { openAuthModal } from 'store/auth/actions'
-import Study from '../'
+import Study from '../view'
 
 function mapStateToProps(state) {
   return {
@@ -33,4 +33,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Study)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Study)

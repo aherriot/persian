@@ -8,7 +8,7 @@ import * as wordsRouteActions from './actions'
 import { showAlert } from 'store/app/actions'
 import { setTagFilter } from 'routes/Study/redux/actions'
 
-import Words from '../'
+import Words from '../view'
 
 function mapStateToProps(state) {
   return {

@@ -7,7 +7,7 @@ import { fetchScores } from 'store/scores/actions'
 
 import * as actions from './actions'
 
-import Profile from '../'
+import Profile from '../view'
 
 function mapStateToProps(state) {
   return {
