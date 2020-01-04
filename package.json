@@ -19,7 +19,7 @@
     "formik": "^1.5.0",
     "jsonwebtoken": "^8.4.0",
     "jwt-decode": "^2.2.0",
-    "mongoose": "^5.4.10",
+    "mongoose": "^5.7.5",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-modal": "^3.8.1",
