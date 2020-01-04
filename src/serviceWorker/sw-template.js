@@ -27,9 +27,9 @@ if ('function' === typeof importScripts) {
     })
 
     workbox.routing.registerRoute(
-      /.*\/api\/.*/,
+      /.*\/api\/words\/.*/,
       workbox.strategies.cacheFirst({
-        cacheName: 'api',
+        cacheName: '/api/words/',
         plugins: [
           new workbox.expiration.Plugin({
             maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
